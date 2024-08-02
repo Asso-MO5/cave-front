@@ -1,11 +1,11 @@
 import { LoginButton } from '@/components/login-button'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/[...nextauth]/route'
+
+import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
 
 export default async function Login() {
   // ====== HOOKS ========================================
-  const session = await getServerSession(authOptions)
+  const session = await auth()
 
   // ====== HANDLERS =======================================²
 
