@@ -3,6 +3,7 @@ import { Avatar } from '@/components/avatar'
 import { fjallaOne, openSans } from '@/utils/fonts'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../api/auth/[...nextauth]/route'
+import { redirect } from 'next/navigation'
 
 export const metadata = {
   title: 'Cave MO5',

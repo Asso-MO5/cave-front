@@ -2,6 +2,7 @@ import NextAuth from 'next-auth'
 import DiscordProvider from 'next-auth/providers/discord'
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v10'
+import { D1Adapter } from '@auth/d1-adapter'
 
 export const runtime = 'experimental-edge'
 
@@ -12,6 +13,7 @@ export const authOptions = {
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
     }),
   ],
+  adapter: D1Adapter(),
   pages: {
     signIn: '/login',
     signOut: '/logout',

@@ -13,6 +13,7 @@
     "build-cf-types": "wrangler types --env-interface CloudflareEnv env.d.ts"
   },
   "dependencies": {
+    "@auth/d1-adapter": "^1.4.2",
     "@discordjs/rest": "^2.3.0",
     "discord-api-types": "^0.37.93",
     "next": "14.2.5",
@@ -22,7 +23,6 @@
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.1",
-    "crypto": "^1.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",

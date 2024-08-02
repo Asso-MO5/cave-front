@@ -2,7 +2,10 @@
 
 import { signIn } from 'next-auth/react'
 
-export function LoginButton({ onClick }) {
+export function LoginButton() {
+  const handleClick = () => {
+    signIn('discord')
+  }
   return (
     <div
       className="flex cursor-pointer items-center gap-1 rounded-md 
