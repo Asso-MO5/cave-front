@@ -3,7 +3,7 @@ import DiscordProvider from 'next-auth/providers/discord'
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v10'
 
-export const runtime = 'edge'
+export const runtime = 'experimental-edge'
 
 export const authOptions = {
   providers: [
