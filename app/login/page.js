@@ -2,6 +2,7 @@ import { LoginButton } from '@/components/login-button'
 
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
+export const runtime = 'edge'
 
 export default async function Login() {
   // ====== HOOKS ========================================

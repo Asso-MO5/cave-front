@@ -9,6 +9,8 @@ export const metadata = {
   description: 'Appi de gestion',
 }
 
+export const runtime = 'edge'
+
 export default async function AdminLayout({ children }) {
   // ====== HOOKS ========================================
   const session = await auth()
