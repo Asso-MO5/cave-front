@@ -4,6 +4,8 @@ module.exports = {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './ui/**/*.{js,ts,jsx,tsx,mdx}',
+    './layouts/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -16,7 +18,7 @@ module.exports = {
           // Couleurs de base
           bg: '#F2F2F2',
           primary: '#4088cf',
-          secondary: '#5bc0de',
+          secondary: '#e84855',
           tertiary: '#70cbe6',
           text: '#000',
           accent: '#d9534f',

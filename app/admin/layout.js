@@ -1,8 +1,11 @@
 import { auth } from '@/auth'
+import 'react-toastify/dist/ReactToastify.css'
+import '@blocknote/mantine/style.css'
 import '../globals.css'
-import { Avatar } from '@/components/avatar'
 import { fjallaOne, openSans } from '@/utils/fonts'
 import { redirect } from 'next/navigation'
+import { Panel } from '@/components/panel'
+import { ToastProvider } from '@/ui/toast-provider'
 
 export const metadata = {
   title: 'Cave MO5',
@@ -12,30 +15,21 @@ export const metadata = {
 export const runtime = 'edge'
 
 export default async function AdminLayout({ children }) {
-  // ====== HOOKS ========================================
+  // ====== HOOKS =========================================
   const session = await auth()
-  console.log('session', session)
 
-  // ====== RENDERS ========================================
+  // ====== RENDERS =======================================
   if (!session?.user) redirect('/login')
 
   return (
     <html lang="fr">
       <body className={`${openSans.variable} ${fjallaOne.variable}`}>
-        <div className="h-full grid grid-rows-[auto_1fr]">
-          <header className="flex gap-2 justify-between items-center p-1 bg-mo-primary">
-            <div className="flex items-center gap-2">
-              <img src="/mo5.webp" alt="logo" width={32} height={32} />
-              <div className="text-white font-secondary">Cave MO5</div>
-            </div>
-            <Avatar
-              src={session.user.image}
-              alt="avatar"
-              size={24}
-              nickname={session.user.name}
-            />
-          </header>
-          {children}
+        <div className="h-[100dvh] grid grid-cols-[auto_1fr]">
+          <Panel session={session} />
+          <main className="p-2">
+            {children}
+            <ToastProvider />
+          </main>
         </div>
       </body>
     </html>

@@ -29,10 +29,24 @@
   h6 {
     @apply text-mo-primary font-secondary;
   }
+
+  input {
+    @apply bg-white border border-transparent focus:border-mo-primary transition p-1 rounded-sm outline-none;
+  }
+
+  label {
+    @apply text-mo-primary font-bold text-sm;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply text-mo-bg bg-mo-primary px-2 py-1 rounded-sm;
   }
 }

@@ -10,7 +10,7 @@ export function Avatar({ src, alt, size, nickname }) {
         width={size}
         height={size}
       />
-      <div className="text-mo-bg font-secondary">{nickname}</div>
+      <div className="font-secondary">{nickname}</div>
     </div>
   )
 }
