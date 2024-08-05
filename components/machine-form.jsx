@@ -89,6 +89,7 @@ export function MachineForm({ machine = {}, session }) {
       </fieldset>
 
       <Editor
+        session={session}
         onChange={setDescription}
         defaultValue={defaultMachine.description}
         id="description"
