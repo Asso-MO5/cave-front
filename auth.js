@@ -2,6 +2,7 @@ import NextAuth from 'next-auth'
 import DiscordProvider from 'next-auth/providers/discord'
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v10'
+import * as jose from 'jose'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -56,6 +57,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           name: r.name,
           color: r.color,
         }))
+
+      const secret = Buffer.from(process.env.API_KEY, 'hex')
+
+      const jwt = await new jose.EncryptJWT({
+        provider_id: member.user.id,
+        name: member.user.username,
+        roles: session.user.roles.map((r) => r.name),
+      })
+        .setProtectedHeader({ alg: 'dir', enc: 'A128CBC-HS256' })
+        .setIssuedAt()
+        .setIssuer('cave_front')
+        .setAudience('cave_back')
+        .setExpirationTime('2h')
+        .encrypt(secret)
+
+      const caveApi = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + '/auth/login',
+        {
+          method: 'POST',
+          body: jwt,
+        }
+      )
+
+      const caveApiJson = await caveApi.json()
+
+      session.api_token = caveApiJson.auth
       session.user.id = member.user.id
 
       return session

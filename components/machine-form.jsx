@@ -3,9 +3,9 @@
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 
-import { redirect } from 'next/dist/server/api-utils'
 import ManufacturersSelector from './manufacturers-selector'
 import dynamic from 'next/dynamic'
+import { ITEM_TYPES } from '@/utils/items'
 const Editor = dynamic(() => import('./editor').then((c) => c.Editor), {
   ssr: false,
 })
@@ -24,6 +24,7 @@ export function MachineForm({ machine = {}, session }) {
     ...machine,
   }
 
+  console.log('defaultMachine', session)
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!ref.current) return
@@ -32,8 +33,8 @@ export function MachineForm({ machine = {}, session }) {
 
     const name = form.get('name')
     if (!name) return toast.warning('Nom obligatoire')
+
     form.append('description', JSON.stringify(description))
-    form.append('author_id', session.user.id)
 
     const year = form.get('year')
     if (!year) form.delete('year')
@@ -45,11 +46,17 @@ export function MachineForm({ machine = {}, session }) {
       const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/machines', {
         method: 'POST',
         signal,
-
+        headers: {
+          Authorization: 'Bearer ' + session.api_token,
+        },
         body: form,
       })
+      const resJson = await res.json()
+      if (resJson.error) {
+        toast.error(resJson.error)
+        return
+      }
       // redirect('/admin/machine/' + res.slug)
-      console.log(res)
     } catch (err) {
       console.error(err)
     }
@@ -81,9 +88,8 @@ export function MachineForm({ machine = {}, session }) {
           name="release_year"
           defaultValue={defaultMachine.year}
           onChange={(e) => {
-            if (e.target.value.length > 4) {
+            if (e.target.value.length > 4)
               e.target.value = e.target.value.slice(0, 4)
-            }
           }}
         />
       </fieldset>

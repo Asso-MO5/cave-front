@@ -33,10 +33,6 @@ export function Editor({ onChange, id, defaultValue = '', session }) {
     toolbar: ['bold', 'italic', 'underline', 'link', 'image', 'quote', 'code'],
   })
 
-  wsProvider.on('status', (event) => {
-    console.log(event) // logs "connected" or "disconnected"
-  })
-
   if (!editor) return null
 
   return (
@@ -44,7 +40,7 @@ export function Editor({ onChange, id, defaultValue = '', session }) {
       editor={editor}
       name="description"
       theme="light"
-      onChange={onChange}
+      onChange={() => onChange(editor.document)}
       defaultValue={defaultValue}
       id={id || idGen}
     />
