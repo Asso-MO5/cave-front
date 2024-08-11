@@ -7,7 +7,7 @@ import ManufacturersSelector from './manufacturers-selector'
 import dynamic from 'next/dynamic'
 import { Fieldset } from './fieldset'
 import { useRouter } from 'next/navigation'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 const Editor = dynamic(() => import('./editor').then((c) => c.Editor), {
   ssr: false,
@@ -119,9 +119,10 @@ export function MachineForm({ machine = {}, session }) {
 
       <Fieldset title="Description">
         <Editor
+          session={machine.id ? session : undefined}
           onChange={setDescription}
           defaultValue={defaultMachine.description}
-          id="description"
+          id={`description-${defaultMachine.id || 'new'}`}
         />
       </Fieldset>
 

@@ -1,6 +1,8 @@
 'use client'
+import { useDebounce } from '@/hooks/useDebounce'
 import { ChevronDownIcon } from '@/ui/icon/chevron-down'
 import { dc } from '@/utils/dynamic-classes'
+import { getCookie } from '@/utils/get-cookie'
 import {
   Combobox,
   ComboboxButton,
@@ -8,8 +10,14 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from '@headlessui/react'
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useMutation,
+} from '@tanstack/react-query'
+import { useVirtualizer } from '@tanstack/react-virtual'
 
-import { useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const people = [
   { id: 1, name: 'Tom Cook' },
@@ -20,53 +28,91 @@ const people = [
 ]
 
 export default function ManufacturersSelector({ defaultValue = '' }) {
+  const listRef = useRef(null)
   const [query, setQuery] = useState('')
+  const debouncedQuery = useDebounce(query, 500)
   const [selected, setSelected] = useState(defaultValue)
 
-  const handleFetch = async (query) => {
-    try {
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + '/manufacturers?name=' + query
-      )
-      const data = await res.json()
-      return data
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  const { data, fetchNextPage, isFetching, refetch } = useInfiniteQuery({
+    queryKey: ['companies', debouncedQuery],
+    queryFn: async ({ pageParam }) => {
+      const searchParams = new URLSearchParams()
+      if (pageParam) searchParams.append('cursor', pageParam)
+      searchParams.append('limit', 100)
+      if (debouncedQuery) searchParams.append('name', debouncedQuery)
 
-  const handleCreate = async () => {
-    try {
-      const res = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + '/manufacturers',
+      searchParams.append('activities', 'manufacturer')
+      const fetchedData = await fetch(
+        process.env.NEXT_PUBLIC_API_URL +
+          `/machines?${searchParams.toString()}`,
         {
-          method: 'POST',
-          body: JSON.stringify({ name: query }),
           headers: {
-            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + getCookie('api_token'),
           },
         }
       )
-      const data = await res.json()
-      return data
-    } catch (err) {
-      console.error(err)
-    }
-  }
 
-  const filteredManufacturer =
-    query === ''
-      ? people
-      : people.filter((person) => {
-          return person.name.toLowerCase().includes(query.toLowerCase())
-        })
+      return await fetchedData.json()
+    },
+    initialPageParam: '',
+    getNextPageParam: ({ pagination }) => pagination.nextCursor,
+    refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+  })
+
+  const flatData = useMemo(
+    () => data?.pages?.flatMap((page) => page.data) ?? [],
+    [data]
+  )
+
+  const totalDBRowCount = data?.pages?.[0]?.pagination?.totalItems ?? 0
+  const totalFetched = flatData.length
+
+  const fetchMore = useCallback(() => {
+    if (!isFetching && totalFetched < totalDBRowCount) {
+      fetchNextPage()
+    }
+  }, [fetchNextPage, isFetching, totalFetched, totalDBRowCount])
+
+  const rowVirtualizer = useVirtualizer({
+    count: flatData?.length ?? 0,
+    estimateSize: () => 32,
+    getScrollElement: () => listRef.current,
+    measureElement:
+      typeof window !== 'undefined' &&
+      navigator.userAgent.indexOf('Firefox') === -1
+        ? (element) => element?.getBoundingClientRect().height
+        : undefined,
+    overscan: 5,
+  })
+
+  useEffect(() => {
+    fetchMore()
+  }, [fetchMore])
+
+  const { mutate } = useMutation({
+    queryKey: ['companies'],
+    async mutationFn(name) {
+      const form = new FormData()
+
+      form.append('name', name)
+      form.append('activities', 'manufacturer')
+      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/companies', {
+        method: 'POST',
+        body: form,
+        headers: {
+          Authorization: 'Bearer ' + getCookie('api_token'),
+        },
+      })
+      return await res.json()
+    },
+    onSuccess: () => {
+      refetch()
+    },
+  })
 
   return (
-    <Combobox
-      value={selected}
-      onChange={(value) => setSelected(value)}
-      onClose={() => setQuery('')}
-    >
+    <Combobox value={selected} onChange={(value) => setSelected(value)}>
       <div className="relative">
         <ComboboxInput
           className={dc(
@@ -76,12 +122,17 @@ export default function ManufacturersSelector({ defaultValue = '' }) {
           displayValue={(person) => person?.name}
           onChange={(event) => setQuery(event.target.value)}
         />
-        <ComboboxButton className="group absolute inset-y-0 right-0 px-2.5">
+        <ComboboxButton
+          className="group absolute inset-y-0 right-0 px-2.5 z-50"
+          as="button"
+        >
           <ChevronDownIcon className="size-4 fill-mo-primary group-data-[hover]:fill-mo-primary" />
         </ComboboxButton>
       </div>
 
       <ComboboxOptions
+        as="div"
+        ref={listRef}
         anchor="bottom"
         transition
         className={dc(
@@ -89,28 +140,31 @@ export default function ManufacturersSelector({ defaultValue = '' }) {
           'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0'
         )}
       >
-        {filteredManufacturer.map((m) => (
-          <ComboboxOption
-            key={m.id}
-            value={m.name}
-            className="group flex cursor-default items-center gap-2 rounded py-2 px-3 select-none data-[focus]:bg-white/10"
-          >
-            <div className="text-sm/6 ">{m.name}</div>
-          </ComboboxOption>
-        ))}
+        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+          const m = flatData[virtualRow.index]
+          if (!m) return null
+          return (
+            <ComboboxOption
+              key={m.id}
+              value={m.name}
+              className="group flex cursor-default items-center gap-2 rounded py-2 px-3 select-none data-[focus]:bg-white/10"
+            >
+              <div className="text-sm/6 ">{m.name}</div>
+            </ComboboxOption>
+          )
+        })}
         {query && (
           <ComboboxOption
             value={query}
             className="group flex cursor-pointer items-center gap-2 rounded py-2 px-3 select-none data-[focus]:bg-white/10"
           >
-            <div className="text-sm/6 " onClick={handleCreate}>
+            <div className="text-sm/6 " onClick={() => mutate(query)}>
               Créer {'"'}
               {query}
               {'"'}
             </div>
           </ComboboxOption>
         )}
-        dfc
       </ComboboxOptions>
     </Combobox>
   )

@@ -7,6 +7,8 @@ import { redirect } from 'next/navigation'
 import { Panel } from '@/components/panel'
 import { ToastProvider } from '@/ui/toast-provider'
 import QueryProviders from '@/layouts/query-provider'
+import '@blocknote/mantine/style.css'
+import { SetCookie } from '@/components/set-cookie'
 
 export const metadata = {
   title: 'Cave MO5',
@@ -26,6 +28,7 @@ export default async function AdminLayout({ children }) {
     <html lang="fr">
       <body className={`${openSans.variable} ${fjallaOne.variable}`}>
         <div className="h-[100dvh] grid grid-cols-[auto_1fr]">
+          <SetCookie name="api_token" value={session.api_token} />
           <Panel session={session} />
           <main className="p-2">
             <QueryProviders>{children}</QueryProviders>

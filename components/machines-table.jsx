@@ -10,11 +10,11 @@ import {
 import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { EditorRead } from './editor-read'
+import { useRouter } from 'next/navigation'
 
-const fetchSize = 50
-
-export function MachineTable() {
+export function MachineTable({ session }) {
   const tableContainerRef = useRef(null)
+  const { push } = useRouter()
 
   const [sorting, setSorting] = useState([])
 
@@ -38,17 +38,21 @@ export function MachineTable() {
     []
   )
 
-  //react-query has a useInfiniteQuery hook that is perfect for this use case
   const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery({
-    queryKey: [
-      'machines',
-      sorting, //refetch when sorting changes
-    ],
+    queryKey: ['machines', sorting],
     queryFn: async ({ pageParam }) => {
+      const searchParams = new URLSearchParams()
+      if (pageParam) searchParams.append('cursor', pageParam)
+      searchParams.append('limit', 100)
       const fetchedData = await fetch(
         process.env.NEXT_PUBLIC_API_URL +
-          `/machines?cursor=${pageParam}&limit=${5}`
-      ) //pretend api call
+          `/machines?${searchParams.toString()}`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + session.api_token,
+          },
+        }
+      )
 
       return await fetchedData.json()
     },
@@ -58,7 +62,6 @@ export function MachineTable() {
     placeholderData: keepPreviousData,
   })
 
-  //flatten the array of arrays from the useInfiniteQuery hook
   const flatData = useMemo(
     () => data?.pages?.flatMap((page) => page.data) ?? [],
     [data]
@@ -67,19 +70,10 @@ export function MachineTable() {
   const totalDBRowCount = data?.pages?.[0]?.pagination?.totalItems ?? 0
   const totalFetched = flatData.length
 
-  /*
-  useEffect(() => {
-    if (hasNextPage) fetchNextPage()
-  }, [hasNextPage])
-  console.log('________', data, totalDBRowCount)
-  */
-
-  //called on scroll and possibly on mount to fetch more data as the user scrolls and reaches bottom of table
   const fetchMoreOnBottomReached = useCallback(
     (containerRefElement) => {
       if (containerRefElement) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement
-        //once the user has scrolled within 500px of the bottom of the table, fetch more data if we can
         if (
           scrollHeight - scrollTop - clientHeight < 500 &&
           !isFetching &&
@@ -92,7 +86,6 @@ export function MachineTable() {
     [fetchNextPage, isFetching, totalFetched, totalDBRowCount]
   )
 
-  //a check on mount and after a fetch to see if the table is already scrolled to the bottom and immediately needs to fetch more data
   useEffect(() => {
     fetchMoreOnBottomReached(tableContainerRef.current)
   }, [fetchMoreOnBottomReached])
@@ -110,15 +103,11 @@ export function MachineTable() {
     columnResizeMode: 'flex',
   })
 
-  //scroll to top of table when sorting changes
   const handleSortingChange = (updater) => {
     setSorting(updater)
-    if (!!table.getRowModel().rows.length) {
-      rowVirtualizer.scrollToIndex?.(0)
-    }
+    if (!!table.getRowModel().rows.length) rowVirtualizer.scrollToIndex?.(0)
   }
 
-  //since this table option is derived from table row model state, we're using the table.setOptions utility
   table.setOptions((prev) => ({
     ...prev,
     onSortingChange: handleSortingChange,
@@ -128,9 +117,8 @@ export function MachineTable() {
 
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
-    estimateSize: () => 33, //estimate row height for accurate scrollbar dragging
+    estimateSize: () => 32,
     getScrollElement: () => tableContainerRef.current,
-    //measure dynamic row height, except in firefox because it measures table border height incorrectly
     measureElement:
       typeof window !== 'undefined' &&
       navigator.userAgent.indexOf('Firefox') === -1
@@ -149,7 +137,6 @@ export function MachineTable() {
         onScroll={(e) => fetchMoreOnBottomReached(e.target)}
         ref={tableContainerRef}
       >
-        {/* Even though we're still using sematic table tags, we must use CSS grid and flexbox for dynamic row heights */}
         <table className="grid w-full">
           <thead className="sticky top-0 z-10 grid">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -158,7 +145,7 @@ export function MachineTable() {
                   return (
                     <th
                       key={header.id}
-                      style={{ width: header.column.columnDef.width || 'auto' }} // Appliquez la largeur ici
+                      style={{ width: header.column.columnDef.width || 'auto' }}
                     >
                       <div
                         {...{
@@ -184,29 +171,30 @@ export function MachineTable() {
             ))}
           </thead>
           <tbody
+            className="grid relative "
             style={{
-              display: 'grid',
-              height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
-              position: 'relative', //needed for absolute positioning of rows
+              height: `${rowVirtualizer.getTotalSize()}px`,
             }}
           >
             {rowVirtualizer.getVirtualItems().map((virtualRow) => {
               const row = rows[virtualRow.index]
               return (
                 <tr
-                  data-index={virtualRow.index} //needed for dynamic row height measurement
-                  ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
+                  data-index={virtualRow.index}
+                  ref={(node) => rowVirtualizer.measureElement(node)}
                   key={row.id}
-                  className="flex w-full absolute"
+                  className="flex w-full absolute even:bg-black/5 hover:bg-mo-primary hover:text-mo-bg cursor-pointer"
                   style={{
-                    transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
+                    transform: `translateY(${virtualRow.start}px)`,
                   }}
+                  onClick={() => push(`/admin/machine/${row.original.slug}`)}
                 >
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <td
                         key={cell.id}
-                        style={{ width: cell.column.getSize || 'auto' }} // Appliquez la largeur ici
+                        className="p-1"
+                        style={{ width: cell.column.getSize() || 'auto' }}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -221,7 +209,7 @@ export function MachineTable() {
           </tbody>
         </table>
       </div>
-      {isFetching && <div>Fetching More...</div>}
+      {isFetching && <div>Chargement...</div>}
     </div>
   )
 }

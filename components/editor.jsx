@@ -6,6 +6,7 @@ import { locales } from '@blocknote/core'
 import * as Y from 'yjs'
 import { WebsocketProvider } from 'y-websocket'
 import { decimalToHex } from '@/utils/decimalToHex'
+import { editorInitialContent } from '@/utils/editor-initial-content'
 
 const doc = new Y.Doc()
 
@@ -14,7 +15,7 @@ export function Editor({ onChange, id, defaultValue = '', session }) {
   const wsProvider = session
     ? new WebsocketProvider(
         process.env.NEXT_PUBLIC_EDITOR_URL,
-        'editor/' + id,
+        `editor-${id}`,
         doc
       )
     : undefined
@@ -37,9 +38,9 @@ export function Editor({ onChange, id, defaultValue = '', session }) {
   const editor = useCreateBlockNote({
     theme: 'light',
     dictionary: locales.fr,
-    collaboration,
+    // collaboration,
     toolbar: ['bold', 'italic', 'underline', 'link', 'image', 'quote', 'code'],
-    initialContent: defaultValue,
+    initialContent: editorInitialContent(defaultValue),
   })
 
   // ==== RENDER ========================================

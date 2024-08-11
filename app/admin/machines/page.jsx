@@ -1,7 +1,9 @@
 import { PageList } from '@/layouts/page-list'
 import { MachineTable } from '@/components/machines-table'
+import { auth } from '@/auth'
 
 export default async function Machine() {
+  const session = await auth()
   return (
     <PageList
       title="Machines"
@@ -11,7 +13,7 @@ export default async function Machine() {
         </a>
       }
     >
-      <MachineTable />
+      <MachineTable session={session} />
     </PageList>
   )
 }
