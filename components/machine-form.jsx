@@ -1,11 +1,14 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, Rotate } from 'react'
 import { toast } from 'react-toastify'
 
 import ManufacturersSelector from './manufacturers-selector'
 import dynamic from 'next/dynamic'
-import { ITEM_TYPES } from '@/utils/items'
+import { Fieldset } from './fieldset'
+import { useRouter } from 'next/navigation'
+import { useMutation, useQuery } from '@tanstack/react-query'
+
 const Editor = dynamic(() => import('./editor').then((c) => c.Editor), {
   ssr: false,
 })
@@ -13,8 +16,12 @@ const Editor = dynamic(() => import('./editor').then((c) => c.Editor), {
 export function MachineForm({ machine = {}, session }) {
   const ref = useRef()
   const [description, setDescription] = useState('')
+  const { push } = useRouter()
+  const toastId = useRef()
+  const signal = new AbortController().signal
 
   const defaultMachine = {
+    id: '',
     name: '',
     year: '',
     brand: '',
@@ -24,7 +31,41 @@ export function MachineForm({ machine = {}, session }) {
     ...machine,
   }
 
-  console.log('defaultMachine', session)
+  const { mutate, loading } = useMutation({
+    queryKey: ['MachineForm'],
+    mutationFn: (body) =>
+      fetch(process.env.NEXT_PUBLIC_API_URL + '/machines', {
+        method: 'POST',
+        signal,
+        headers: {
+          Authorization: 'Bearer ' + session.api_token,
+        },
+        body,
+      }).then((res) => res.json()),
+    onError: (err) => {
+      toast.update(toastId.current, {
+        render: err,
+        isLoading: false,
+        type: 'error',
+        transition: Rotate,
+        autoClose: 5000,
+        closeButton: true,
+      })
+    },
+    onSuccess: (data) => {
+      toast.update(toastId.current, {
+        render: 'Machine créée avec succès 🎉',
+        isLoading: false,
+        type: 'success',
+        transition: Rotate,
+        autoClose: 5000,
+        closeButton: true,
+      })
+      console.log(data)
+      push('/admin/machines/' + data.slug)
+    },
+  })
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!ref.current) return
@@ -34,54 +75,36 @@ export function MachineForm({ machine = {}, session }) {
     const name = form.get('name')
     if (!name) return toast.warning('Nom obligatoire')
 
+    if (!form.get('medias_url')) form.delete('medias_url')
+    if (!form.get('year')) form.delete('year')
+
     form.append('description', JSON.stringify(description))
 
-    const year = form.get('year')
-    if (!year) form.delete('year')
+    toastId.current = toast.loading('Envoi de la requête en cours 🚀', {
+      id: 'machine-form',
+    })
 
-    const signal = new AbortController().signal
-
-    toast.success('Machine enregistrée')
-    try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/machines', {
-        method: 'POST',
-        signal,
-        headers: {
-          Authorization: 'Bearer ' + session.api_token,
-        },
-        body: form,
-      })
-      const resJson = await res.json()
-      if (resJson.error) {
-        toast.error(resJson.error)
-        return
-      }
-      // redirect('/admin/machine/' + res.slug)
-    } catch (err) {
-      console.error(err)
-    }
+    mutate(form)
   }
 
   return (
     <form className="flex flex-col gap-2" ref={ref}>
-      <fieldset className="flex flex-col gap-2">
-        <label htmlFor="name">Nom</label>
+      <Fieldset title="Nom" required>
         <input
           id="name"
           type="text"
           name="name"
           defaultValue={defaultMachine.name}
         />
-      </fieldset>
-      <fieldset className="flex flex-col gap-2">
-        <label htmlFor="cover_image">image</label>
+      </Fieldset>
+
+      <Fieldset title="Image">
         <input type="file" id="cover_image" name="cover_image" />
-      </fieldset>
+      </Fieldset>
 
       <ManufacturersSelector />
 
-      <fieldset className="flex flex-col gap-2">
-        <label htmlFor="release_year">Année de sortie</label>
+      <Fieldset title="Année de sortie">
         <input
           id="release_year"
           type="text"
@@ -92,21 +115,30 @@ export function MachineForm({ machine = {}, session }) {
               e.target.value = e.target.value.slice(0, 4)
           }}
         />
-      </fieldset>
+      </Fieldset>
 
-      <Editor
-        session={session}
-        onChange={setDescription}
-        defaultValue={defaultMachine.description}
-        id="description"
-      />
-      <fieldset className="flex flex-col gap-2">
-        <label htmlFor="medias">autres medias</label>
+      <Fieldset title="Description">
+        <Editor
+          onChange={setDescription}
+          defaultValue={defaultMachine.description}
+          id="description"
+        />
+      </Fieldset>
+
+      <Fieldset title="Autre médias">
+        <div>local</div>
         <input type="file" multiple id="medias" name="medias" />
+        <div>url (un part ligne)</div>
+        <input type="url" id="medias_url" name="medias_url" />
         <div>TODO ajouter des inputs pour ajouter des sources url</div>
-      </fieldset>
+      </Fieldset>
       <div>
-        <button className="btn" type="submit" onClick={handleSubmit}>
+        <button
+          className="btn"
+          type="submit"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
           Enregistrer
         </button>
       </div>

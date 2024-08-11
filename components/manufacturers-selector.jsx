@@ -98,16 +98,19 @@ export default function ManufacturersSelector({ defaultValue = '' }) {
             <div className="text-sm/6 ">{m.name}</div>
           </ComboboxOption>
         ))}
-        <ComboboxOption
-          value={query}
-          className="group flex cursor-pointer items-center gap-2 rounded py-2 px-3 select-none data-[focus]:bg-white/10"
-        >
-          <div className="text-sm/6 " onClick={handleCreate}>
-            Créer {'"'}
-            {query}
-            {'"'}
-          </div>
-        </ComboboxOption>
+        {query && (
+          <ComboboxOption
+            value={query}
+            className="group flex cursor-pointer items-center gap-2 rounded py-2 px-3 select-none data-[focus]:bg-white/10"
+          >
+            <div className="text-sm/6 " onClick={handleCreate}>
+              Créer {'"'}
+              {query}
+              {'"'}
+            </div>
+          </ComboboxOption>
+        )}
+        dfc
       </ComboboxOptions>
     </Combobox>
   )

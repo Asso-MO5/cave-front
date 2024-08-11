@@ -6,6 +6,7 @@ import { fjallaOne, openSans } from '@/utils/fonts'
 import { redirect } from 'next/navigation'
 import { Panel } from '@/components/panel'
 import { ToastProvider } from '@/ui/toast-provider'
+import QueryProviders from '@/layouts/query-provider'
 
 export const metadata = {
   title: 'Cave MO5',
@@ -27,7 +28,7 @@ export default async function AdminLayout({ children }) {
         <div className="h-[100dvh] grid grid-cols-[auto_1fr]">
           <Panel session={session} />
           <main className="p-2">
-            {children}
+            <QueryProviders>{children}</QueryProviders>
             <ToastProvider />
           </main>
         </div>

@@ -1,4 +1,5 @@
 import { PageList } from '@/layouts/page-list'
+import { MachineTable } from '@/components/machines-table'
 
 export default async function Machine() {
   return (
@@ -10,7 +11,7 @@ export default async function Machine() {
         </a>
       }
     >
-      <div>cdfse</div>
+      <MachineTable />
     </PageList>
   )
 }
