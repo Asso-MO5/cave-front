@@ -6,7 +6,7 @@ import { fjallaOne, openSans } from '@/utils/fonts'
 import { redirect } from 'next/navigation'
 import { Panel } from '@/components/panel'
 import { ToastProvider } from '@/ui/toast-provider'
-import QueryProviders from '@/layouts/query-provider'
+
 import '@blocknote/mantine/style.css'
 import { SetCookie } from '@/components/set-cookie'
 
@@ -31,7 +31,7 @@ export default async function AdminLayout({ children }) {
           <SetCookie name="api_token" value={session.api_token} />
           <Panel session={session} />
           <main className="p-2">
-            <QueryProviders>{children}</QueryProviders>
+            {children}
             <ToastProvider />
           </main>
         </div>

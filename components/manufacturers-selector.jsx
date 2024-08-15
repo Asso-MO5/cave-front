@@ -1,8 +1,9 @@
 'use client'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useFetch } from '@/hooks/useFetch'
 import { ChevronDownIcon } from '@/ui/icon/chevron-down'
 import { dc } from '@/utils/dynamic-classes'
-import { getCookie } from '@/utils/get-cookie'
+
 import {
   Combobox,
   ComboboxButton,
@@ -10,116 +11,85 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from '@headlessui/react'
-import {
-  keepPreviousData,
-  useInfiniteQuery,
-  useMutation,
-} from '@tanstack/react-query'
-import { useVirtualizer } from '@tanstack/react-virtual'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-const people = [
-  { id: 1, name: 'Tom Cook' },
-  { id: 2, name: 'Wade Cooper' },
-  { id: 3, name: 'Tanya Fox' },
-  { id: 4, name: 'Arlene Mccoy' },
-  { id: 5, name: 'Devon Webb' },
-]
-
-export default function ManufacturersSelector({ defaultValue = '' }) {
+export default function ManufacturersSelector({
+  defaultValue = {
+    id: '',
+    name: '',
+  },
+  onSelect,
+}) {
   const listRef = useRef(null)
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebounce(query, 500)
+  const [companies, setCompanies] = useState([])
   const [selected, setSelected] = useState(defaultValue)
 
-  const { data, fetchNextPage, isFetching, refetch } = useInfiniteQuery({
-    queryKey: ['companies', debouncedQuery],
-    queryFn: async ({ pageParam }) => {
-      const searchParams = new URLSearchParams()
-      if (pageParam) searchParams.append('cursor', pageParam)
-      searchParams.append('limit', 100)
-      if (debouncedQuery) searchParams.append('name', debouncedQuery)
+  const { data, refetch } = useFetch({
+    url: '/companies/light',
 
-      searchParams.append('activities', 'manufacturer')
-      const fetchedData = await fetch(
-        process.env.NEXT_PUBLIC_API_URL +
-          `/machines?${searchParams.toString()}`,
-        {
-          headers: {
-            Authorization: 'Bearer ' + getCookie('api_token'),
-          },
-        }
-      )
-
-      return await fetchedData.json()
+    params: {
+      limit: 100000,
+      activities: 'manufacturer',
+      light: true,
+      name: debouncedQuery,
     },
-    initialPageParam: '',
-    getNextPageParam: ({ pagination }) => pagination.nextCursor,
-    refetchOnWindowFocus: false,
-    placeholderData: keepPreviousData,
   })
 
-  const flatData = useMemo(
-    () => data?.pages?.flatMap((page) => page.data) ?? [],
-    [data]
-  )
-
-  const totalDBRowCount = data?.pages?.[0]?.pagination?.totalItems ?? 0
-  const totalFetched = flatData.length
-
-  const fetchMore = useCallback(() => {
-    if (!isFetching && totalFetched < totalDBRowCount) {
-      fetchNextPage()
-    }
-  }, [fetchNextPage, isFetching, totalFetched, totalDBRowCount])
-
-  const rowVirtualizer = useVirtualizer({
-    count: flatData?.length ?? 0,
-    estimateSize: () => 32,
-    getScrollElement: () => listRef.current,
-    measureElement:
-      typeof window !== 'undefined' &&
-      navigator.userAgent.indexOf('Firefox') === -1
-        ? (element) => element?.getBoundingClientRect().height
-        : undefined,
-    overscan: 5,
+  const { refetch: mutation, data: dataMutation } = useFetch({
+    url: '/companies',
+    method: 'post',
+    enabled: false,
   })
+
+  const handleCreate = async () => {
+    const form = new FormData()
+    form.append('name', query)
+    form.append('activities', 'manufacturer')
+    await mutation(form)
+    setQuery('')
+    refetch()
+  }
 
   useEffect(() => {
-    fetchMore()
-  }, [fetchMore])
+    if (data) {
+      setCompanies((prev) =>
+        [...prev, ...data].reduce((acc, company) => {
+          if (Array.isArray(company)) return acc
+          if (!acc.find((c) => c.id === company.id)) {
+            acc.push(company)
+          }
+          return acc
+        }, [])
+      )
+    }
+  }, [data])
 
-  const { mutate } = useMutation({
-    queryKey: ['companies'],
-    async mutationFn(name) {
-      const form = new FormData()
-
-      form.append('name', name)
-      form.append('activities', 'manufacturer')
-      const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/companies', {
-        method: 'POST',
-        body: form,
-        headers: {
-          Authorization: 'Bearer ' + getCookie('api_token'),
-        },
-      })
-      return await res.json()
-    },
-    onSuccess: () => {
-      refetch()
-    },
-  })
+  useEffect(() => {
+    if (dataMutation?.id) {
+      setSelected(dataMutation)
+      setCompanies((prev) => [...prev, dataMutation])
+    }
+  }, [dataMutation])
 
   return (
-    <Combobox value={selected} onChange={(value) => setSelected(value)}>
+    <Combobox
+      value={selected}
+      onChange={(value) => {
+        setSelected(value)
+        onSelect?.(value)
+      }}
+      onClose={() => setQuery('')}
+    >
       <div className="relative">
         <ComboboxInput
           className={dc(
             'w-full rounded-sm border-none py-1.5 pr-8 pl-3 text-sm/6 ',
             'focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25'
           )}
-          displayValue={(person) => person?.name}
+          displayValue={(company) => company?.name}
           onChange={(event) => setQuery(event.target.value)}
         />
         <ComboboxButton
@@ -140,25 +110,27 @@ export default function ManufacturersSelector({ defaultValue = '' }) {
           'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0'
         )}
       >
-        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-          const m = flatData[virtualRow.index]
-          if (!m) return null
-          return (
-            <ComboboxOption
-              key={m.id}
-              value={m.name}
-              className="group flex cursor-default items-center gap-2 rounded py-2 px-3 select-none data-[focus]:bg-white/10"
-            >
-              <div className="text-sm/6 ">{m.name}</div>
-            </ComboboxOption>
-          )
-        })}
+        {companies
+          ?.filter((c) => c.name !== selected?.name)
+          ?.map((company) => {
+            return (
+              <ComboboxOption
+                key={company.id}
+                value={company}
+                className={dc(
+                  'group flex cursor-pointer items-center gap-2 rounded py-2 px-3  data-[focus]:bg-white/10 hover:text-mo-primary'
+                )}
+              >
+                <div className="text-sm/6 ">{company.name}</div>
+              </ComboboxOption>
+            )
+          })}
         {query && (
           <ComboboxOption
             value={query}
-            className="group flex cursor-pointer items-center gap-2 rounded py-2 px-3 select-none data-[focus]:bg-white/10"
+            className="group flex cursor-pointer items-center gap-2 rounded py-2 px-3 data-[focus]:bg-white/10 hover:text-mo-primary"
           >
-            <div className="text-sm/6 " onClick={() => mutate(query)}>
+            <div className="text-sm/6" onClick={handleCreate}>
               Créer {'"'}
               {query}
               {'"'}

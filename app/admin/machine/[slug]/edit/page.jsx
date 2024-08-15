@@ -20,7 +20,7 @@ export default async function MachineEdit({ params }) {
     <div className="">
       <h1>Créer une machine</h1>
       <div className="max-w-[500px] m-auto">
-        <MachineForm session={session} machine={machine} />
+        <MachineForm machine={machine} />
       </div>
     </div>
   )
