@@ -18,6 +18,7 @@ module.exports = {
           // Couleurs de base
           bg: '#F2F2F2',
           primary: '#4088cf',
+          white: '#FFF',
           secondary: '#e84855',
           tertiary: '#70cbe6',
           text: '#000',

@@ -1,11 +1,11 @@
 export function Fieldset({ children, title, required }) {
   return (
-    <fieldset className="flex flex-col gap-2">
+    <fieldset>
       <legend className="text-base font-bold">
         <span className="text-mo-primary">{title}</span>
         {required && <span className="text-mo-accent">*</span>}
       </legend>
-      {children}
+      <div className="mt-1 ml-2">{children}</div>
     </fieldset>
   )
 }

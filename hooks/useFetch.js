@@ -1,5 +1,5 @@
 import { fetcher } from '@/utils/fetcher'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  *
@@ -20,8 +20,8 @@ export function useFetch(props) {
     params: _params = {},
     enabled = true,
   } = props
-  const signal = new AbortController().signal
-  const [loading, setLoading] = useState(true)
+  const signalRef = useRef(new AbortController())
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
   const [error, setError] = useState(null)
   const [pagination, setPagination] = useState({
@@ -33,35 +33,33 @@ export function useFetch(props) {
   })
 
   const handleFetch = async (form = undefined) => {
+    if (loading || !signalRef.current) return
     setLoading(true)
     setError(null)
-    const params = new URLSearchParams()
-    Object.entries(_params).forEach(([key, value]) => {
-      params.append(key, value)
-    })
-    const url = _url + '?' + params.toString()
+    const params = new URLSearchParams(_params)
 
     try {
       const response = await fetcher[method.toLowerCase()](
-        url,
-        signal,
+        `${_url}?${params.toString()}`,
+        signalRef.current.signal,
         form || body
       )
       const data = await response.json()
 
       if (!response.ok) {
         setError(data)
-        return
-      }
-
-      if (Object.keys(data).includes('pagination')) {
-        setPagination(data.pagination)
-        setData(data.data)
       } else {
-        setData(data)
+        if (data.pagination) {
+          setPagination(data.pagination)
+          setData(data.data)
+        } else {
+          setData(data)
+        }
       }
     } catch (error) {
-      setError(error)
+      if (error.name !== 'AbortError') {
+        setError(error)
+      }
     } finally {
       setLoading(false)
     }
@@ -69,6 +67,9 @@ export function useFetch(props) {
 
   useEffect(() => {
     if (enabled) handleFetch()
+    return () => {
+      if (signalRef.current && loading) signalRef.current?.abort?.()
+    }
   }, [])
 
   return {

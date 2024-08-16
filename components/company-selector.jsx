@@ -14,12 +14,13 @@ import {
 
 import { useEffect, useRef, useState } from 'react'
 
-export default function ManufacturersSelector({
+export function CompanySelector({
   defaultValue = {
     id: '',
     name: '',
   },
   onSelect,
+  type = 'manufacturer',
 }) {
   const listRef = useRef(null)
   const [query, setQuery] = useState('')
@@ -32,7 +33,7 @@ export default function ManufacturersSelector({
 
     params: {
       limit: 100000,
-      activities: 'manufacturer',
+      activities: type,
       light: true,
       name: debouncedQuery,
     },
@@ -47,7 +48,7 @@ export default function ManufacturersSelector({
   const handleCreate = async () => {
     const form = new FormData()
     form.append('name', query)
-    form.append('activities', 'manufacturer')
+    form.append('activities', type)
     await mutation(form)
     setQuery('')
     refetch()

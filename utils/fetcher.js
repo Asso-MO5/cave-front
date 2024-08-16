@@ -31,6 +31,17 @@ async function _postFile(signal, url, body) {
   })
 }
 
+async function _put(signal, url, body) {
+  return await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
+    method: 'PUT',
+    signal,
+    headers: {
+      Authorization: 'Bearer ' + getCookie('api_token'),
+    },
+    body,
+  })
+}
+
 /**
  * Objet contenant des fonctions pour effectuer des requêtes fetch.
  */
@@ -45,7 +56,7 @@ export const fetcher = {
     return await _postFile(signal, url, body)
   },
   async put(url, signal, body) {
-    return await _fetch('PUT', signal, url, body)
+    return await _put(signal, url, body)
   },
   async delete(url, signal) {
     return await _fetch('DELETE', signal, url)
