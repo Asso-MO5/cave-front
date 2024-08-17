@@ -67,7 +67,14 @@ export function Item({ item }) {
         },
       }}
     >
-      <div className="flex flex-col sm:flex-row-reverse w-full m-auto">
+      <div className="flex flex-col-reverse sm:grid sm:grid-cols-[3fr_2fr] w-full m-auto">
+        <div className="flex flex-col gap-4">
+          <div className="hidden sm:block">
+            <ItemName />
+          </div>
+          <ItemDescription />
+        </div>
+
         <div className="flex flex-col">
           <div className="sm:hidden">
             <ItemName />
@@ -77,13 +84,6 @@ export function Item({ item }) {
           {companies[type].map((company) => (
             <ItemCompany key={company} type={company} />
           ))}
-        </div>
-
-        <div className="flex-1 flex flex-col gap-4">
-          <div className="hidden sm:block">
-            <ItemName />
-          </div>
-          <ItemDescription />
         </div>
       </div>
     </Provider>
