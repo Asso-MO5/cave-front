@@ -7,6 +7,8 @@ import { fetcher } from '@/utils/fetcher'
 import { ItemName } from './item-name'
 import { ItemReleaseYear } from './item-release-year'
 import { ItemDescription } from './item-description'
+import { ItemCompany } from './item-company'
+import { toast } from 'react-toastify'
 
 const Ctx = createContext()
 
@@ -49,12 +51,15 @@ export function Item({ item }) {
           if (keys.includes('description'))
             form.append('description', JSON.stringify(partial.description))
 
+          if (keys.includes('company')) {
+            form.append('company_id', partial.company.id)
+            form.append('company_old_id', partial.company.oldId)
+          }
+
           const controller = new AbortController()
           const signal = controller.signal
           const res = await fetcher.put('/items/' + item.id, signal, form)
-          if (res.ok) {
-            console.log('updated')
-          }
+          if (res.status > 201) toast.error('Erreur lors de la mise à jour')
         },
       }}
     >
@@ -62,7 +67,7 @@ export function Item({ item }) {
         <div className="flex flex-col">
           <ItemCover />
           <ItemReleaseYear />
-          <p>constructeur</p>
+          <ItemCompany />
         </div>
 
         <div className="flex-1 flex flex-col gap-4">

@@ -71,6 +71,7 @@ export function CompanySelector({
   useEffect(() => {
     if (dataMutation?.id) {
       setSelected(dataMutation)
+      onSelect?.(dataMutation)
       setCompanies((prev) => [...prev, dataMutation])
     }
   }, [dataMutation])
@@ -79,8 +80,9 @@ export function CompanySelector({
     <Combobox
       value={selected}
       onChange={(value) => {
+        console.log('value', value)
         setSelected(value)
-        onSelect?.(value)
+        if (typeof value !== 'string') onSelect?.(value)
       }}
       onClose={() => setQuery('')}
     >
@@ -107,8 +109,8 @@ export function CompanySelector({
         anchor="bottom"
         transition
         className={dc(
-          'w-[var(--input-width)] rounded mt-1 border border-mo-primary bg-white p-1 [--anchor-gap:var(--spacing-1)] empty:invisible',
-          'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0'
+          'w-[var(--input-width)] rounded mt-1 border border-mo-primary bg-mo-white p-1 [--anchor-gap:var(--spacing-1)] empty:invisible',
+          'transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 z-[999]'
         )}
       >
         {companies

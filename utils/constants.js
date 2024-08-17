@@ -9,3 +9,13 @@ export const ITEM_TYPE_TITLE = {
   game: 'Jeu',
   machine: 'Machine',
 }
+
+export const ACTIVITIES_COMPANY = {
+  manufacturer: 'Fabricant',
+  publisher: 'Éditeur',
+  developer: 'Développeur',
+  distributor: 'Distributeur',
+  retailer: 'Revendeur',
+  other: 'Autre',
+  association: 'Association',
+}
