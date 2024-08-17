@@ -72,7 +72,7 @@ export function ItemCover() {
             <img
               src={previewCover.src}
               alt={previewCover.alt}
-              className="w-auto h-28"
+              className="w-auto h-56"
             />
           ) : (
             <div className="italic">aucune image définie</div>
@@ -106,7 +106,7 @@ export function ItemCover() {
               <img
                 src={previewCover.src}
                 alt={previewCover.alt}
-                className="h-28 w-auto"
+                className="h-56 w-auto"
               />
               <Modal
                 onConfirm={handleDeleteCover}
