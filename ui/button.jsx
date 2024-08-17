@@ -42,7 +42,7 @@ export function Button({
       className={styles}
       disabled={disabled}
     >
-      <div>{children}</div>
+      {children}
     </button>
   )
 }

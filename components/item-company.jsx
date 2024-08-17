@@ -16,10 +16,12 @@ export function ItemCompany({ type = 'manufacturer' }) {
   })
 
   const handleSelect = (c) => {
+    if (!c) return
     update({
       company: {
         id: current.id,
         oldId: c.id,
+        relation_type: type,
       },
     })
     setCurrent(c)
@@ -27,17 +29,13 @@ export function ItemCompany({ type = 'manufacturer' }) {
 
   return (
     <ReadAndEdit
-      read={(close) =>
-        !company?.id ? (
-          <div>--</div>
-        ) : (
-          <Fieldset title={ACTIVITIES_COMPANY[current.relation_type]}>
-            <div className="uppercase font-bold">{current?.name}</div>
-          </Fieldset>
-        )
-      }
+      read={() => (
+        <Fieldset title={ACTIVITIES_COMPANY[type]}>
+          <div className="uppercase font-bold">{current?.name || '---'}</div>
+        </Fieldset>
+      )}
       edit={(close) => (
-        <Fieldset title={ACTIVITIES_COMPANY[company.relation_type]}>
+        <Fieldset title={ACTIVITIES_COMPANY[type]}>
           <div className="flex flex-col gap-2">
             <CompanySelector
               type={type}

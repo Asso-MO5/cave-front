@@ -6,6 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --bn-colors-side-menu: #4088cf !important;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -57,4 +58,13 @@
 
 :disabled {
   @apply opacity-50;
+}
+
+.bn-editor {
+  @apply bg-transparent border border-transparent focus:border-black/10 transition  outline-none text-mo-primary;
+}
+
+.bn-side-menu .mantine-UnstyledButton-root:not(.mantine-Menu-item) svg,
+.bn-inline-content:has(> .ProseMirror-trailingBreak):before {
+  color: rgba(0, 0, 0, 0.5);
 }

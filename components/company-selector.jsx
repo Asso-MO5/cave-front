@@ -80,7 +80,6 @@ export function CompanySelector({
     <Combobox
       value={selected}
       onChange={(value) => {
-        console.log('value', value)
         setSelected(value)
         if (typeof value !== 'string') onSelect?.(value)
       }}

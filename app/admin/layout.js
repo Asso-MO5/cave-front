@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation'
 import { Panel } from '@/components/panel'
 import { ToastProvider } from '@/ui/toast-provider'
 
-import '@blocknote/mantine/style.css'
 import { SetCookie } from '@/components/set-cookie'
 
 export const metadata = {

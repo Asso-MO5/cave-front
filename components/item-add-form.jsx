@@ -6,11 +6,10 @@ import { Fieldset } from './fieldset'
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { fetcher } from '@/utils/fetcher'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
-export function ItemAddForm({ title }) {
+export function ItemAddForm({ title, type }) {
   // ===== HOOKS ================================================
-  const { type } = useParams()
   const router = useRouter()
   // ===== REFS ================================================
   const ref = useRef()
@@ -22,7 +21,6 @@ export function ItemAddForm({ title }) {
   // ===== HANDLERS ==========================================
   const handleSubmit = async (e) => {
     e?.preventDefault()
-    console.log('submit')
     if (!ref.current) return
 
     // ----- LOADING STATE -----------------------------------
@@ -65,7 +63,7 @@ export function ItemAddForm({ title }) {
         autoClose: 5000,
         closeButton: true,
       })
-      return router.push(`admin/${type}/${slug}`)
+      return router.push(`/admin/${newItem.type}/${newItem.slug}`)
     } catch (err) {
       toast.update(toastId.current, {
         render: typeof err === 'string' ? err : err.message,

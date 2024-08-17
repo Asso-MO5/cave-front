@@ -20,6 +20,8 @@ export function ItemReleaseYear() {
 
   const handleSubmit = async (e, close) => {
     e.preventDefault()
+    if (!ref?.current) return
+    console.log('submit')
     const oldRelease_year = release_year
     const form = new FormData(ref.current)
     const newRelease_year = form.get('release_year')
@@ -56,16 +58,10 @@ export function ItemReleaseYear() {
               onChange={handleChange}
             />
             <div className="flex gap-2">
-              <Button
-                type="cancel"
-                onClick={close}
-                className="btn btn-secondary"
-              >
+              <Button onClick={close} theme="secondary">
                 Annuler
               </Button>
-              <Button type="submit" className="btn btn-primary">
-                Enregistrer
-              </Button>
+              <Button type="submit">Enregistrer</Button>
             </div>
           </form>
         </Fieldset>

@@ -1,14 +1,15 @@
 'use client'
+
 import { useFetch } from '@/hooks/useFetch'
 import { useRouter } from 'next/navigation'
 
-export function MachineTable() {
+export function GamesTable() {
   const { push } = useRouter()
   const { data, error, loading } = useFetch({
     url: '/items',
     params: {
       limit: 100000,
-      type: 'machine',
+      type: 'game',
     },
   })
 
@@ -23,7 +24,7 @@ export function MachineTable() {
   if (!loading && Array.isArray(data) && data?.length === 0)
     return (
       <div className="text-center h-full flex justify-center items-center font-secondary font-bold">
-        Aucune machine trouvée
+        Aucun jeu trouvé
       </div>
     )
 

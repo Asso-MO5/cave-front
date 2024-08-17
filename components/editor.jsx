@@ -50,8 +50,13 @@ export function Editor({ onChange, id, defaultValue = '', session }) {
   return (
     <BlockNoteView
       editor={editor}
+      className="min-h-20"
       name="description"
       theme="light"
+      style={{
+        backgroundColor: 'transparent',
+        padding: '0 2rem',
+      }}
       onChange={() => onChange(editor.document)}
       id={id || idGen}
     />

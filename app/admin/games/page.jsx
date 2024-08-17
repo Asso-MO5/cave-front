@@ -1,6 +1,6 @@
 import { PageList } from '@/layouts/page-list'
-import { MachineTable } from '@/components/machines-table'
 import dynamic from 'next/dynamic'
+import { GamesTable } from '@/components/games-table'
 
 const ItemAddForm = dynamic(
   () => import('../../../components/item-add-form').then((c) => c.ItemAddForm),
@@ -9,13 +9,13 @@ const ItemAddForm = dynamic(
   }
 )
 
-export default async function Machines() {
+export default async function Games() {
   return (
     <PageList
-      title="Machines"
-      actions={<ItemAddForm title="Ajouter une Machine" type="machine" />}
+      title="Jeux"
+      actions={<ItemAddForm title="Ajouter un jeu" type="game" />}
     >
-      <MachineTable />
+      <GamesTable />
     </PageList>
   )
 }

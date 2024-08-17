@@ -2,13 +2,18 @@
 
 import { createContext, useContext } from 'react'
 import { ItemCover } from './item-cover'
-import { useEmit } from '@/hooks/useEmit'
 import { fetcher } from '@/utils/fetcher'
 import { ItemName } from './item-name'
 import { ItemReleaseYear } from './item-release-year'
 import { ItemDescription } from './item-description'
 import { ItemCompany } from './item-company'
 import { toast } from 'react-toastify'
+import { useParams } from 'next/navigation'
+
+const companies = {
+  machine: ['manufacturer'],
+  game: ['developer', 'publisher'],
+}
 
 const Ctx = createContext()
 
@@ -18,14 +23,12 @@ function Provider({ children, ctx }) {
 
 export function useItem() {
   const ctx = useContext(Ctx)
-  if (!ctx) {
-    throw new Error('useItem must be used within a ItemProvider')
-  }
+  if (!ctx) throw new Error('useItem must be used within a ItemProvider')
   return ctx
 }
 
 export function Item({ item }) {
-  const { emit } = useEmit()
+  const { type } = useParams()
 
   return (
     <Provider
@@ -54,6 +57,7 @@ export function Item({ item }) {
           if (keys.includes('company')) {
             form.append('company_id', partial.company.id)
             form.append('company_old_id', partial.company.oldId)
+            form.append('company_relation_type', partial.company.relation_type)
           }
 
           const controller = new AbortController()
@@ -65,13 +69,20 @@ export function Item({ item }) {
     >
       <div className="flex flex-col sm:flex-row-reverse w-full max-w-2xl m-auto">
         <div className="flex flex-col">
+          <div className="sm:hidden">
+            <ItemName />
+          </div>
           <ItemCover />
           <ItemReleaseYear />
-          <ItemCompany />
+          {companies[type].map((company) => (
+            <ItemCompany key={company} type={company} />
+          ))}
         </div>
 
         <div className="flex-1 flex flex-col gap-4">
-          <ItemName />
+          <div className="hidden sm:block">
+            <ItemName />
+          </div>
           <ItemDescription />
         </div>
       </div>

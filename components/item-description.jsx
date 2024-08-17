@@ -59,12 +59,10 @@ export function ItemDescription() {
             />
           </Suspense>
           <div className="flex gap-2">
-            <Button type="cancel" onClick={close} className="btn btn-secondary">
+            <Button onClick={close} theme="secondary">
               Annuler
             </Button>
-            <Button type="submit" className="btn btn-primary">
-              Enregistrer
-            </Button>
+            <Button type="submit">Enregistrer</Button>
           </div>
         </form>
       )}
