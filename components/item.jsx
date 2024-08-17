@@ -67,7 +67,7 @@ export function Item({ item }) {
         },
       }}
     >
-      <div className="flex flex-col sm:flex-row-reverse w-full max-w-2xl m-auto">
+      <div className="flex flex-col sm:flex-row-reverse w-full m-auto">
         <div className="flex flex-col">
           <div className="sm:hidden">
             <ItemName />
