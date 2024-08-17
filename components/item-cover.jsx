@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { dc } from '@/utils/dynamic-classes'
 import { Button } from '@/ui/button'
 import { TrashIcon } from '@/ui/icon/trash'
-import { Modal } from '@/ui/Modal'
+import { Modal } from '@/ui/modal'
 
 export function ItemCover() {
   const { item, update } = useItem()
