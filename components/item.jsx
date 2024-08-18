@@ -9,6 +9,7 @@ import { ItemDescription } from './item-description'
 import { ItemCompany } from './item-company'
 import { toast } from 'react-toastify'
 import { useParams } from 'next/navigation'
+import { MediaAdd } from './media-add'
 
 const companies = {
   machine: ['manufacturer'],
@@ -47,6 +48,9 @@ export function Item({ item }) {
 
           if (keys.includes('cover_id'))
             form.append('cover_id', partial.cover_id)
+
+          if (keys.includes('cover_url'))
+            form.append('cover_url', partial.cover_url)
 
           if (keys.includes('release_year'))
             form.append('release_year', partial.release_year)

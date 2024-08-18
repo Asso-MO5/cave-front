@@ -17,6 +17,26 @@
   }
 }
 
+* {
+  box-sizing: border-box;
+  scrollbar-color: theme('colors.mo.primary') transparent;
+  scrollbar-width: thin;
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.mo.primary');
+  transition: 200ms ease-in-out;
+}
+
 @layer base {
   body {
     @apply bg-mo-bg font-primary;

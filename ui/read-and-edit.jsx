@@ -20,7 +20,7 @@ export function ReadAndEdit({ read, edit }) {
       {!isEditing && (
         <div
           className={dc(
-            'absolute top-[2px] right-[2px] transition-colors opacity-0 z-50',
+            'absolute top-[2px] right-[2px] transition-opacity opacity-0 z-50',
             'group-hover:opacity-100 p-1 w-5 h-5 rounded-full',
             'bg-mo-primary flex items-center justify-center'
           )}

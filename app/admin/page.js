@@ -3,10 +3,6 @@ export default async function Admin() {
     <div className="max-w-96 m-auto">
       <h2>TODO</h2>
       <ul>
-        <li>seed de BDD</li>
-        <li>Table pour les fiches jeux</li>
-        <li>Table pour les fiches machines</li>
-        <li>Table pour les historiques de jeux & machines</li>
         <li>
           table de création de listes (expo à venir, jeux à tester, jeux à
           acheter, etc)
