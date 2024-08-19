@@ -43,7 +43,7 @@ export function GamesTable() {
             <div
               key={machine.slug}
               className="grid grid-cols-[4fr_1fr_2fr_2fr] gap-2 hover:text-mo-primary cursor-pointer odd:bg-black/5 p-1"
-              onClick={() => push(`/admin/machine/${machine.slug}`)}
+              onClick={() => push(`/admin/game/${machine.slug}`)}
             >
               <div className="first-letter:uppercase font-bold">
                 {machine.name}
