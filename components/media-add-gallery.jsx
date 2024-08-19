@@ -5,14 +5,6 @@ import { VirtuosoGrid } from 'react-virtuoso'
 import { dc } from '@/utils/dynamic-classes'
 import { Button } from '@/ui/button'
 
-function List({ children, ...props }) {
-  return (
-    <div {...props} className="flex flex-wrap">
-      {children}
-    </div>
-  )
-}
-
 function Item({ children, ...props }) {
   return (
     <div {...props} className="flex justify-center p-1 w-1/4">
@@ -21,7 +13,13 @@ function Item({ children, ...props }) {
   )
 }
 const gridComponents = {
-  List: forwardRef(List(props), ref),
+  List: forwardRef(function List({ children, ...props }, ref) {
+    return (
+      <div ref={ref} {...props} className="flex flex-wrap">
+        {children}
+      </div>
+    )
+  }),
   Item,
 }
 
