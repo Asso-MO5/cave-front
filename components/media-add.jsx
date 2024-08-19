@@ -40,9 +40,9 @@ export function MediaAdd({
   return (
     <ReadAndEdit
       read={() => (
-        <div className="item-cover">
+        <div className="flex justify-center items-center overflow-hidden">
           {img?.src ? (
-            <img src={img.src} alt={img.alt} className="w-auto h-56" />
+            <img src={img.src} alt={img.alt} className="h-full w-auto" />
           ) : (
             <div className="italic">aucune image définie</div>
           )}
