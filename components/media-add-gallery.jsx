@@ -5,30 +5,38 @@ import { VirtuosoGrid } from 'react-virtuoso'
 import { dc } from '@/utils/dynamic-classes'
 import { Button } from '@/ui/button'
 
-const gridComponents = {
-  List: forwardRef(({ children, ...props }, ref) => (
-    <div ref={ref} {...props} className="flex flex-wrap">
+function List({ children, ...props }) {
+  return (
+    <div {...props} className="flex flex-wrap">
       {children}
     </div>
-  )),
-  Item: ({ children, ...props }) => (
+  )
+}
+
+function Item({ children, ...props }) {
+  return (
     <div {...props} className="flex justify-center p-1 w-1/4">
       {children}
     </div>
-  ),
+  )
+}
+const gridComponents = {
+  List: forwardRef(List(props), ref),
+  Item,
 }
 
-const ImageWrapper = ({ children, ...props }) => (
-  <div
-    {...props}
-    className="w-full relative overflow-hidden bg-mo-bg pt-[100%]"
-  >
-    <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
-      {children}
+function ImageWrapper({ children, ...props }) {
+  return (
+    <div
+      {...props}
+      className="w-full relative overflow-hidden bg-mo-bg pt-[100%]"
+    >
+      <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+        {children}
+      </div>
     </div>
-  </div>
-)
-
+  )
+}
 export function MediaAddGallery({ onSubmit, multiple = false, close }) {
   const [selected, setSelected] = useState([])
   const { data, loading } = useFetch({

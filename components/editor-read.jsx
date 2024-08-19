@@ -27,7 +27,7 @@ export function EditorRead({ value = undefined, inText = false }) {
       }
       ref.current.innerHTML = html
     })
-  }, [editor, value])
+  }, [editor, inText, value])
   // ==== RENDER ========================================
 
   if (!editor) return null

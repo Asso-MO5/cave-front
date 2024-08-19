@@ -40,9 +40,7 @@ export function Item({ item }) {
 
           const keys = Object.keys(partial)
 
-          if (partial.cover) {
-            form.append('cover', partial.cover)
-          }
+          if (partial.cover) form.append('cover', partial.cover)
 
           if (keys.includes('name')) form.append('name', partial.name)
 
