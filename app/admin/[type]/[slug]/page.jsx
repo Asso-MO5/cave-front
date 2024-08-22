@@ -1,7 +1,5 @@
 import { auth } from '@/auth'
 import { Item } from '@/components/item'
-import { ItemCover } from '@/components/item-cover'
-import { ItemName } from '@/components/item-name'
 import { PageList } from '@/layouts/page-list'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
 
@@ -18,7 +16,7 @@ export default async function MachineDetails({ params: { slug, type } }) {
 
   if (!item) return <div>{ITEM_TYPE_TITLE[type]} non trouvée</div>
   return (
-    <PageList title={ITEM_TYPE_TITLE[type]} actions={<></>}>
+    <PageList>
       <Item item={item} />
     </PageList>
   )

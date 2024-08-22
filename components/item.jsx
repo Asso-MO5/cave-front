@@ -8,8 +8,9 @@ import { ItemReleaseYear } from './item-release-year'
 import { ItemDescription } from './item-description'
 import { ItemCompany } from './item-company'
 import { toast } from 'react-toastify'
-import { useParams } from 'next/navigation'
-import { MediaAdd } from './media-add'
+import { useParams, useRouter } from 'next/navigation'
+import { ITEM_TYPE, ITEM_TYPE_TITLE } from '@/utils/constants'
+import { GameMachineSelector } from './game-machine-selector'
 
 const companies = {
   machine: ['manufacturer'],
@@ -30,15 +31,32 @@ export function useItem() {
 
 export function Item({ item }) {
   const { type } = useParams()
+  const { push } = useRouter()
 
   return (
     <Provider
       ctx={{
         item,
         async update(partial) {
+          const controller = new AbortController()
+          const signal = controller.signal
           const form = new FormData()
-
           const keys = Object.keys(partial)
+
+          if (partial.machineId) {
+            const res = await fetcher.put(
+              '/machine/' + partial.machineId + '/game/' + item.id,
+              signal
+            )
+
+            if (res.status > 201) toast.error('Erreur lors de la mise à jour')
+
+            const resJson = await res.json()
+
+            if (resJson.slug && resJson.id !== item.id)
+              return push('/admin/game/' + resJson.slug)
+            if (resJson.slug === item.slug) return window.location.reload()
+          }
 
           if (partial.cover) form.append('cover', partial.cover)
 
@@ -62,25 +80,26 @@ export function Item({ item }) {
             form.append('company_relation_type', partial.company.relation_type)
           }
 
-          const controller = new AbortController()
-          const signal = controller.signal
           const res = await fetcher.put('/items/' + item.id, signal, form)
           if (res.status > 201) toast.error('Erreur lors de la mise à jour')
         },
       }}
     >
-      <div className="flex flex-col-reverse sm:grid sm:grid-cols-[3fr_2fr] w-full m-auto">
+      <div className="flex flex-col sm:grid sm:grid-cols-[4fr_1fr] w-full m-auto">
         <div className="flex flex-col gap-4">
-          <div className="hidden sm:block">
-            <ItemName />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="text-xs p-1 rounded-sm text-mo-white bg-mo-primary">
+                {ITEM_TYPE_TITLE[type]}
+              </div>
+              <ItemName />
+            </div>
+            {type === 'game' && <GameMachineSelector />}
           </div>
           <ItemDescription />
         </div>
 
         <div className="flex flex-col">
-          <div className="sm:hidden">
-            <ItemName />
-          </div>
           <ItemCover />
           <ItemReleaseYear />
           {companies[type].map((company) => (

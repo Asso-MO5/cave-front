@@ -4,18 +4,25 @@ import { Avatar } from './avatar'
 import { dc } from '@/utils/dynamic-classes'
 import { Transition } from '@headlessui/react'
 import { useLocalState } from '@/hooks/useLocalState'
+import { usePathname } from 'next/navigation'
 
 const MENU = [
   {
     name: 'Fiches expos',
     entries: [
-      { name: 'Machines', href: '/admin/machines' },
-      { name: 'Jeux', href: '/admin/games' },
+      { name: 'Machines', href: '/admin/machines', regex: /machine|machines/ },
+      { name: 'Jeux', href: '/admin/games', regex: /game|games/ },
+      /* {
+        name: 'Compagnies',
+        href: '/admin/companies',
+        regex: /company|companies/,
+      }, */
     ],
   },
 ]
 
 export function Panel({ session }) {
+  const pathname = usePathname()
   // ====== STATES ========================================
   const [{ open }, setOpen] = useLocalState('panel', {
     open: false,
@@ -70,7 +77,17 @@ export function Panel({ session }) {
                     <li key={entry.name}>
                       <a
                         href={entry.href}
-                        className="text-mo-primary text-sm hover:text-mo-secondary"
+                        className={dc(
+                          'block text-sm hover:text-mo-secondary aria-current:text-mo-secondary pl-1 border-l-4',
+                          [
+                            entry.regex.test(pathname),
+                            'border-mo-primary text-mo-primary',
+                            ' border-transparent',
+                          ]
+                        )}
+                        aria-current={
+                          entry.regex.test(pathname) ? 'page' : null
+                        }
                       >
                         {entry.name}
                       </a>
