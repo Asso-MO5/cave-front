@@ -16,7 +16,7 @@ export default async function MachineDetails({ params: { slug, type } }) {
 
   if (!item) return <div>{ITEM_TYPE_TITLE[type]} non trouvée</div>
   return (
-    <PageList>
+    <PageList session={session}>
       <Item item={item} session={session} />
     </PageList>
   )

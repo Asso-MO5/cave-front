@@ -7,8 +7,11 @@ import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { fetcher } from '@/utils/fetcher'
 import { useRouter } from 'next/navigation'
+import { useCheckRoles } from '@/hooks/useCheckRoles'
+import { ROLES } from '@/utils/constants'
 
 export function ItemAddForm({ title, type }) {
+  const canCreate = useCheckRoles([ROLES.admin, ROLES.publisher])
   // ===== HOOKS ================================================
   const router = useRouter()
   // ===== REFS ================================================
@@ -78,6 +81,7 @@ export function ItemAddForm({ title, type }) {
   }
 
   // ===== RENDER ============================================
+  if (!canCreate) return null
   return (
     <Modal
       title={title}
