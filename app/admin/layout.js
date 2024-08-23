@@ -4,9 +4,9 @@ import '@blocknote/mantine/style.css'
 import '../globals.css'
 import { fjallaOne, openSans } from '@/utils/fonts'
 import { redirect } from 'next/navigation'
-import { Panel } from '@/components/Panel'
 import { ToastProvider } from '@/ui/ToastProvider'
 import { SetCookie } from '@/components/SetCookie'
+import { Panel } from '@/components/Panel'
 
 export const metadata = {
   title: 'Cave MO5',
