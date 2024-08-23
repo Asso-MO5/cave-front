@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --bn-colors-side-menu: #4088cf !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-color: theme('colors.mo.primary') transparent;
+  scrollbar-width: thin;
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme('colors.mo.primary');
+  transition: 200ms ease-in-out;
+}
+
+@layer base {
+  body {
+    @apply bg-mo-bg font-primary;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-mo-primary font-secondary;
+  }
+
+  input {
+    @apply bg-white border border-transparent focus:border-mo-primary transition p-1 rounded-sm outline-none;
+  }
+
+  label {
+    @apply text-mo-primary font-bold text-sm;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply text-mo-bg bg-mo-primary px-2 py-1 rounded-sm;
+  }
+
+  .btn-cancel {
+    @apply text-mo-bg bg-mo-secondary px-2 py-1 rounded-sm;
+  }
+}
+
+:disabled {
+  @apply opacity-50;
+}
+
+.bn-editor {
+  @apply bg-transparent border border-transparent focus:border-black/10 transition  outline-none text-mo-primary;
+}
+
+.bn-side-menu .mantine-UnstyledButton-root:not(.mantine-Menu-item) svg,
+.bn-inline-content:has(> .ProseMirror-trailingBreak):before {
+  color: rgba(0, 0, 0, 0.5);
+}
