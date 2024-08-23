@@ -1,9 +1,9 @@
 import { PageList } from '@/layouts/page-list'
 import dynamic from 'next/dynamic'
-import { GamesTable } from '@/components/games-table'
+import { GamesTable } from '@/components/GamesTable'
 
 const ItemAddForm = dynamic(
-  () => import('../../../components/item-add-form').then((c) => c.ItemAddForm),
+  () => import('../../../components/ItemAddForm').then((c) => c.ItemAddForm),
   {
     ssr: false,
   }

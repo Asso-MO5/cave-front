@@ -1,7 +1,7 @@
 'use client'
 
-import { useItem } from './item'
-import { MediaAdd } from './media-add'
+import { useItem } from './Item'
+import { MediaAdd } from './MediaAdd'
 
 export function ItemCover() {
   const { item, update } = useItem()

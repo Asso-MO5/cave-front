@@ -7,7 +7,7 @@ import {
   TransitionChild,
 } from '@headlessui/react'
 import { Fragment, useState } from 'react'
-import { Button } from './button'
+import { Button } from './Button'
 import { dc } from '@/utils/dynamic-classes'
 
 export function Modal({

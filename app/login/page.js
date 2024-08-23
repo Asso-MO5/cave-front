@@ -1,6 +1,5 @@
-import { LoginButton } from '@/components/login-button'
-
 import { auth } from '@/auth'
+import { LoginButton } from '@/components/LoginButton'
 import { redirect } from 'next/navigation'
 export const runtime = 'edge'
 

@@ -19,3 +19,10 @@ export const ACTIVITIES_COMPANY = {
   other: 'Autre',
   association: 'Association',
 }
+
+export const ROLES = {
+  member: 'Membres MO5',
+  admin: 'Master Control Program',
+  reviewer: 'reviewer',
+  publisher: 'publisher',
+}

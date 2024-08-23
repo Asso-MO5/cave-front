@@ -2,14 +2,14 @@
 import { useRef, useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
-import { Fieldset } from './fieldset'
+import { Fieldset } from './Fieldset'
 import { useParams, useRouter } from 'next/navigation'
 import { fetcher } from '@/utils/fetcher'
 import { TrashIcon } from '@/ui/icon/trash'
-import { CompanySelector } from './company-selector'
+import { CompanySelector } from './CompanySelector'
 import { dc } from '@/utils/dynamic-classes'
 
-const Editor = dynamic(() => import('./editor').then((c) => c.Editor), {
+const Editor = dynamic(() => import('./Editor').then((c) => c.Editor), {
   ssr: false,
 })
 

@@ -1,10 +1,17 @@
 'use client'
-import { HamburgerIcon } from '@/ui/icon/hamburger'
-import { Avatar } from './avatar'
+import { HamburgerIconIcon } from '@/ui/icon/HamburgerIcon'
+import { Avatar } from './Avatar'
 import { dc } from '@/utils/dynamic-classes'
-import { Transition } from '@headlessui/react'
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from '@headlessui/react'
 import { useLocalState } from '@/hooks/useLocalState'
 import { usePathname } from 'next/navigation'
+import { decimalToHex } from '@/utils/decimalToHex'
 
 const MENU = [
   {
@@ -45,7 +52,7 @@ export function Panel({ session }) {
         className="fill-mo-primary absolute top-3 left-1 opacity-100 z-[900]"
         onClick={handleToogle}
       >
-        <HamburgerIcon />
+        <HamburgerIconIcon />
       </button>
       <Transition
         show={open}
@@ -100,12 +107,32 @@ export function Panel({ session }) {
 
           <div className="flex flex-col gap-3">
             <img src="/logo_blue.webp" alt="logo" className="w-10 m-auto" />
-            <Avatar
-              src={session.user.image}
-              alt="avatar"
-              size={24}
-              nickname={session.user.name}
-            />
+            <Menu>
+              <MenuButton>
+                <Avatar
+                  src={session.user.image}
+                  alt="avatar"
+                  size={24}
+                  nickname={session.user.name}
+                />
+              </MenuButton>
+              <MenuItems
+                anchor="top"
+                className="mx-2 -mb-4 bg-mo-white p-2 rounded border border-base flex flex-col gap-1"
+              >
+                {session.user.roles.map((role) => (
+                  <MenuItem key={role.name}>
+                    <div className={dc('text-xs flex gap-1 items-center')}>
+                      <div
+                        className={`rounded-full w-2 h-2`}
+                        style={{ backgroundColor: decimalToHex(role.color) }}
+                      />
+                      {role.name}
+                    </div>
+                  </MenuItem>
+                ))}
+              </MenuItems>
+            </Menu>
           </div>
         </div>
       </Transition>

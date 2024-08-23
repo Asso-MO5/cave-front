@@ -1,11 +1,11 @@
 'use client'
-import { ReadAndEdit } from '@/ui/read-and-edit'
-import { useItem } from './item'
+import { ReadAndEdit } from '@/ui/ReadAndEdit'
+import { useItem } from './Item'
 import { ACTIVITIES_COMPANY } from '@/utils/constants'
-import { Fieldset } from './fieldset'
-import { CompanySelector } from './company-selector'
+import { Fieldset } from './Fieldset'
+import { CompanySelector } from './CompanySelector'
 import { useState } from 'react'
-import { Button } from '@/ui/button'
+import { Button } from '@/ui/Button'
 
 export function ItemCompany({ type = 'manufacturer' }) {
   const { item, update } = useItem()

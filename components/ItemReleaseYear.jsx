@@ -1,9 +1,9 @@
 'use client'
-import { Button } from '@/ui/button'
-import { useItem } from './item'
-import { ReadAndEdit } from '@/ui/read-and-edit'
+import { Button } from '@/ui/Button'
+import { useItem } from './Item'
+import { ReadAndEdit } from '@/ui/ReadAndEdit'
 import { useRef, useState } from 'react'
-import { Fieldset } from './fieldset'
+import { Fieldset } from './Fieldset'
 
 export function ItemReleaseYear() {
   const { item, update } = useItem()

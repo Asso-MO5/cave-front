@@ -1,7 +1,7 @@
 'use client'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useFetch } from '@/hooks/useFetch'
-import { ChevronDownIcon } from '@/ui/icon/chevron-down'
+import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
 import { dc } from '@/utils/dynamic-classes'
 
 import {

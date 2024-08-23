@@ -3,7 +3,7 @@ import { forwardRef, useState } from 'react'
 import { useFetch } from '@/hooks/useFetch'
 import { VirtuosoGrid } from 'react-virtuoso'
 import { dc } from '@/utils/dynamic-classes'
-import { Button } from '@/ui/button'
+import { Button } from '@/ui/Button'
 
 function Item({ children, ...props }) {
   return (

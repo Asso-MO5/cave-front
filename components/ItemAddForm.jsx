@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@/ui/button'
-import { Modal } from '@/ui/modal'
-import { Fieldset } from './fieldset'
+import { Button } from '@/ui/Button'
+import { Modal } from '@/ui/Modal'
+import { Fieldset } from './Fieldset'
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { fetcher } from '@/utils/fetcher'

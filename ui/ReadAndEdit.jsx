@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { EditIcon } from './icon/edit'
+import { EditIcon } from './icon/EditIcon'
 import { dc } from '@/utils/dynamic-classes'
 
 export function ReadAndEdit({ read, edit }) {

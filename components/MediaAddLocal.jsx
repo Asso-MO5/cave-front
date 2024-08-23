@@ -1,6 +1,6 @@
-import { Button } from '@/ui/button'
-import { TrashIcon } from '@/ui/icon/trash'
-import { Modal } from '@/ui/modal'
+import { Button } from '@/ui/Button'
+import { TrashIcon } from '@/ui/icon/TrashIcon'
+import { Modal } from '@/ui/Modal'
 import { dc } from '@/utils/dynamic-classes'
 import { useState } from 'react'
 

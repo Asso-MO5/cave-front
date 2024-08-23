@@ -1,9 +1,9 @@
-import { ReadAndEdit } from '@/ui/read-and-edit'
-import { Tabs } from '@/ui/tabs'
+import { ReadAndEdit } from '@/ui/ReadAndEdit'
+import { Tabs } from '@/ui/Tabs'
 import { useState } from 'react'
-import { DistantMedia } from './media-add-distant'
-import { MediaAddLocal } from './media-add-local'
-import { MediaAddGallery } from './media-add-gallery'
+import { DistantMedia } from './DistantMedia'
+import { MediaAddLocal } from './MediaAddLocal'
+import { MediaAddGallery } from './MediaAddGallery'
 
 export function MediaAdd({
   update,

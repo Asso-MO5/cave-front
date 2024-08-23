@@ -3,7 +3,7 @@
  * @description Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc.
  */
 
-export function HamburgerIcon({ className }) {
+export function HamburgerIconIcon({ className }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

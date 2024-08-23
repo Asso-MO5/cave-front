@@ -1,17 +1,17 @@
 'use client'
-import { Button } from '@/ui/button'
-import { useItem } from './item'
-import { ReadAndEdit } from '@/ui/read-and-edit'
+import { Button } from '@/ui/Button'
+import { useItem } from './Item'
+import { ReadAndEdit } from '@/ui/ReadAndEdit'
 import { Suspense, useRef, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 
-const Editor = dynamic(() => import('./editor').then((c) => c.Editor), {
+const Editor = dynamic(() => import('./Editor').then((c) => c.Editor), {
   ssr: false,
 })
 
 const EditorRead = dynamic(
-  () => import('./editor-read').then((c) => c.EditorRead),
+  () => import('./EditorRead').then((c) => c.EditorRead),
   {
     ssr: false,
   }

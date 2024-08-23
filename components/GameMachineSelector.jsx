@@ -1,15 +1,15 @@
 'use client'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useFetch } from '@/hooks/useFetch'
-import { ChevronDownIcon } from '@/ui/icon/chevron-down'
+import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
 import { dc } from '@/utils/dynamic-classes'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
 import { useEffect, useRef, useState } from 'react'
-import { useItem } from './item'
-import { Modal } from '@/ui/modal'
+import { useItem } from './Item'
+import { Modal } from '@/ui/Modal'
 
-export function GameMachineSelector({ itemId }) {
+export function GameMachineSelector() {
   const { item, update } = useItem()
   const listRef = useRef(null)
   const [query, setQuery] = useState('')
