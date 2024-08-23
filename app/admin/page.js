@@ -7,11 +7,9 @@ export default async function Admin() {
           table de création de listes (expo à venir, jeux à tester, jeux à
           acheter, etc)
         </li>
-        <li>Tableau des fiches de jeux & machines</li>
-        <li>details des fiches de jeux & machines</li>
-        <li>
-          formulaire de création / modification de fiches de jeux & machines
-        </li>
+        <li>Création de liste</li>
+        <li>Bibliothèque de médias</li>
+        <li>Ajout de médias sur les fiches</li>
 
         <li>fiche public de jeux & machines</li>
         <li>version imprimable des fiches de jeux & machines</li>

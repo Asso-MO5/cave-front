@@ -4,7 +4,7 @@ import NextTopLoader from 'nextjs-toploader'
 
 export const metadata = {
   title: 'Cave MO5',
-  description: 'Appi de gestion',
+  description: 'Appli de gestion',
 }
 
 export default function RootLayout({ children }) {
