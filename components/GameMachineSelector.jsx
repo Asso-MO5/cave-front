@@ -5,13 +5,12 @@ import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
 import { dc } from '@/utils/dynamic-classes'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useItem } from './Item'
 import { Modal } from '@/ui/Modal'
 
 export function GameMachineSelector() {
   const { item, update } = useItem()
-  const listRef = useRef(null)
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebounce(query, 500)
 
@@ -27,7 +26,7 @@ export function GameMachineSelector() {
     },
   })
 
-  const { refetch: mutation, data: dataMutation } = useFetch({
+  const { refetch: mutation } = useFetch({
     url: '/companies',
     method: 'post',
     enabled: false,
@@ -45,18 +44,6 @@ export function GameMachineSelector() {
   const handleSelect = (machineId) => {
     update({ machineId })
   }
-
-  useEffect(() => {
-    if (data) {
-      // TODO redirect
-    }
-  }, [data])
-
-  useEffect(() => {
-    if (dataMutation?.id) {
-      // TODO redirect
-    }
-  }, [dataMutation])
 
   return (
     <Menu>

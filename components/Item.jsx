@@ -13,6 +13,8 @@ import { ITEM_TYPE_TITLE } from '@/utils/constants'
 import { GameMachineSelector } from './GameMachineSelector'
 import { SessionProvider } from './SessionProvider'
 import { ItemState } from './ItemState'
+import { cave } from '@/utils/cave'
+import { API } from '@/api/api'
 
 const companies = {
   machine: ['manufacturer'],
@@ -46,6 +48,19 @@ export function Item({ item, session }) {
             const form = new FormData()
             const keys = Object.keys(partial)
 
+            // -----|| Update status ||-----
+            if (keys.includes('status')) {
+              const res = await cave(API.item_status, {
+                method: 'put',
+                params: { status: partial.status, id: item.id },
+              })
+              const resJson = await res.json()
+              if (resJson.status !== partial.status)
+                return toast.error('Erreur lors de la mise à jour du status')
+              return
+            }
+            // --------------------------
+
             if (partial.machineId) {
               const res = await fetcher.put(
                 '/machine/' + partial.machineId + '/game/' + item.id,
@@ -63,7 +78,6 @@ export function Item({ item, session }) {
 
             if (partial.cover) form.append('cover', partial.cover)
 
-            if (keys.includes('status')) form.append('status', partial.status)
             if (keys.includes('name')) form.append('name', partial.name)
 
             if (keys.includes('cover_id'))

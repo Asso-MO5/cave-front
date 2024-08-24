@@ -1,13 +1,13 @@
 'use client'
 
-import { useFetch } from '@/hooks/useFetch'
+import { API } from '@/api/api'
+import { useCave } from '@/hooks/useCave'
 import { useRouter } from 'next/navigation'
 
 export function GamesTable() {
   const { push } = useRouter()
-  const { data, error, loading } = useFetch({
-    url: '/items',
-    params: {
+  const { data, error, loading } = useCave(API.items, {
+    query: {
       limit: 100000,
       type: 'game',
     },

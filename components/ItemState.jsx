@@ -1,16 +1,11 @@
 import { dc } from '@/utils/dynamic-classes'
 import { useItem } from './Item'
 import { useState } from 'react'
-import { useCheckRoles } from '@/hooks/useCheckRoles'
-import { ROLES } from '@/utils/constants'
+import { API } from '@/api/api'
+import { useCheckProfiles } from '@/hooks/useCheckProfile'
 
 export function ItemState() {
-  const canChangeStatus = useCheckRoles([
-    ROLES.reviewer,
-    ROLES.publisher,
-    ROLES.admin,
-  ])
-  const canPubslih = useCheckRoles([ROLES.publisher, ROLES.admin])
+  const canPublish = useCheckProfiles(API.item_status, 'put')
   const { item, update } = useItem()
   const [status, setStatus] = useState(item.status)
 
@@ -32,7 +27,7 @@ export function ItemState() {
           'bg-mo-primary text-mo-white disabled:opacity-100 cursor-not-allowed',
           'text-mo-primary cursor-pointer disabled:cursor-not-allowed',
         ])}
-        disabled={!canChangeStatus}
+        disabled={!canPublish}
       >
         Brouillon
       </button>
@@ -43,7 +38,7 @@ export function ItemState() {
           'bg-mo-warning text-mo-white disabled:opacity-100 cursor-not-allowed',
           'text-mo-warning  cursor-pointer disabled:cursor-not-allowed',
         ])}
-        disabled={!canChangeStatus}
+        disabled={!canPublish}
       >
         En relecture
       </button>
@@ -54,7 +49,7 @@ export function ItemState() {
           'bg-mo-valid text-mo-white disabled:opacity-100 cursor-not-allowed',
           'text-mo-valid  cursor-pointer disabled:cursor-not-allowed',
         ])}
-        disabled={!canPubslih}
+        disabled={!canPublish}
       >
         Publié
       </button>
