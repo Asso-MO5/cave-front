@@ -1,9 +1,10 @@
 'use client'
 import { forwardRef, useState } from 'react'
-import { useFetch } from '@/hooks/useFetch'
 import { VirtuosoGrid } from 'react-virtuoso'
 import { dc } from '@/utils/dynamic-classes'
 import { Button } from '@/ui/Button'
+import { useCave } from '@/hooks/useCave'
+import { API } from '@/api/api'
 
 function Item({ children, ...props }) {
   return (
@@ -37,9 +38,7 @@ function ImageWrapper({ children, ...props }) {
 }
 export function MediaAddGallery({ onSubmit, multiple = false, close }) {
   const [selected, setSelected] = useState([])
-  const { data, loading } = useFetch({
-    url: '/medias/light',
-  })
+  const { data, loading } = useCave(API.medias_light)
 
   const handleSelect = (index) => {
     if (multiple) {

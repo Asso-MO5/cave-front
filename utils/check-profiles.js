@@ -1,6 +1,7 @@
 import { API } from '../api/api.js'
 
 const getRoles = (path, method) => {
+  return []
   return Object.keys(API).reduce((acc, key) => {
     if (API[key].path === path) {
       acc = API[key][method].roles

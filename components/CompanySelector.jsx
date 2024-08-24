@@ -1,4 +1,6 @@
 'use client'
+
+import { GetGameSlugService } from '@/api/GetGameSlugService'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useFetch } from '@/hooks/useFetch'
 import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
@@ -13,6 +15,9 @@ import {
 } from '@headlessui/react'
 
 import { useEffect, useRef, useState } from 'react'
+
+const te = new GetGameSlugService()
+te.verb
 
 export function CompanySelector({
   defaultValue = {

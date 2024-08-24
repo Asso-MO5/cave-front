@@ -9,10 +9,15 @@ export default async function MachineDetails({ params: { slug, type } }) {
   const session = await auth()
   const signal = new AbortController().signal
 
-  const item = await caveSSR(API.item, { signal, params: { slug } }).then(
-    (res) => res.json()
-  )
+  const item = await caveSSR(
+    { path: '/game/{slug}' },
+    {
+      signal,
+      params: { slug },
+    }
+  ).then((res) => res.json())
 
+  console.log('ITEM :', item)
   if (!item) return <div>{ITEM_TYPE_TITLE[type]} non trouvée</div>
   return (
     <PageList session={session}>

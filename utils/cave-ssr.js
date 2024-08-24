@@ -7,7 +7,6 @@ export async function caveSSR(action, config) {
     (_, key) => config?.params?.[key] || key
   )
 
-  console.log('url', action.path, url)
   const method = config?.method || 'get'
 
   const params = new URLSearchParams()
