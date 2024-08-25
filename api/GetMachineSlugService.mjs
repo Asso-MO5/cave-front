@@ -1,6 +1,6 @@
 
     import { ApiService } from './utils/ApiService';
-    import { Machine } from './Machine.js';
+    import { Machine } from './Machine.mjs';
 
     /**
      * Récupère une machine par son slug

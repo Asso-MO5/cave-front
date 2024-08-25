@@ -1,13 +1,12 @@
 import { BaseModel } from './utils/BaseModel'
 
-import { MachineInGame } from './MachineInGame.js';
-import { Company } from './Company.js';
-import { medias } from './medias.js';
+import { Company } from './Company.mjs';
+import { Model4 } from './Model4.mjs';
 /**
- * @class Game
- * @description Classe représentant une réponse de type Game.
+ * @class Model5
+ * @description Classe représentant une réponse de type Model5.
  */
-export class Game extends BaseModel {
+export class Model5 extends BaseModel {
   /**
    * @param {string} id
    * @param {string} name
@@ -21,11 +20,8 @@ export class Game extends BaseModel {
    * @param {string} status
    * @param {string} created_at
    * @param {string} updated_at
-   * @param {string} ref_id
-   * @param {MachineInGame} machine
-   * @param {Company} developer
-   * @param {Company} publisher
-   * @param {medias} medias
+   * @param {Company} manufacturer
+   * @param {Model4} medias
    */
   constructor(props = {}) {
 super(props);
@@ -53,16 +49,10 @@ super(props);
     this.created_at = props.created_at || null;
     /** @type {string} */
     this.updated_at = props.updated_at || null;
-    /** @type {string} */
-    this.ref_id = props.ref_id || null;
-    /** @type {MachineInGame} */
-    this.machine = new MachineInGame(machine);
     /** @type {Company} */
-    this.developer = new Company(developer);
-    /** @type {Company} */
-    this.publisher = new Company(publisher);
-    /** @type {medias} */
-    this.medias = new medias(medias);
+    this.manufacturer = new Company(manufacturer);
+    /** @type {Model4} */
+    this.medias = new Model4(medias);
   }
 
   /** @type {string} */
@@ -149,38 +139,17 @@ super(props);
     this._updated_at = value;
   }
 
-  /** @type {string} */
-  get ref_id() { return this._ref_id; }
-  set ref_id(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for ref_id');
-    this._ref_id = value;
-  }
-
-  /** @type {MachineInGame} */
-  get machine() { return this._machine; }
-  set machine(value) {
-    if (!(value instanceof MachineInGame && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of MachineInGame for machine');
-    this._machine = value;
-  }
-
   /** @type {Company} */
-  get developer() { return this._developer; }
-  set developer(value) {
-    if (!(value instanceof Company && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Company for developer');
-    this._developer = value;
+  get manufacturer() { return this._manufacturer; }
+  set manufacturer(value) {
+    if (!(value instanceof Company && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Company for manufacturer');
+    this._manufacturer = value;
   }
 
-  /** @type {Company} */
-  get publisher() { return this._publisher; }
-  set publisher(value) {
-    if (!(value instanceof Company && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Company for publisher');
-    this._publisher = value;
-  }
-
-  /** @type {medias} */
+  /** @type {Model4} */
   get medias() { return this._medias; }
   set medias(value) {
-    if (!(value instanceof medias && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of medias for medias');
+    if (!(value instanceof Model4 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model4 for medias');
     this._medias = value;
   }
 

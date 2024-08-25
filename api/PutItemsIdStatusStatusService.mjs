@@ -1,6 +1,6 @@
 
     import { ApiService } from './utils/ApiService';
-    import { ItemStatusUpdated } from './ItemStatusUpdated.js';
+    import { ItemStatusUpdated } from './ItemStatusUpdated.mjs';
 
     /**
      * Permet de changer le status d'un item

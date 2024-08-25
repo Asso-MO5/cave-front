@@ -10,7 +10,7 @@ function generateImportsForModels(responses) {
   for (const response of Object.values(responses)) {
     if (response.schema && response.schema.$ref) {
       const modelClass = response.schema.$ref.split('/').pop()
-      imports.add(`import { ${modelClass} } from './${modelClass}.js';`)
+      imports.add(`import { ${modelClass} } from './${modelClass}.mjs';`)
     }
   }
 
@@ -152,7 +152,7 @@ function generateClassFromSwagger(definitionName, definition) {
   const extendsClass = isArray ? definition.items['$ref'].split('/').pop() : ''
 
   let imports = isArray
-    ? `import { ${extendsClass} } from './${extendsClass}.js'\n\n`
+    ? `import { ${extendsClass} } from './${extendsClass}.mjs'\n\n`
     : `import { BaseModel } from './utils/BaseModel'\n\n` // Stocke les imports nécessaires
 
   console.log('Generating class for:', definitionName, definition.type)
@@ -177,13 +177,13 @@ export class ${definitionName} extends ${
       jsdocType = `${refModelName}[]` // Typage pour un tableau de modèles
       // Ajouter l'import nécessaire pour les modèles imbriqués
       if (imports.indexOf(`import { ${refModelName} }`) === -1)
-        imports += `import { ${refModelName} } from './${refModelName}.js';\n`
+        imports += `import { ${refModelName} } from './${refModelName}.mjs';\n`
     } else if (prop.$ref) {
       const refModelName = prop.$ref.split('/').pop()
       jsdocType = refModelName
       // Ajouter l'import nécessaire pour les modèles imbriqués
       if (imports.indexOf(`import { ${refModelName} }`) === -1)
-        imports += `import { ${refModelName} } from './${refModelName}.js';\n`
+        imports += `import { ${refModelName} } from './${refModelName}.mjs';\n`
     }
 
     classDef += `   * @param {${jsdocType}} ${propName}\n`
@@ -285,7 +285,7 @@ function generateServicesFromSwagger(apiJson) {
       )
 
       writeFileSync(
-        path.join(apiFolder, `${className}Service.js`),
+        path.join(apiFolder, `${className}Service.mjs`),
         apiService,
         'utf8'
       )
@@ -311,7 +311,7 @@ async function createApi() {
     for (const [definitionName, definition] of Object.entries(definitions)) {
       const classDef = generateClassFromSwagger(definitionName, definition)
       writeFileSync(
-        path.join(apiFolder, `${definitionName}.js`),
+        path.join(apiFolder, `${definitionName}.mjs`),
         classDef,
         'utf8'
       )

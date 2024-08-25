@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService';
-    import { itemCreated } from './itemCreated.js';
+    import { Model5 } from './Model5.mjs';
 
     /**
-     * Permet de créer un item (jeu, machine, liste...)
-     * @class PostItemsService
-     * @roles reviewer, publisher
+     * Récupère une machine par son id
+     * @class GetMachinesIdService
+     * @roles Membres MO5
      */
-    export class PostItemsService extends ApiService {
+    export class GetMachinesIdService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
-        this.roles = ["reviewer","publisher"];
-        this.verb = 'POST';
-        this.endpoint = '/items';
+        this.roles = ["Membres MO5"];
+        this.verb = 'GET';
+        this.endpoint = '/machines/{id}';
       }
 
       /**
@@ -25,18 +25,18 @@
       }
 
       /**
-       * @description Permet de créer un item (jeu, machine, liste...)
-       * @roles reviewer, publisher
+       * @description Récupère une machine par son id
+       * @roles Membres MO5
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
        *
-       *
-       * @returns { Promise<itemCreated> } - Un modèle de type itemCreated
+       * @param { Object } config.params - Les paramètres de la requête
+       * @param { string } config.params.id - id
+       * @returns { Promise<Model5> } - Un modèle de type Model5
        *
        * @param {string} authorization -  (header)
-   * @param {undefined} body -  (body)
        */
       async execute(config) {
       const{ context } = config
@@ -49,11 +49,11 @@
 
         // Gérer les différentes réponses en fonction des codes de statut
         
-        if (response.status === 201) {
+        if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, itemCreated));
+          return data.map(item => this.bindModel(item, Model5));
         } else {
-          return this.bindModel(data, itemCreated);
+          return this.bindModel(data, Model5);
         }
         }
       

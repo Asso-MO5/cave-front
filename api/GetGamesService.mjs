@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService';
-    import { MachineList } from './MachineList.js';
+    import { GameList } from './GameList.mjs';
 
     /**
-     * Récupère la liste des machines
-     * @class GetMachinesService
+     * Récupère la liste des jeux
+     * @class GetGamesService
      * @roles Membres MO5
      */
-    export class GetMachinesService extends ApiService {
+    export class GetGamesService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
         this.roles = ["Membres MO5"];
         this.verb = 'GET';
-        this.endpoint = '/machines';
+        this.endpoint = '/games';
       }
 
       /**
@@ -25,7 +25,7 @@
       }
 
       /**
-       * @description Récupère la liste des machines
+       * @description Récupère la liste des jeux
        * @roles Membres MO5
        * 
        * @param { Object } config - Les paramètres de la requête
@@ -34,7 +34,7 @@
                * @param { Object } config.query - Les paramètres de la requête
 * @param { string } config.query.limit - limit 
        *
-       * @returns { Promise<MachineList> } - Un modèle de type MachineList
+       * @returns { Promise<GameList> } - Un modèle de type GameList
        *
        * @param {string} authorization -  (header)
    * @param {number} limit -  (query)
@@ -52,9 +52,9 @@
         
         if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, MachineList));
+          return data.map(item => this.bindModel(item, GameList));
         } else {
-          return this.bindModel(data, MachineList);
+          return this.bindModel(data, GameList);
         }
         }
       

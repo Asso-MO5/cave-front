@@ -1,4 +1,4 @@
-import { Model1 } from './Model1.js'
+import { Model1 } from './Model1.mjs'
 
 /**
  * @class medias

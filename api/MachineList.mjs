@@ -1,4 +1,4 @@
-import { MachineForList } from './MachineForList.js'
+import { MachineForList } from './MachineForList.mjs'
 
 /**
  * @class MachineList

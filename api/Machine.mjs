@@ -1,7 +1,7 @@
 import { BaseModel } from './utils/BaseModel'
 
-import { Company } from './Company.js';
-import { Model3 } from './Model3.js';
+import { Company } from './Company.mjs';
+import { Model3 } from './Model3.mjs';
 /**
  * @class Machine
  * @description Classe représentant une réponse de type Machine.

@@ -1,6 +1,6 @@
 
     import { ApiService } from './utils/ApiService';
-    import { Game } from './Game.js';
+    import { Game } from './Game.mjs';
 
     /**
      * Récupère un jeu par son slug

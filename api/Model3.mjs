@@ -1,4 +1,4 @@
-import { Model2 } from './Model2.js'
+import { Model2 } from './Model2.mjs'
 
 /**
  * @class Model3

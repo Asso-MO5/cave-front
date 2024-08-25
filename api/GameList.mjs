@@ -1,4 +1,4 @@
-import { GameForList } from './GameForList.js'
+import { GameForList } from './GameForList.mjs'
 
 /**
  * @class GameList
