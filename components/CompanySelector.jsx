@@ -1,6 +1,6 @@
 'use client'
 
-import { GetGameSlugService } from '@/api/GetGameSlugService'
+import { GetGameSlugService } from '@/_api/GetGameSlugService'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useFetch } from '@/hooks/useFetch'
 import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'

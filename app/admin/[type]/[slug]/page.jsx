@@ -1,5 +1,5 @@
-import { GetGameSlugService } from '@/api/GetGameSlugService'
-import { GetMachineSlugService } from '@/api/GetMachineSlugService'
+import { GetGameSlugService } from '@/_api/GetGameSlugService'
+import { GetMachineSlugService } from '@/_api/GetMachineSlugService'
 import { auth } from '@/auth'
 import { Item } from '@/components/Item'
 import { PageList } from '@/layouts/page-list'

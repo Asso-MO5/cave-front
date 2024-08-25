@@ -14,7 +14,7 @@ import { GameMachineSelector } from './GameMachineSelector'
 import { SessionProvider, useSession } from './SessionProvider'
 import { ItemStatus } from './ItemStatus'
 
-import { PutItemsIdStatusStatusService } from '@/api/PutItemsIdStatusStatusService'
+import { PutItemsIdStatusStatusService } from '@/_api/PutItemsIdStatusStatusService'
 
 const putItemsIdStatusStatusService = new PutItemsIdStatusStatusService()
 

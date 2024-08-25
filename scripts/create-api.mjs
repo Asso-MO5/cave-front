@@ -1,7 +1,7 @@
 import { writeFileSync, mkdirSync, existsSync } from 'fs'
 import path from 'path'
 
-const BASE_FOLDER = 'api'
+const BASE_FOLDER = '_api'
 
 // Fonction utilitaire pour générer les imports des modèles à partir des réponses
 function generateImportsForModels(responses) {

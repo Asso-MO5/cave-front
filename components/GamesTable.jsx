@@ -1,6 +1,6 @@
 'use client'
 
-import { GetGamesService } from '@/api/GetGamesService'
+import { GetGamesService } from '@/_api/GetGamesService'
 import { useApi } from '@/hooks/useApi'
 import { useRouter } from 'next/navigation'
 

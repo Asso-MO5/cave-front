@@ -1,6 +1,6 @@
 'use client'
 
-import { GetMachinesService } from '@/api/GetMachinesService'
+import { GetMachinesService } from '@/_api/GetMachinesService'
 import { useApi } from '@/hooks/useApi'
 import { useRouter } from 'next/navigation'
 
