@@ -1,17 +1,18 @@
 
-    import { ApiService } from './ApiService';
+    import { ApiService } from './utils/ApiService';
     import { Game } from './Game.js';
 
     /**
-     * Récupère jeu par son slug
+     * Récupère un jeu par son slug
      * @class GetGameSlugService
-     * @roles Membres MO5, Master Control Program
+     * @roles Membres MO5
      */
     export class GetGameSlugService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
-        this.roles = ["Membres MO5","Master Control Program"];
+        this.roles = ["Membres MO5"];
         this.verb = 'GET';
+        this.endpoint = '/game/{slug}';
       }
 
       /**
@@ -24,27 +25,36 @@
       }
 
       /**
-       * Récupère jeu par son slug
-       * @roles Membres MO5, Master Control Program
-       * @returns {Promise<Game>} - Un modèle de type Game
+       * @description Récupère un jeu par son slug
+       * @roles Membres MO5
+       * 
+       * @param { Object } config - Les paramètres de la requête
+       * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
+       * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
        *
-   * @param {string} authorization -  (header)
+       * @param { Object } config.params - Les paramètres de la requête
+       * @param { string } config.params.slug - slug
+       * @returns { Promise<Game> } - Un modèle de type Game
+       *
+       * @param {string} authorization -  (header)
        */
-      async execute(queryParams = {}, ssr = false, context = {}) {
-        if (!this.hasAccess(context.userRoles)) {
+      async execute(config) {
+      const{ context } = config
+        if (!this.hasAccess(context.userRoles)) 
           throw new Error('Access denied: insufficient permissions');
-        }
 
-        const queryString = new URLSearchParams(queryParams).toString();
-        const endpoint = `/game/{slug}?${queryString}`;
-        const response = await this.fetchData(endpoint, 'GET', null, {}, ssr, context);
+        const response = await this.fetchData(config);
 
         const data = await response.json();
 
         // Gérer les différentes réponses en fonction des codes de statut
         
         if (response.status === 200) {
+        if(Array.isArray(data)) {
+          return data.map(item => this.bindModel(item, Game));
+        } else {
           return this.bindModel(data, Game);
+        }
         }
       
 

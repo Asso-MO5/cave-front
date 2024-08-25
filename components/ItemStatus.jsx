@@ -1,17 +1,22 @@
 import { dc } from '@/utils/dynamic-classes'
 import { useItem } from './Item'
 import { useState } from 'react'
-import { API } from '@/api/api'
 import { useCheckProfiles } from '@/hooks/useCheckProfile'
 
-export function ItemState() {
-  const canPublish = useCheckProfiles(API.item_status, 'put')
+/**
+ *
+ * @param { props } props
+ * @param { string[] } props.rolesCanEdit - Roles that can edit the item
+ * @returns
+ */
+export function ItemStatus({ rolesCanEdit }) {
+  const canPublish = useCheckProfiles(rolesCanEdit, 'put')
   const { item, update } = useItem()
   const [status, setStatus] = useState(item.status)
 
   const handleStatus = async (newStatus) => {
     if (status === newStatus) return
-    update({ status }).catch((e) => {
+    update({ status: newStatus }).catch((e) => {
       console.error(e)
       setStatus(item.status)
     })

@@ -16,9 +16,7 @@ export default async function Games() {
     <PageList
       title="Jeux"
       session={session}
-      actions={
-        <ItemAddForm title="Ajouter un jeu" type="game" session={session} />
-      }
+      actions={<ItemAddForm title="Ajouter un jeu" type="game" />}
     >
       <GamesTable />
     </PageList>

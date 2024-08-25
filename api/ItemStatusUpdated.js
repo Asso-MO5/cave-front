@@ -1,10 +1,10 @@
 import { BaseModel } from './utils/BaseModel'
 
 /**
- * @class Item
- * @description Classe représentant une réponse de type Item.
+ * @class ItemStatusUpdated
+ * @description Classe représentant une réponse de type ItemStatusUpdated.
  */
-export class Item extends BaseModel {
+export class ItemStatusUpdated extends BaseModel {
   /**
    * @param {string} id
    * @param {string} name
@@ -18,7 +18,6 @@ export class Item extends BaseModel {
    * @param {string} status
    * @param {string} created_at
    * @param {string} updated_at
-   * @param {string} item_ref_id
    */
   constructor(props = {}) {
 super(props);
@@ -46,8 +45,6 @@ super(props);
     this.created_at = props.created_at || null;
     /** @type {string} */
     this.updated_at = props.updated_at || null;
-    /** @type {string} */
-    this.item_ref_id = props.item_ref_id || null;
   }
 
   /** @type {string} */
@@ -132,13 +129,6 @@ super(props);
   set updated_at(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for updated_at');
     this._updated_at = value;
-  }
-
-  /** @type {string} */
-  get item_ref_id() { return this._item_ref_id; }
-  set item_ref_id(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for item_ref_id');
-    this._item_ref_id = value;
   }
 
 }

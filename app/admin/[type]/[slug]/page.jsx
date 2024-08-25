@@ -1,24 +1,32 @@
-import { API } from '@/api/api'
+import { GetGameSlugService } from '@/api/GetGameSlugService'
+import { GetMachineSlugService } from '@/api/GetMachineSlugService'
 import { auth } from '@/auth'
 import { Item } from '@/components/Item'
 import { PageList } from '@/layouts/page-list'
-import { caveSSR } from '@/utils/cave-ssr'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
 
-export default async function MachineDetails({ params: { slug, type } }) {
+const classType = {
+  game: GetGameSlugService,
+  machine: GetMachineSlugService,
+  list: undefined,
+}
+
+export default async function ItemDetails({ params: { slug, type } }) {
   const session = await auth()
-  const signal = new AbortController().signal
 
-  const item = await caveSSR(
-    { path: '/game/{slug}' },
-    {
-      signal,
-      params: { slug },
-    }
-  ).then((res) => res.json())
+  const entity = new classType[type]()
 
-  console.log('ITEM :', item)
-  if (!item) return <div>{ITEM_TYPE_TITLE[type]} non trouvée</div>
+  if (!entity) return <div>{ITEM_TYPE_TITLE[type]} non trouvée</div>
+
+  const item = await entity.execute({
+    params: { slug },
+    context: {
+      userRoles: session.user.roles.map((role) => role.name),
+      api_token: session.api_token,
+    },
+  })
+
+  if (!item.id) return <div>{ITEM_TYPE_TITLE[type]} non trouvée</div>
   return (
     <PageList session={session}>
       <Item item={item} session={session} />

@@ -1,10 +1,10 @@
 import { BaseModel } from './utils/BaseModel'
 
 /**
- * @class Item
- * @description Classe représentant une réponse de type Item.
+ * @class MachineInGame
+ * @description Classe représentant une réponse de type MachineInGame.
  */
-export class Item extends BaseModel {
+export class MachineInGame extends BaseModel {
   /**
    * @param {string} id
    * @param {string} name

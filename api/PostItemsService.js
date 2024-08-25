@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService';
-    import { ItemStatusUpdated } from './ItemStatusUpdated.js';
+    import { itemCreated } from './itemCreated.js';
 
     /**
-     * Permet de changer le status d'un item
-     * @class PutItemsIdStatusStatusService
-     * @roles reviewer
+     * Permet de créer un item (jeu, machine, liste...)
+     * @class PostItemsService
+     * @roles reviewer, publisher
      */
-    export class PutItemsIdStatusStatusService extends ApiService {
+    export class PostItemsService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
-        this.roles = ["reviewer"];
-        this.verb = 'PUT';
-        this.endpoint = '/items/{id}/status/{status}';
+        this.roles = ["reviewer","publisher"];
+        this.verb = 'POST';
+        this.endpoint = '/items';
       }
 
       /**
@@ -25,17 +25,15 @@
       }
 
       /**
-       * @description Permet de changer le status d'un item
-       * @roles reviewer
+       * @description Permet de créer un item (jeu, machine, liste...)
+       * @roles reviewer, publisher
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
        *
-       * @param { Object } config.params - Les paramètres de la requête
-       * @param { string } config.params.id - id
-       * @param { string } config.params.status - status
-       * @returns { Promise<ItemStatusUpdated> } - Un modèle de type ItemStatusUpdated
+       *
+       * @returns { Promise<itemCreated> } - Un modèle de type itemCreated
        *
        * @param {string} authorization -  (header)
    * @param {undefined} body -  (body)
@@ -53,9 +51,9 @@
         
         if (response.status === 201) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, ItemStatusUpdated));
+          return data.map(item => this.bindModel(item, itemCreated));
         } else {
-          return this.bindModel(data, ItemStatusUpdated);
+          return this.bindModel(data, itemCreated);
         }
         }
       

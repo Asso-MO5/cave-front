@@ -1,14 +1,14 @@
 'use client'
-import { API } from '@/api/api'
-import { useCave } from '@/hooks/useCave'
+
+import { GetMachinesService } from '@/api/GetMachinesService'
+import { useApi } from '@/hooks/useApi'
 import { useRouter } from 'next/navigation'
 
 export function MachineTable() {
   const { push } = useRouter()
-  const { data, error, loading } = useCave(API.items, {
+  const { data, error, loading } = useApi(GetMachinesService, {
     query: {
       limit: 100000,
-      type: 'machine',
     },
   })
 

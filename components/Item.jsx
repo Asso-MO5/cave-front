@@ -11,10 +11,12 @@ import { toast } from 'react-toastify'
 import { useParams, useRouter } from 'next/navigation'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
 import { GameMachineSelector } from './GameMachineSelector'
-import { SessionProvider } from './SessionProvider'
-import { ItemState } from './ItemState'
-import { cave } from '@/utils/cave'
-import { API } from '@/api/api'
+import { SessionProvider, useSession } from './SessionProvider'
+import { ItemStatus } from './ItemStatus'
+
+import { PutItemsIdStatusStatusService } from '@/api/PutItemsIdStatusStatusService'
+
+const putItemsIdStatusStatusService = new PutItemsIdStatusStatusService()
 
 const companies = {
   machine: ['manufacturer'],
@@ -33,9 +35,12 @@ export function useItem() {
   return ctx
 }
 
-export function Item({ item, session }) {
+export function Item({ item }) {
+  const session = useSession()
   const { type } = useParams()
   const { push } = useRouter()
+
+  console.log('item', item)
 
   return (
     <SessionProvider session={session}>
@@ -50,14 +55,20 @@ export function Item({ item, session }) {
 
             // -----|| Update status ||-----
             if (keys.includes('status')) {
-              const res = await cave(API.item_status, {
-                method: 'put',
-                params: { status: partial.status, id: item.id },
-              })
-              const resJson = await res.json()
-              if (resJson.status !== partial.status)
-                return toast.error('Erreur lors de la mise à jour du status')
-              return
+              const apiStatus = new PutItemsIdStatusStatusService()
+              try {
+                await apiStatus.execute({
+                  params: { status: partial.status, id: item.id },
+                  context: {
+                    userRoles: session?.user.roles.map((r) => r.name) || [],
+                  },
+                })
+              } catch (err) {
+                console.error(err)
+                toast.error('Erreur lors de la mise à jour du status')
+              } finally {
+                return
+              }
             }
             // --------------------------
 
@@ -117,7 +128,7 @@ export function Item({ item, session }) {
               </div>
               {type === 'game' && <GameMachineSelector />}
             </div>
-            <ItemState />
+            <ItemStatus rolesCanEdit={putItemsIdStatusStatusService.roles} />
             <ItemDescription />
           </div>
 

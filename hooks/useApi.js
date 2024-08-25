@@ -1,3 +1,4 @@
+import { useSession } from '@/components/SessionProvider'
 import { useState, useEffect, useCallback } from 'react'
 
 /**
@@ -13,6 +14,7 @@ export function useApi(
   ApiClass,
   { autoFetch = true, params = {}, context = {} } = {}
 ) {
+  const session = useSession()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -20,16 +22,16 @@ export function useApi(
   const apiInstance = new ApiClass()
 
   const fetchData = useCallback(
-    async (fetchParams = params, fetchContext = context) => {
+    async (config) => {
       setLoading(true)
       setError(null)
 
       try {
-        const result = await apiInstance.execute(
-          fetchParams,
-          false,
-          fetchContext
-        )
+        const result = await apiInstance.execute({
+          ...config,
+          context: { userRoles: session?.user.roles.map((r) => r.name) || [] },
+        })
+
         setData(result)
       } catch (err) {
         setError(err)
@@ -37,16 +39,16 @@ export function useApi(
         setLoading(false)
       }
     },
-    [apiInstance, params, context]
+    [params, context]
   )
 
   useEffect(() => {
-    if (apiInstance.httpMethod === 'GET' && autoFetch) fetchData()
+    if (apiInstance.verb === 'GET' && autoFetch) fetchData()
 
     return () => {
-      apiInstance.abort()
+      if (loading) apiInstance.abort()
     }
-  }, [apiInstance, autoFetch, fetchData])
+  }, [])
 
   return {
     data,

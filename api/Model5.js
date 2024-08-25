@@ -1,10 +1,12 @@
 import { BaseModel } from './utils/BaseModel'
 
+import { Company } from './Company.js';
+import { Model4 } from './Model4.js';
 /**
- * @class Item
- * @description Classe représentant une réponse de type Item.
+ * @class Model5
+ * @description Classe représentant une réponse de type Model5.
  */
-export class Item extends BaseModel {
+export class Model5 extends BaseModel {
   /**
    * @param {string} id
    * @param {string} name
@@ -18,7 +20,8 @@ export class Item extends BaseModel {
    * @param {string} status
    * @param {string} created_at
    * @param {string} updated_at
-   * @param {string} item_ref_id
+   * @param {Company} manufacturer
+   * @param {Model4} medias
    */
   constructor(props = {}) {
 super(props);
@@ -46,8 +49,10 @@ super(props);
     this.created_at = props.created_at || null;
     /** @type {string} */
     this.updated_at = props.updated_at || null;
-    /** @type {string} */
-    this.item_ref_id = props.item_ref_id || null;
+    /** @type {Company} */
+    this.manufacturer = new Company(manufacturer);
+    /** @type {Model4} */
+    this.medias = new Model4(medias);
   }
 
   /** @type {string} */
@@ -134,11 +139,18 @@ super(props);
     this._updated_at = value;
   }
 
-  /** @type {string} */
-  get item_ref_id() { return this._item_ref_id; }
-  set item_ref_id(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for item_ref_id');
-    this._item_ref_id = value;
+  /** @type {Company} */
+  get manufacturer() { return this._manufacturer; }
+  set manufacturer(value) {
+    if (!(value instanceof Company && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Company for manufacturer');
+    this._manufacturer = value;
+  }
+
+  /** @type {Model4} */
+  get medias() { return this._medias; }
+  set medias(value) {
+    if (!(value instanceof Model4 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model4 for medias');
+    this._medias = value;
   }
 
 }

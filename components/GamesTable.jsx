@@ -1,15 +1,14 @@
 'use client'
 
-import { API } from '@/api/api'
-import { useCave } from '@/hooks/useCave'
+import { GetGamesService } from '@/api/GetGamesService'
+import { useApi } from '@/hooks/useApi'
 import { useRouter } from 'next/navigation'
 
 export function GamesTable() {
   const { push } = useRouter()
-  const { data, error, loading } = useCave(API.items, {
+  const { data, error, loading } = useApi(GetGamesService, {
     query: {
       limit: 100000,
-      type: 'game',
     },
   })
 

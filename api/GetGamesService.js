@@ -1,6 +1,6 @@
 
-    import { ApiService } from './ApiService';
-    import { Games } from './Games.js';
+    import { ApiService } from './utils/ApiService';
+    import { GameList } from './GameList.js';
 
     /**
      * Récupère la liste des jeux
@@ -12,6 +12,7 @@
         super(baseURL);
         this.roles = ["Membres MO5"];
         this.verb = 'GET';
+        this.endpoint = '/games';
       }
 
       /**
@@ -24,28 +25,37 @@
       }
 
       /**
-       * Récupère la liste des jeux
+       * @description Récupère la liste des jeux
        * @roles Membres MO5
-       * @returns {Promise<Games>} - Un modèle de type Games
+       * 
+       * @param { Object } config - Les paramètres de la requête
+       * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
+       * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
+               * @param { Object } config.query - Les paramètres de la requête
+* @param { string } config.query.limit - limit 
        *
-   * @param {string} authorization -  (header)
+       * @returns { Promise<GameList> } - Un modèle de type GameList
+       *
+       * @param {string} authorization -  (header)
    * @param {number} limit -  (query)
        */
-      async execute(queryParams = {}, ssr = false, context = {}) {
-        if (!this.hasAccess(context.userRoles)) {
+      async execute(config) {
+      const{ context } = config
+        if (!this.hasAccess(context.userRoles)) 
           throw new Error('Access denied: insufficient permissions');
-        }
 
-        const queryString = new URLSearchParams(queryParams).toString();
-        const endpoint = `/games?${queryString}`;
-        const response = await this.fetchData(endpoint, 'GET', null, {}, ssr, context);
+        const response = await this.fetchData(config);
 
         const data = await response.json();
 
         // Gérer les différentes réponses en fonction des codes de statut
         
         if (response.status === 200) {
-          return this.bindModel(data, Games);
+        if(Array.isArray(data)) {
+          return data.map(item => this.bindModel(item, GameList));
+        } else {
+          return this.bindModel(data, GameList);
+        }
         }
       
 

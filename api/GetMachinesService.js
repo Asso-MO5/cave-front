@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService';
-    import { ItemStatusUpdated } from './ItemStatusUpdated.js';
+    import { MachineList } from './MachineList.js';
 
     /**
-     * Permet de changer le status d'un item
-     * @class PutItemsIdStatusStatusService
-     * @roles reviewer
+     * Récupère la liste des machines
+     * @class GetMachinesService
+     * @roles Membres MO5
      */
-    export class PutItemsIdStatusStatusService extends ApiService {
+    export class GetMachinesService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
-        this.roles = ["reviewer"];
-        this.verb = 'PUT';
-        this.endpoint = '/items/{id}/status/{status}';
+        this.roles = ["Membres MO5"];
+        this.verb = 'GET';
+        this.endpoint = '/machines';
       }
 
       /**
@@ -25,20 +25,19 @@
       }
 
       /**
-       * @description Permet de changer le status d'un item
-       * @roles reviewer
+       * @description Récupère la liste des machines
+       * @roles Membres MO5
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
+               * @param { Object } config.query - Les paramètres de la requête
+* @param { string } config.query.limit - limit 
        *
-       * @param { Object } config.params - Les paramètres de la requête
-       * @param { string } config.params.id - id
-       * @param { string } config.params.status - status
-       * @returns { Promise<ItemStatusUpdated> } - Un modèle de type ItemStatusUpdated
+       * @returns { Promise<MachineList> } - Un modèle de type MachineList
        *
        * @param {string} authorization -  (header)
-   * @param {undefined} body -  (body)
+   * @param {number} limit -  (query)
        */
       async execute(config) {
       const{ context } = config
@@ -51,11 +50,11 @@
 
         // Gérer les différentes réponses en fonction des codes de statut
         
-        if (response.status === 201) {
+        if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, ItemStatusUpdated));
+          return data.map(item => this.bindModel(item, MachineList));
         } else {
-          return this.bindModel(data, ItemStatusUpdated);
+          return this.bindModel(data, MachineList);
         }
         }
       
