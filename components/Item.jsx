@@ -40,8 +40,6 @@ export function Item({ item }) {
   const { type } = useParams()
   const { push } = useRouter()
 
-  console.log('item', item)
-
   return (
     <SessionProvider session={session}>
       <Provider

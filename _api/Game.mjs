@@ -1,4 +1,4 @@
-import { BaseModel } from './utils/BaseModel'
+import { BaseModel } from './utils/BaseModel.mjs'
 
 import { MachineInGame } from './MachineInGame.mjs';
 import { Company } from './Company.mjs';

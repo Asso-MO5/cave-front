@@ -1,5 +1,5 @@
 
-    import { ApiService } from './utils/ApiService';
+    import { ApiService } from './utils/ApiService.mjs';
     import { MachineList } from './MachineList.mjs';
 
     /**

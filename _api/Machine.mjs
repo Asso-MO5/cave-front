@@ -1,4 +1,4 @@
-import { BaseModel } from './utils/BaseModel'
+import { BaseModel } from './utils/BaseModel.mjs'
 
 import { Company } from './Company.mjs';
 import { Model3 } from './Model3.mjs';

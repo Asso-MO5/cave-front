@@ -74,6 +74,8 @@ export class ApiService {
    */
   async fetchData(config) {
     const { context, headers, body, params, query } = config
+
+    console.log('fetchData config', config)
     const queryParams = new URLSearchParams(query).toString()
 
     const url =

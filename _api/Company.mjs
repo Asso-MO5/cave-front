@@ -1,4 +1,4 @@
-import { BaseModel } from './utils/BaseModel'
+import { BaseModel } from './utils/BaseModel.mjs'
 
 /**
  * @class Company

@@ -10,10 +10,9 @@ import { useState, useEffect, useCallback } from 'react'
  * @param {object} [options.context={}] - Le contexte pour passer des informations supplémentaires comme les headers ou les tokens
  * @returns {object} - Contient { data, loading, error, refetch, mutate }
  */
-export function useApi(
-  ApiClass,
-  { autoFetch = true, params = {}, context = {} } = {}
-) {
+export function useApi(ApiClass, config = {}) {
+  const { autoFetch = true, params = {}, context = {} } = config
+
   const session = useSession()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -22,13 +21,14 @@ export function useApi(
   const apiInstance = new ApiClass()
 
   const fetchData = useCallback(
-    async (config) => {
+    async (payload) => {
       setLoading(true)
       setError(null)
 
       try {
         const result = await apiInstance.execute({
           ...config,
+          ...payload,
           context: { userRoles: session?.user.roles.map((r) => r.name) || [] },
         })
 

@@ -77,7 +77,7 @@ function generateApiServiceForEndpoint(
     })
 
   return `
-    import { ApiService } from './utils/ApiService';
+    import { ApiService } from './utils/ApiService.mjs';
     ${generateImportsForModels(responses)}
 
     /**
@@ -153,7 +153,7 @@ function generateClassFromSwagger(definitionName, definition) {
 
   let imports = isArray
     ? `import { ${extendsClass} } from './${extendsClass}.mjs'\n\n`
-    : `import { BaseModel } from './utils/BaseModel'\n\n` // Stocke les imports nécessaires
+    : `import { BaseModel } from './utils/BaseModel.mjs'\n\n` // Stocke les imports nécessaires
 
   console.log('Generating class for:', definitionName, definition.type)
 
@@ -260,7 +260,7 @@ export class ${definitionName} extends ${
 
 // Fonction principale qui génère les services d'API à partir de Swagger
 function generateServicesFromSwagger(apiJson) {
-  const apiFolder = path.join(process.cwd(), 'api')
+  const apiFolder = path.join(process.cwd(), BASE_FOLDER)
 
   if (!existsSync(apiFolder)) mkdirSync(apiFolder)
 

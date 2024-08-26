@@ -1,6 +1,8 @@
 'use client'
 
+import { GetCompaniesLightService } from '@/_api/GetCompaniesLightService.mjs'
 import { GetGameSlugService } from '@/_api/GetGameSlugService'
+import { useApi } from '@/hooks/useApi'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useFetch } from '@/hooks/useFetch'
 import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
@@ -33,14 +35,10 @@ export function CompanySelector({
   const [companies, setCompanies] = useState([])
   const [selected, setSelected] = useState(defaultValue)
 
-  const { data, refetch } = useFetch({
-    url: '/companies/light',
-
-    params: {
+  const { data, error, loading } = useApi(GetCompaniesLightService, {
+    query: {
       limit: 100000,
       activities: type,
-      light: true,
-      name: debouncedQuery,
     },
   })
 
