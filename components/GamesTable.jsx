@@ -29,19 +29,21 @@ export function GamesTable() {
 
   return (
     <div className="h-full grid grid-rows-[auto_1fr]">
-      <div className="grid grid-cols-[4fr_1fr_2fr_2fr] gap-2 sticky top-1 bg-mo-bg font-bold text-mo-primary mt-2 text-center">
-        {['Nom', 'Année de sortie', 'editeur', 'développeur'].map((header) => (
-          <div key={header} className="truncate first-letter:uppercase">
-            {header}
-          </div>
-        ))}
+      <div className="grid grid-cols-[4fr_1fr_2fr_2fr_1fr] gap-2 sticky top-1 bg-mo-bg font-bold text-mo-primary mt-2 text-center">
+        {['Nom', 'Année de sortie', 'editeur', 'développeur', 'Status'].map(
+          (header) => (
+            <div key={header} className="truncate first-letter:uppercase">
+              {header}
+            </div>
+          )
+        )}
       </div>
       <div className="relative h-full">
         <div className="absolute inset-0 overflow-y-auto">
           {data?.map((machine) => (
             <div
               key={machine.slug}
-              className="grid grid-cols-[4fr_1fr_2fr_2fr] gap-2 hover:text-mo-primary cursor-pointer odd:bg-black/5 p-1"
+              className="grid grid-cols-[4fr_1fr_2fr_2fr_1fr] gap-2 hover:text-mo-primary cursor-pointer odd:bg-black/5 p-1"
               onClick={() => push(`/admin/game/${machine.slug}`)}
             >
               <div className="first-letter:uppercase font-bold">
@@ -50,6 +52,7 @@ export function GamesTable() {
               <div className="text-center">{machine.release_year || '---'}</div>
               <div className="text-center">{machine.publisher || '---'}</div>
               <div className="text-center">{machine.developer || '---'}</div>
+              <div className="text-center">{machine.status || '---'}</div>
             </div>
           ))}
         </div>

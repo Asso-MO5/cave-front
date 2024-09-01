@@ -73,9 +73,8 @@ export class ApiService {
    * @returns {Promise<object>} - La réponse transformée en objet JSON
    */
   async fetchData(config) {
-    const { context, headers, body, params, query } = config
+    const { context, headers, body, formData, params, query } = config
 
-    console.log('fetchData config', config)
     const queryParams = new URLSearchParams(query).toString()
 
     const url =
@@ -92,13 +91,14 @@ export class ApiService {
       method: this.verb,
       signal: this.abortController.signal,
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
         ...headers,
       },
     }
 
     if (body) options.body = JSON.stringify(body)
+
+    if (formData) options.body = formData
 
     try {
       const response = await fetch(url, options)

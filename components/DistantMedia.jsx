@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@/ui/Button'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
@@ -20,7 +21,7 @@ export function DistantMedia({ close, onSubmit }) {
     e.preventDefault()
     if (!url || error) return
     onSubmit?.(url)
-    close()
+    close?.()
   }
 
   return (

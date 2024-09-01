@@ -21,6 +21,7 @@ const putItemsIdStatusStatusService = new PutItemsIdStatusStatusService()
 const companies = {
   machine: ['manufacturer'],
   game: ['developer', 'publisher'],
+  obj: ['manufacturer'],
 }
 
 const Ctx = createContext()

@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { CompaniesLight } from './CompaniesLight.mjs';
+    import { ObjList } from './ObjList.mjs';
 
     /**
-     * Récupère la liste des entreprises
-     * @class GetCompaniesLightService
+     * Récupère la liste des objets
+     * @class GetObjsService
      * @roles Membres MO5
      */
-    export class GetCompaniesLightService extends ApiService {
+    export class GetObjsService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
         this.roles = ["Membres MO5"];
         this.verb = 'GET';
-        this.endpoint = '/companies/light';
+        this.endpoint = '/objs';
       }
 
       /**
@@ -25,20 +25,18 @@
       }
 
       /**
-       * @description Récupère la liste des entreprises
+       * @description Récupère la liste des objets
        * @roles Membres MO5
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
                * @param { Object } config.query - Les paramètres de la requête
-* @param { string } config.query.activities - activities 
 * @param { string } config.query.limit - limit 
        *
-       * @returns { Promise<CompaniesLight> } - Un modèle de type CompaniesLight
+       * @returns { Promise<ObjList> } - Un modèle de type ObjList
        *
        * @param {string} authorization -  (header)
-   * @param {string} activities -  (query)
    * @param {number} limit -  (query)
        */
       async execute(config) {
@@ -54,9 +52,9 @@
         
         if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, CompaniesLight));
+          return data.map(item => this.bindModel(item, ObjList));
         } else {
-          return this.bindModel(data, CompaniesLight);
+          return this.bindModel(data, ObjList);
         }
         }
       

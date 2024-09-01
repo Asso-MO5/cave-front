@@ -25,7 +25,7 @@ export default async function AdminLayout({ children }) {
   return (
     <html lang="fr">
       <body className={`${openSans.variable} ${fjallaOne.variable}`}>
-        <div className="h-[100dvh] grid grid-cols-[auto_1fr]">
+        <div className="h-[100dvh] grid grid-cols-[0_1fr] sm:grid-cols-[auto_1fr]">
           <SetCookie name="api_token" value={session.api_token} />
           <Panel session={session} />
           <main className="p-2">

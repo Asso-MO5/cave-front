@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { CompaniesLight } from './CompaniesLight.mjs';
+    import { CompanyLight } from './CompanyLight.mjs';
 
     /**
-     * Récupère la liste des entreprises
-     * @class GetCompaniesLightService
-     * @roles Membres MO5
+     * Crée une entreprise
+     * @class PostCompaniesService
+     * @roles publisher, reviewer
      */
-    export class GetCompaniesLightService extends ApiService {
+    export class PostCompaniesService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
-        this.roles = ["Membres MO5"];
-        this.verb = 'GET';
-        this.endpoint = '/companies/light';
+        this.roles = ["publisher","reviewer"];
+        this.verb = 'POST';
+        this.endpoint = '/companies';
       }
 
       /**
@@ -25,21 +25,21 @@
       }
 
       /**
-       * @description Récupère la liste des entreprises
-       * @roles Membres MO5
+       * @description Crée une entreprise
+       * @roles publisher, reviewer
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
                * @param { Object } config.query - Les paramètres de la requête
-* @param { string } config.query.activities - activities 
-* @param { string } config.query.limit - limit 
+* @param { string } config.query.name - name (required)
+* @param { string } config.query.activities - activities (required)
        *
-       * @returns { Promise<CompaniesLight> } - Un modèle de type CompaniesLight
+       * @returns { Promise<CompanyLight> } - Un modèle de type CompanyLight
        *
        * @param {string} authorization -  (header)
+   * @param {string} name -  (query)
    * @param {string} activities -  (query)
-   * @param {number} limit -  (query)
        */
       async execute(config) {
       const{ context } = config
@@ -54,9 +54,9 @@
         
         if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, CompaniesLight));
+          return data.map(item => this.bindModel(item, CompanyLight));
         } else {
-          return this.bindModel(data, CompaniesLight);
+          return this.bindModel(data, CompanyLight);
         }
         }
       

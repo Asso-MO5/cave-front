@@ -1,5 +1,6 @@
 import { GetGameSlugService } from '@/_api/GetGameSlugService'
 import { GetMachineSlugService } from '@/_api/GetMachineSlugService'
+import { GetObjSlugService } from '@/_api/GetObjSlugService.mjs'
 import { auth } from '@/auth'
 import { Item } from '@/components/Item'
 import { PageList } from '@/layouts/page-list'
@@ -8,6 +9,7 @@ import { ITEM_TYPE_TITLE } from '@/utils/constants'
 const classType = {
   game: GetGameSlugService,
   machine: GetMachineSlugService,
+  obj: GetObjSlugService,
   list: undefined,
 }
 

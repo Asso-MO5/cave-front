@@ -10,6 +10,7 @@ export class MachineForList extends BaseModel {
    * @param {string} slug
    * @param {number} release_year
    * @param {string} manufacturer
+   * @param {string} status
    */
   constructor(props = {}) {
 super(props);
@@ -21,6 +22,8 @@ super(props);
     this.release_year = props.release_year || null;
     /** @type {string} */
     this.manufacturer = props.manufacturer || null;
+    /** @type {string} */
+    this.status = props.status || null;
   }
 
   /** @type {string} */
@@ -49,6 +52,13 @@ super(props);
   set manufacturer(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for manufacturer');
     this._manufacturer = value;
+  }
+
+  /** @type {string} */
+  get status() { return this._status; }
+  set status(value) {
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for status');
+    this._status = value;
   }
 
 }

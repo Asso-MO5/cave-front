@@ -15,15 +15,23 @@ import { decimalToHex } from '@/utils/decimalToHex'
 
 const MENU = [
   {
-    name: 'Fiches expos',
+    name: 'Fiches',
+    entries: [
+      { name: 'Expositions', href: '/admin/expos', regex: /expos|expo/ },
+    ],
+  },
+  {
+    name: 'Banques de données',
     entries: [
       { name: 'Machines', href: '/admin/machines', regex: /machine|machines/ },
       { name: 'Jeux', href: '/admin/games', regex: /game|games/ },
-      /* {
+      { name: 'Objets', href: '/admin/objs', regex: /obj|objs/ },
+      {
         name: 'Compagnies',
         href: '/admin/companies',
         regex: /company|companies/,
-      }, */
+      },
+      { name: 'Medias', href: '/admin/medias', regex: /medias|media/ },
     ],
   },
 ]
@@ -57,6 +65,7 @@ export function Panel({ session }) {
       <Transition
         show={open}
         className={dc(
+          'sm:relative fixed top-0 left-0 w-60 sm:w-auto h-full bg-mo-bg z-[800]',
           // Base styles
           'w-auto transition ease-in-out bg-mo-bg h-full pt-8 p-3 border-r-2 border-black/5',
           // Shared closed styles
@@ -77,7 +86,7 @@ export function Panel({ session }) {
               </a>
             </div>
             {MENU.map((section, i) => (
-              <div key={i} className="flex flex-col gap-1">
+              <div key={i} className="flex flex-col gap-1 mb-3">
                 <h3 className="text-mo-text font-bold p-0">{section.name}</h3>
                 <ul className="flex flex-col gap-1 pl-3">
                   {section.entries.map((entry) => (

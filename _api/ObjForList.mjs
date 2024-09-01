@@ -1,17 +1,16 @@
 import { BaseModel } from './utils/BaseModel.mjs'
 
 /**
- * @class GameForList
- * @description Classe représentant une réponse de type GameForList.
+ * @class ObjForList
+ * @description Classe représentant une réponse de type ObjForList.
  */
-export class GameForList extends BaseModel {
+export class ObjForList extends BaseModel {
   /**
    * @param {string} name
    * @param {string} slug
    * @param {number} release_year
+   * @param {string} manufacturer
    * @param {string} status
-   * @param {string} publisher
-   * @param {string} developer
    */
   constructor(props = {}) {
 super(props);
@@ -22,11 +21,9 @@ super(props);
     /** @type {number} */
     this.release_year = props.release_year || null;
     /** @type {string} */
+    this.manufacturer = props.manufacturer || null;
+    /** @type {string} */
     this.status = props.status || null;
-    /** @type {string} */
-    this.publisher = props.publisher || null;
-    /** @type {string} */
-    this.developer = props.developer || null;
   }
 
   /** @type {string} */
@@ -51,24 +48,17 @@ super(props);
   }
 
   /** @type {string} */
+  get manufacturer() { return this._manufacturer; }
+  set manufacturer(value) {
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for manufacturer');
+    this._manufacturer = value;
+  }
+
+  /** @type {string} */
   get status() { return this._status; }
   set status(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for status');
     this._status = value;
-  }
-
-  /** @type {string} */
-  get publisher() { return this._publisher; }
-  set publisher(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for publisher');
-    this._publisher = value;
-  }
-
-  /** @type {string} */
-  get developer() { return this._developer; }
-  set developer(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for developer');
-    this._developer = value;
   }
 
 }

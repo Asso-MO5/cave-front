@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@/ui/Button'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { Modal } from '@/ui/Modal'
@@ -11,6 +12,7 @@ export function MediaAddLocal({
   },
   close,
   update,
+  hideControl,
 }) {
   const [previewCover, setPreviewCover] = useState(defaultImg)
   const [isDragOver, setIsDragOver] = useState(false)
@@ -38,7 +40,11 @@ export function MediaAddLocal({
     const reader = new FileReader()
     reader.onloadend = () => {
       update(file, { src: reader.result, alt: file.name })
-      close()
+      setPreviewCover({
+        src: reader.result,
+        alt: file.name,
+      })
+      close?.()
     }
     reader.readAsDataURL(file)
   }
@@ -101,11 +107,13 @@ export function MediaAddLocal({
           </Modal>
         </div>
       )}
-      <div className="flex justify-end">
-        <Button theme="secondary" onClick={close}>
-          Annuler
-        </Button>
-      </div>
+      {!hideControl && (
+        <div className="flex justify-end">
+          <Button theme="secondary" onClick={close}>
+            Annuler
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

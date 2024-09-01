@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { CompaniesLight } from './CompaniesLight.mjs';
+    import { Media } from './Media.mjs';
 
     /**
-     * Récupère la liste des entreprises
-     * @class GetCompaniesLightService
-     * @roles Membres MO5
+     * Permet de créer un media
+     * @class PostMediasService
+     * @roles publisher, reviewer
      */
-    export class GetCompaniesLightService extends ApiService {
+    export class PostMediasService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
-        this.roles = ["Membres MO5"];
-        this.verb = 'GET';
-        this.endpoint = '/companies/light';
+        this.roles = ["publisher","reviewer"];
+        this.verb = 'POST';
+        this.endpoint = '/medias';
       }
 
       /**
@@ -25,21 +25,18 @@
       }
 
       /**
-       * @description Récupère la liste des entreprises
-       * @roles Membres MO5
+       * @description Permet de créer un media
+       * @roles publisher, reviewer
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
-               * @param { Object } config.query - Les paramètres de la requête
-* @param { string } config.query.activities - activities 
-* @param { string } config.query.limit - limit 
        *
-       * @returns { Promise<CompaniesLight> } - Un modèle de type CompaniesLight
+       *
+       * @returns { Promise<Media> } - Un modèle de type Media
        *
        * @param {string} authorization -  (header)
-   * @param {string} activities -  (query)
-   * @param {number} limit -  (query)
+   * @param {undefined} body -  (body)
        */
       async execute(config) {
       const{ context } = config
@@ -52,11 +49,11 @@
 
         // Gérer les différentes réponses en fonction des codes de statut
         
-        if (response.status === 200) {
+        if (response.status === 201) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, CompaniesLight));
+          return data.map(item => this.bindModel(item, Media));
         } else {
-          return this.bindModel(data, CompaniesLight);
+          return this.bindModel(data, Media);
         }
         }
       

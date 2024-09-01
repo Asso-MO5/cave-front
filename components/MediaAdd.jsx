@@ -1,3 +1,4 @@
+'use client'
 import { ReadAndEdit } from '@/ui/ReadAndEdit'
 import { Tabs } from '@/ui/Tabs'
 import { useState } from 'react'
@@ -51,6 +52,7 @@ export function MediaAdd({
       edit={(close) => (
         <div>
           <Tabs
+            disabledquery
             tabs={[
               {
                 key: 'galerie',

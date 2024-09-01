@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { CompaniesLight } from './CompaniesLight.mjs';
+    import { MediaLightList } from './MediaLightList.mjs';
 
     /**
-     * Récupère la liste des entreprises
-     * @class GetCompaniesLightService
+     * Récupère la liste des medias
+     * @class GetMediasLightService
      * @roles Membres MO5
      */
-    export class GetCompaniesLightService extends ApiService {
+    export class GetMediasLightService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
         this.roles = ["Membres MO5"];
         this.verb = 'GET';
-        this.endpoint = '/companies/light';
+        this.endpoint = '/medias/light';
       }
 
       /**
@@ -25,21 +25,19 @@
       }
 
       /**
-       * @description Récupère la liste des entreprises
+       * @description Récupère la liste des medias
        * @roles Membres MO5
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
                * @param { Object } config.query - Les paramètres de la requête
-* @param { string } config.query.activities - activities 
-* @param { string } config.query.limit - limit 
+* @param { string } config.query.search - search 
        *
-       * @returns { Promise<CompaniesLight> } - Un modèle de type CompaniesLight
+       * @returns { Promise<MediaLightList> } - Un modèle de type MediaLightList
        *
        * @param {string} authorization -  (header)
-   * @param {string} activities -  (query)
-   * @param {number} limit -  (query)
+   * @param {string} search -  (query)
        */
       async execute(config) {
       const{ context } = config
@@ -54,9 +52,9 @@
         
         if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, CompaniesLight));
+          return data.map(item => this.bindModel(item, MediaLightList));
         } else {
-          return this.bindModel(data, CompaniesLight);
+          return this.bindModel(data, MediaLightList);
         }
         }
       

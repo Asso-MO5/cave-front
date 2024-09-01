@@ -1,23 +1,26 @@
 import { BaseModel } from './utils/BaseModel.mjs'
 
 /**
- * @class CompanyLight
- * @description Classe représentant une réponse de type CompanyLight.
+ * @class MediaLight
+ * @description Classe représentant une réponse de type MediaLight.
  */
-export class CompanyLight extends BaseModel {
+export class MediaLight extends BaseModel {
   /**
    * @param {string} id
+   * @param {string} url
    * @param {string} name
-   * @param {string} slug
+   * @param {string} type
    */
   constructor(props = {}) {
 super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */
+    this.url = props.url || null;
+    /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */
-    this.slug = props.slug || null;
+    this.type = props.type || null;
   }
 
   /** @type {string} */
@@ -28,6 +31,13 @@ super(props);
   }
 
   /** @type {string} */
+  get url() { return this._url; }
+  set url(value) {
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for url');
+    this._url = value;
+  }
+
+  /** @type {string} */
   get name() { return this._name; }
   set name(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for name');
@@ -35,10 +45,10 @@ super(props);
   }
 
   /** @type {string} */
-  get slug() { return this._slug; }
-  set slug(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for slug');
-    this._slug = value;
+  get type() { return this._type; }
+  set type(value) {
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for type');
+    this._type = value;
   }
 
 }

@@ -1,12 +1,12 @@
 'use client'
 
-import { GetMachinesService } from '@/_api/GetMachinesService'
+import { GetObjsService } from '@/_api/GetObjsService.mjs'
 import { useApi } from '@/hooks/useApi'
 import { useRouter } from 'next/navigation'
 
-export function MachineTable() {
+export function ObjTable() {
   const { push } = useRouter()
-  const { data, error, loading } = useApi(GetMachinesService, {
+  const { data, error, loading } = useApi(GetObjsService, {
     query: {
       limit: 100000,
     },
@@ -23,7 +23,7 @@ export function MachineTable() {
   if (!loading && Array.isArray(data) && data?.length === 0)
     return (
       <div className="text-center h-full flex justify-center items-center font-secondary font-bold">
-        Aucune machine trouvée
+        Aucun objet trouvé
       </div>
     )
 
