@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { Expo } from './Expo.mjs';
+    import { Item } from './Item.mjs';
 
     /**
-     * Récupère une expo par son id
-     * @class GetExposIdService
+     * Récupère la liste des cartels d'une exposition
+     * @class PostExposExpoidCartelsService
      * @roles Membres MO5
      */
-    export class GetExposIdService extends ApiService {
+    export class PostExposExpoidCartelsService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
         this.roles = ["Membres MO5"];
-        this.verb = 'GET';
-        this.endpoint = '/expos/{id}';
+        this.verb = 'POST';
+        this.endpoint = '/expos/{expoId}/cartels';
       }
 
       /**
@@ -25,7 +25,7 @@
       }
 
       /**
-       * @description Récupère une expo par son id
+       * @description Récupère la liste des cartels d'une exposition
        * @roles Membres MO5
        * 
        * @param { Object } config - Les paramètres de la requête
@@ -33,10 +33,11 @@
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
        *
        * @param { Object } config.params - Les paramètres de la requête
-       * @param { string } config.params.id - id
-       * @returns { Promise<Expo> } - Un modèle de type Expo
+       * @param { string } config.params.expoId - expoId
+       * @returns { Promise<Item> } - Un modèle de type Item
        *
        * @param {string} authorization -  (header)
+   * @param {undefined} body -  (body)
        */
       async execute(config) {
       const{ context } = config
@@ -51,9 +52,9 @@
         
         if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, Expo));
+          return data.map(item => this.bindModel(item, Item));
         } else {
-          return this.bindModel(data, Expo);
+          return this.bindModel(data, Item);
         }
         }
       

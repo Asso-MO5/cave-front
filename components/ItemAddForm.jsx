@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation'
 import { useCheckRoles } from '@/hooks/useCheckRoles'
 import { PostItemsService } from '@/_api/PostItemsService'
 import { useSession } from './SessionProvider'
-import { ItemCreateBody } from '@/_api/ItemCreateBody'
 
 const postItemsService = new PostItemsService()
 

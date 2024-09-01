@@ -1,11 +1,15 @@
 import { GetItemsService } from '@/_api/GetItemsService.mjs'
+import { PostExposExpoidCartelsService } from '@/_api/PostExposExpoidCartelsService.mjs'
 import { useApi } from '@/hooks/useApi'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useEmit } from '@/hooks/useEmit'
 import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
 import { Modal } from '@/ui/Modal'
 import { dc } from '@/utils/dynamic-classes'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { toast } from 'react-toastify'
+import { useItem } from './Item'
 
 const types = [
   {
@@ -23,9 +27,23 @@ const types = [
 ]
 
 export function ExpoCartelAddModal() {
+  const { item } = useItem()
+  const toastId = useRef()
+
+  const { emit } = useEmit('refetch-expos')
   const { data, refetch } = useApi(GetItemsService, {
     autoFetch: false,
   })
+
+  const { mutate: createCartel, loading: loadingCreate } = useApi(
+    PostExposExpoidCartelsService,
+    {
+      params: {
+        expoId: item.id,
+      },
+      autoFetch: false,
+    }
+  )
 
   const [search, setSearch] = useState('')
   const [type, setType] = useState(types[0])
@@ -37,11 +55,42 @@ export function ExpoCartelAddModal() {
   }
 
   const handleSelectItem = (item) => {
-    //TODO créer le cartel à partir de l'item
+    handleCreate({ slug: item.slug })
   }
 
   const handleConfirm = () => {
-    //TODO créer le cartel à partir de la recherche
+    handleCreate({ name: search, type: type.value })
+  }
+
+  const handleCreate = async (payload) => {
+    toastId.current = toast.loading('Création en cours 🚀', {
+      id: 'create-cartel',
+    })
+    try {
+      await createCartel({
+        body: payload,
+      })
+      toast.update(toastId.current, {
+        render: 'Création réussie 🎉',
+        isLoading: false,
+        type: 'success',
+        autoClose: 5000,
+        closeButton: true,
+      })
+      emit()
+      setSearch('')
+    } catch (error) {
+      toast.update(toastId.current, {
+        render: typeof err === 'string' ? err : err.message,
+        isLoading: false,
+        type: 'error',
+        autoClose: 5000,
+        closeButton: true,
+      })
+    } finally {
+      toastId.current = null
+      return true
+    }
   }
 
   useEffect(() => {
@@ -58,7 +107,9 @@ export function ExpoCartelAddModal() {
   return (
     <Modal
       title="Ajouter un cartel"
-      isConfirmDisabled={!search}
+      isConfirmDisabled={!search || loadingCreate}
+      closeModalOnConfirm
+      onCancel={() => setSearch('')}
       onConfirm={handleConfirm}
       content={
         <div className="grid grid-rows-[auto_auto_1fr] gap-3 min-w-36">
@@ -100,8 +151,8 @@ export function ExpoCartelAddModal() {
             <div className="absolute inset-0 flex flex-col gap-2 overflow-y-auto text-mo-primary ">
               {data?.map((item) => (
                 <div
-                  key={item.id}
-                  className="first-letter:uppercase"
+                  key={item.slug}
+                  className="first-letter:uppercase cursor-pointer hover:text-mo-secondary"
                   onClick={() => handleSelectItem(item)}
                 >
                   {item.name}

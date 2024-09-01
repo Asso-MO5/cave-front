@@ -2,15 +2,18 @@
 
 import { GetExposService } from '@/_api/GetExposService.mjs'
 import { useApi } from '@/hooks/useApi'
+import { useMsgCb } from '@/hooks/useMsg'
 import { useRouter } from 'next/navigation'
 
 export function ExpoTable() {
   const { push } = useRouter()
-  const { data, error, loading } = useApi(GetExposService, {
+  const { data, error, loading, refetch } = useApi(GetExposService, {
     query: {
       limit: 100000,
     },
   })
+
+  useMsgCb('refetch-expos', refetch)
 
   if (error)
     return (

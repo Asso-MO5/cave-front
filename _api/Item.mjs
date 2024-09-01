@@ -1,11 +1,10 @@
 import { BaseModel } from './utils/BaseModel.mjs'
 
-import { Model10 } from './Model10.mjs';
 /**
- * @class Model11
- * @description Classe représentant une réponse de type Model11.
+ * @class Item
+ * @description Classe représentant une réponse de type Item.
  */
-export class Model11 extends BaseModel {
+export class Item extends BaseModel {
   /**
    * @param {string} id
    * @param {string} name
@@ -19,8 +18,6 @@ export class Model11 extends BaseModel {
    * @param {string} status
    * @param {string} created_at
    * @param {string} updated_at
-   * @param {string} cartelModel
-   * @param {Model10} medias
    */
   constructor(props = {}) {
 super(props);
@@ -48,10 +45,6 @@ super(props);
     this.created_at = props.created_at || null;
     /** @type {string} */
     this.updated_at = props.updated_at || null;
-    /** @type {string} */
-    this.cartelModel = props.cartelModel || null;
-    /** @type {Model10} */
-    this.medias = new Model10(medias);
   }
 
   /** @type {string} */
@@ -136,20 +129,6 @@ super(props);
   set updated_at(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for updated_at');
     this._updated_at = value;
-  }
-
-  /** @type {string} */
-  get cartelModel() { return this._cartelModel; }
-  set cartelModel(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cartelModel');
-    this._cartelModel = value;
-  }
-
-  /** @type {Model10} */
-  get medias() { return this._medias; }
-  set medias(value) {
-    if (!(value instanceof Model10 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model10 for medias');
-    this._medias = value;
   }
 
 }

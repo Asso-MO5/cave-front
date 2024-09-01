@@ -1,12 +1,17 @@
 'use client'
 
-import { GetExposCartelsService } from '@/_api/GetExposCartelsService.mjs'
+import { GetExposExpoidCartelsService } from '@/_api/GetExposExpoidCartelsService.mjs'
 import { useApi } from '@/hooks/useApi'
 import { useRouter } from 'next/navigation'
+import { useItem } from './Item'
 
 export function ExpoCartelsTable() {
+  const { item } = useItem()
   const { push } = useRouter()
-  const { data, error, loading } = useApi(GetExposCartelsService, {
+  const { data, error, loading } = useApi(GetExposExpoidCartelsService, {
+    params: {
+      expoId: item.id,
+    },
     query: {
       limit: 100000,
     },

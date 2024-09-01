@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { Model11 } from './Model11.mjs';
+    import { CartelList } from './CartelList.mjs';
 
     /**
      * Récupère la liste des cartels d'une exposition
-     * @class PostExposCartelsService
+     * @class GetExposExpoidCartelsService
      * @roles Membres MO5
      */
-    export class PostExposCartelsService extends ApiService {
+    export class GetExposExpoidCartelsService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
         this.roles = ["Membres MO5"];
-        this.verb = 'POST';
-        this.endpoint = '/expos/cartels';
+        this.verb = 'GET';
+        this.endpoint = '/expos/{expoId}/cartels';
       }
 
       /**
@@ -32,11 +32,11 @@
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
        *
-       *
-       * @returns { Promise<Model11> } - Un modèle de type Model11
+       * @param { Object } config.params - Les paramètres de la requête
+       * @param { string } config.params.expoId - expoId
+       * @returns { Promise<CartelList> } - Un modèle de type CartelList
        *
        * @param {string} authorization -  (header)
-   * @param {undefined} body -  (body)
        */
       async execute(config) {
       const{ context } = config
@@ -51,9 +51,9 @@
         
         if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, Model11));
+          return data.map(item => this.bindModel(item, CartelList));
         } else {
-          return this.bindModel(data, Model11);
+          return this.bindModel(data, CartelList);
         }
         }
       
