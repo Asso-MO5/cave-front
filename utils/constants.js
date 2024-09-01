@@ -8,6 +8,7 @@ export const ITEM_TYPE_TITLE = {
   obj: 'Objet',
   game: 'Jeu',
   machine: 'Machine',
+  expo: 'Exposition',
 }
 
 export const ACTIVITIES_COMPANY = {

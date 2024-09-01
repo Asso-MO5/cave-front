@@ -2,7 +2,7 @@
 import { ReadAndEdit } from '@/ui/ReadAndEdit'
 import { useItem } from './Item'
 import { ACTIVITIES_COMPANY } from '@/utils/constants'
-import { Fieldset } from './Fieldset'
+import { Fieldset } from '../ui/Fieldset'
 import { CompanySelector } from './CompanySelector'
 import { useState } from 'react'
 import { Button } from '@/ui/Button'

@@ -1,10 +1,10 @@
-import { Model1 } from './Model1.mjs'
+import { Model2 } from './Model2.mjs'
 
 /**
  * @class medias
  * @description Classe représentant une réponse de type medias.
  */
-export class medias extends Model1 {
+export class medias extends Model2 {
   /**
    */
   constructor(props = {}) {

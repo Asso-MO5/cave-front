@@ -1,12 +1,11 @@
 import { BaseModel } from './utils/BaseModel.mjs'
 
-import { Company } from './Company.mjs';
-import { Model6 } from './Model6.mjs';
+import { Model10 } from './Model10.mjs';
 /**
- * @class Machine
- * @description Classe représentant une réponse de type Machine.
+ * @class Model11
+ * @description Classe représentant une réponse de type Model11.
  */
-export class Machine extends BaseModel {
+export class Model11 extends BaseModel {
   /**
    * @param {string} id
    * @param {string} name
@@ -20,8 +19,8 @@ export class Machine extends BaseModel {
    * @param {string} status
    * @param {string} created_at
    * @param {string} updated_at
-   * @param {Company} manufacturer
-   * @param {Model6} medias
+   * @param {string} cartelModel
+   * @param {Model10} medias
    */
   constructor(props = {}) {
 super(props);
@@ -49,10 +48,10 @@ super(props);
     this.created_at = props.created_at || null;
     /** @type {string} */
     this.updated_at = props.updated_at || null;
-    /** @type {Company} */
-    this.manufacturer = new Company(manufacturer);
-    /** @type {Model6} */
-    this.medias = new Model6(medias);
+    /** @type {string} */
+    this.cartelModel = props.cartelModel || null;
+    /** @type {Model10} */
+    this.medias = new Model10(medias);
   }
 
   /** @type {string} */
@@ -139,17 +138,17 @@ super(props);
     this._updated_at = value;
   }
 
-  /** @type {Company} */
-  get manufacturer() { return this._manufacturer; }
-  set manufacturer(value) {
-    if (!(value instanceof Company && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Company for manufacturer');
-    this._manufacturer = value;
+  /** @type {string} */
+  get cartelModel() { return this._cartelModel; }
+  set cartelModel(value) {
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cartelModel');
+    this._cartelModel = value;
   }
 
-  /** @type {Model6} */
+  /** @type {Model10} */
   get medias() { return this._medias; }
   set medias(value) {
-    if (!(value instanceof Model6 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model6 for medias');
+    if (!(value instanceof Model10 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model10 for medias');
     this._medias = value;
   }
 

@@ -15,14 +15,10 @@ import { SessionProvider, useSession } from './SessionProvider'
 import { ItemStatus } from './ItemStatus'
 
 import { PutItemsIdStatusStatusService } from '@/_api/PutItemsIdStatusStatusService'
+import { ItemClassic } from './ItemClassic'
+import { Expo } from './Expo'
 
 const putItemsIdStatusStatusService = new PutItemsIdStatusStatusService()
-
-const companies = {
-  machine: ['manufacturer'],
-  game: ['developer', 'publisher'],
-  obj: ['manufacturer'],
-}
 
 const Ctx = createContext()
 
@@ -116,29 +112,8 @@ export function Item({ item }) {
           },
         }}
       >
-        <div className="flex flex-col sm:grid sm:grid-cols-[4fr_1fr] w-full m-auto">
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="text-xs p-1 rounded-sm text-mo-white bg-mo-primary">
-                  {ITEM_TYPE_TITLE[type]}
-                </div>
-                <ItemName />
-              </div>
-              {type === 'game' && <GameMachineSelector />}
-            </div>
-            <ItemStatus rolesCanEdit={putItemsIdStatusStatusService.roles} />
-            <ItemDescription />
-          </div>
-
-          <div className="flex flex-col">
-            <ItemCover />
-            <ItemReleaseYear />
-            {companies[type].map((company) => (
-              <ItemCompany key={company} type={company} />
-            ))}
-          </div>
-        </div>
+        {type.match(/game|machine|obj/) && <ItemClassic />}
+        {type.match(/expo/) && <Expo />}
       </Provider>
     </SessionProvider>
   )

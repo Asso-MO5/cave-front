@@ -1,7 +1,7 @@
 import { BaseModel } from './utils/BaseModel.mjs'
 
 import { Company } from './Company.mjs';
-import { Model7 } from './Model7.mjs';
+import { Model8 } from './Model8.mjs';
 /**
  * @class Obj
  * @description Classe représentant une réponse de type Obj.
@@ -21,7 +21,7 @@ export class Obj extends BaseModel {
    * @param {string} created_at
    * @param {string} updated_at
    * @param {Company} manufacturer
-   * @param {Model7} medias
+   * @param {Model8} medias
    */
   constructor(props = {}) {
 super(props);
@@ -51,8 +51,8 @@ super(props);
     this.updated_at = props.updated_at || null;
     /** @type {Company} */
     this.manufacturer = new Company(manufacturer);
-    /** @type {Model7} */
-    this.medias = new Model7(medias);
+    /** @type {Model8} */
+    this.medias = new Model8(medias);
   }
 
   /** @type {string} */
@@ -146,10 +146,10 @@ super(props);
     this._manufacturer = value;
   }
 
-  /** @type {Model7} */
+  /** @type {Model8} */
   get medias() { return this._medias; }
   set medias(value) {
-    if (!(value instanceof Model7 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model7 for medias');
+    if (!(value instanceof Model8 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model8 for medias');
     this._medias = value;
   }
 

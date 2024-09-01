@@ -73,7 +73,11 @@ export class ApiService {
    * @returns {Promise<object>} - La réponse transformée en objet JSON
    */
   async fetchData(config) {
-    const { context, headers, body, formData, params, query } = config
+    const { context, headers: headers_, body, formData, params, query } = config
+
+    const headers = {
+      ...headers_,
+    }
 
     const queryParams = new URLSearchParams(query).toString()
 
@@ -83,6 +87,8 @@ export class ApiService {
       (queryParams ? `?${queryParams}` : '')
 
     const token = this.getBearerToken(context)
+
+    if (body) headers['Content-Type'] = 'application/json'
 
     // Initialiser un nouvel AbortController pour chaque requête
     this.abortController = new AbortController()
@@ -97,7 +103,6 @@ export class ApiService {
     }
 
     if (body) options.body = JSON.stringify(body)
-
     if (formData) options.body = formData
 
     try {

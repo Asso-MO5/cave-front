@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { MachineLightList } from './MachineLightList.mjs';
+    import { Expo } from './Expo.mjs';
 
     /**
-     * Récupère une machine par son id
-     * @class GetMachinesIdService
+     * Récupère une expo par son slug
+     * @class GetExposSlugService
      * @roles Membres MO5
      */
-    export class GetMachinesIdService extends ApiService {
+    export class GetExposSlugService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
         this.roles = ["Membres MO5"];
         this.verb = 'GET';
-        this.endpoint = '/machines/{id}';
+        this.endpoint = '/expos/{slug}';
       }
 
       /**
@@ -25,7 +25,7 @@
       }
 
       /**
-       * @description Récupère une machine par son id
+       * @description Récupère une expo par son slug
        * @roles Membres MO5
        * 
        * @param { Object } config - Les paramètres de la requête
@@ -33,8 +33,8 @@
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
        *
        * @param { Object } config.params - Les paramètres de la requête
-       * @param { string } config.params.id - id
-       * @returns { Promise<MachineLightList> } - Un modèle de type MachineLightList
+       * @param { string } config.params.slug - slug
+       * @returns { Promise<Expo> } - Un modèle de type Expo
        *
        * @param {string} authorization -  (header)
        */
@@ -51,9 +51,9 @@
         
         if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, MachineLightList));
+          return data.map(item => this.bindModel(item, Expo));
         } else {
-          return this.bindModel(data, MachineLightList);
+          return this.bindModel(data, Expo);
         }
         }
       

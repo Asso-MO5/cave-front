@@ -1,3 +1,4 @@
+import { GetExposSlugService } from '@/_api/GetExposSlugService.mjs'
 import { GetGameSlugService } from '@/_api/GetGameSlugService'
 import { GetMachineSlugService } from '@/_api/GetMachineSlugService'
 import { GetObjSlugService } from '@/_api/GetObjSlugService.mjs'
@@ -10,6 +11,7 @@ const classType = {
   game: GetGameSlugService,
   machine: GetMachineSlugService,
   obj: GetObjSlugService,
+  expo: GetExposSlugService,
   list: undefined,
 }
 
@@ -18,7 +20,12 @@ export default async function ItemDetails({ params: { slug, type } }) {
 
   const entity = new classType[type]()
 
-  if (!entity) return <div>{ITEM_TYPE_TITLE[type]} non trouvée</div>
+  if (!entity)
+    return (
+      <div className="flex items-center justify-center text-mo-error text-xl h-full font-bold">
+        {ITEM_TYPE_TITLE[type]} non trouvée
+      </div>
+    )
 
   const item = await entity.execute({
     params: { slug },
@@ -28,7 +35,12 @@ export default async function ItemDetails({ params: { slug, type } }) {
     },
   })
 
-  if (!item.id) return <div>{ITEM_TYPE_TITLE[type]} non trouvée</div>
+  if (!item.id)
+    return (
+      <div className="flex items-center justify-center text-mo-error text-xl h-full font-bold">
+        {ITEM_TYPE_TITLE[type]} non trouvée
+      </div>
+    )
   return (
     <PageList session={session}>
       <Item item={item} session={session} />

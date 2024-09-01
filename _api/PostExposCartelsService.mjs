@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { MachineLightList } from './MachineLightList.mjs';
+    import { Model11 } from './Model11.mjs';
 
     /**
-     * Récupère une machine par son id
-     * @class GetMachinesIdService
+     * Récupère la liste des cartels d'une exposition
+     * @class PostExposCartelsService
      * @roles Membres MO5
      */
-    export class GetMachinesIdService extends ApiService {
+    export class PostExposCartelsService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
         this.roles = ["Membres MO5"];
-        this.verb = 'GET';
-        this.endpoint = '/machines/{id}';
+        this.verb = 'POST';
+        this.endpoint = '/expos/cartels';
       }
 
       /**
@@ -25,18 +25,18 @@
       }
 
       /**
-       * @description Récupère une machine par son id
+       * @description Récupère la liste des cartels d'une exposition
        * @roles Membres MO5
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
        *
-       * @param { Object } config.params - Les paramètres de la requête
-       * @param { string } config.params.id - id
-       * @returns { Promise<MachineLightList> } - Un modèle de type MachineLightList
+       *
+       * @returns { Promise<Model11> } - Un modèle de type Model11
        *
        * @param {string} authorization -  (header)
+   * @param {undefined} body -  (body)
        */
       async execute(config) {
       const{ context } = config
@@ -51,9 +51,9 @@
         
         if (response.status === 200) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, MachineLightList));
+          return data.map(item => this.bindModel(item, Model11));
         } else {
-          return this.bindModel(data, MachineLightList);
+          return this.bindModel(data, Model11);
         }
         }
       

@@ -2,10 +2,9 @@
 
 import { Button } from '@/ui/Button'
 import { Modal } from '@/ui/Modal'
-import { Fieldset } from './Fieldset'
+import { Fieldset } from '../ui/Fieldset'
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import { fetcher } from '@/utils/fetcher'
 import { useRouter } from 'next/navigation'
 import { useCheckRoles } from '@/hooks/useCheckRoles'
 import { PostItemsService } from '@/_api/PostItemsService'

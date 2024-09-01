@@ -2,7 +2,7 @@ import { BaseModel } from './utils/BaseModel.mjs'
 
 import { MachineInGame } from './MachineInGame.mjs';
 import { Company } from './Company.mjs';
-import { medias } from './medias.mjs';
+import { Model4 } from './Model4.mjs';
 /**
  * @class Game
  * @description Classe représentant une réponse de type Game.
@@ -25,7 +25,7 @@ export class Game extends BaseModel {
    * @param {MachineInGame} machine
    * @param {Company} developer
    * @param {Company} publisher
-   * @param {medias} medias
+   * @param {Model4} medias
    */
   constructor(props = {}) {
 super(props);
@@ -61,8 +61,8 @@ super(props);
     this.developer = new Company(developer);
     /** @type {Company} */
     this.publisher = new Company(publisher);
-    /** @type {medias} */
-    this.medias = new medias(medias);
+    /** @type {Model4} */
+    this.medias = new Model4(medias);
   }
 
   /** @type {string} */
@@ -177,10 +177,10 @@ super(props);
     this._publisher = value;
   }
 
-  /** @type {medias} */
+  /** @type {Model4} */
   get medias() { return this._medias; }
   set medias(value) {
-    if (!(value instanceof medias && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of medias for medias');
+    if (!(value instanceof Model4 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model4 for medias');
     this._medias = value;
   }
 

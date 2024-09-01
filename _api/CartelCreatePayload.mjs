@@ -1,20 +1,20 @@
 import { BaseModel } from './utils/BaseModel.mjs'
 
 /**
- * @class Model1
- * @description Classe représentant une réponse de type Model1.
+ * @class CartelCreatePayload
+ * @description Classe représentant une réponse de type CartelCreatePayload.
  */
-export class Model1 extends BaseModel {
+export class CartelCreatePayload extends BaseModel {
   /**
    * @param {string} name
-   * @param {string} slug
+   * @param {string} id
    */
   constructor(props = {}) {
 super(props);
     /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */
-    this.slug = props.slug || null;
+    this.id = props.id || null;
   }
 
   /** @type {string} */
@@ -25,10 +25,10 @@ super(props);
   }
 
   /** @type {string} */
-  get slug() { return this._slug; }
-  set slug(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for slug');
-    this._slug = value;
+  get id() { return this._id; }
+  set id(value) {
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for id');
+    this._id = value;
   }
 
 }
