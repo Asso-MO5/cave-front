@@ -2,7 +2,6 @@
 
 import { GetExposService } from '@/_api/GetExposService.mjs'
 import { useApi } from '@/hooks/useApi'
-import { useMsgCb } from '@/hooks/useMsg'
 import { useRouter } from 'next/navigation'
 
 export function ExpoTable() {
@@ -12,8 +11,6 @@ export function ExpoTable() {
       limit: 100000,
     },
   })
-
-  useMsgCb('refetch-expos', refetch)
 
   if (error)
     return (
@@ -41,16 +38,16 @@ export function ExpoTable() {
       </div>
       <div className="relative h-full">
         <div className="absolute inset-0 overflow-y-auto">
-          {data?.map((machine) => (
+          {data?.map((expo) => (
             <div
-              key={machine.slug}
+              key={expo.slug}
               className="grid grid-cols-[4fr_1fr] gap-2 hover:text-mo-primary cursor-pointer odd:bg-black/5 p-1"
-              onClick={() => push(`/admin/expo/${machine.slug}`)}
+              onClick={() => push(`/admin/expo/${expo.slug}`)}
             >
               <div className="first-letter:uppercase font-bold">
-                {machine.name}
+                {expo.name}
               </div>
-              <div className="text-center">{machine.status || '---'}</div>
+              <div className="text-center">{expo.status || '---'}</div>
             </div>
           ))}
         </div>

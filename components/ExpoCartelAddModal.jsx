@@ -2,7 +2,6 @@ import { GetItemsService } from '@/_api/GetItemsService.mjs'
 import { PostExposExpoidCartelsService } from '@/_api/PostExposExpoidCartelsService.mjs'
 import { useApi } from '@/hooks/useApi'
 import { useDebounce } from '@/hooks/useDebounce'
-import { useEmit } from '@/hooks/useEmit'
 import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
 import { Modal } from '@/ui/Modal'
 import { dc } from '@/utils/dynamic-classes'
@@ -10,6 +9,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useItem } from './Item'
+import { useRouter } from 'next/navigation'
 
 const types = [
   {
@@ -29,21 +29,21 @@ const types = [
 export function ExpoCartelAddModal() {
   const { item } = useItem()
   const toastId = useRef()
-
-  const { emit } = useEmit('refetch-expos')
+  const { push } = useRouter()
   const { data, refetch } = useApi(GetItemsService, {
     autoFetch: false,
   })
 
-  const { mutate: createCartel, loading: loadingCreate } = useApi(
-    PostExposExpoidCartelsService,
-    {
-      params: {
-        expoId: item.id,
-      },
-      autoFetch: false,
-    }
-  )
+  const {
+    mutate: createCartel,
+    loading: loadingCreate,
+    data: newCartel,
+  } = useApi(PostExposExpoidCartelsService, {
+    params: {
+      expoId: item.id,
+    },
+    autoFetch: false,
+  })
 
   const [search, setSearch] = useState('')
   const [type, setType] = useState(types[0])
@@ -70,6 +70,7 @@ export function ExpoCartelAddModal() {
       await createCartel({
         body: payload,
       })
+
       toast.update(toastId.current, {
         render: 'Création réussie 🎉',
         isLoading: false,
@@ -77,7 +78,7 @@ export function ExpoCartelAddModal() {
         autoClose: 5000,
         closeButton: true,
       })
-      emit()
+
       setSearch('')
     } catch (error) {
       toast.update(toastId.current, {
@@ -104,6 +105,11 @@ export function ExpoCartelAddModal() {
     }
   }, [debouncedSearch, type])
 
+  useEffect(() => {
+    if (newCartel)
+      push(`/admin/${type.value}/${item.slug}/cartel/${newCartel.slug}`)
+  }, [newCartel])
+
   return (
     <Modal
       title="Ajouter un cartel"
@@ -113,6 +119,11 @@ export function ExpoCartelAddModal() {
       onConfirm={handleConfirm}
       content={
         <div className="grid grid-rows-[auto_auto_1fr] gap-3 min-w-36">
+          {loadingCreate && (
+            <div className="text-xs italic text-center text-mo-tertiary">
+              Création en cours...
+            </div>
+          )}
           <input
             type="text"
             value={search}

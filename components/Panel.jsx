@@ -34,11 +34,12 @@ const MENU = [
       },
       { name: 'Jeux', href: '/admin/games', regex: /amdin\/game|admin\/games/ },
       { name: 'Objets', href: '/admin/objs', regex: /obj|objs/ },
-      {
+      /* {
         name: 'Compagnies',
         href: '/admin/companies',
         regex: /admin\/company|admin\/companies/,
       },
+      */
       {
         name: 'Medias',
         href: '/admin/medias',

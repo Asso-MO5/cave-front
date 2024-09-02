@@ -47,7 +47,9 @@ export function ExpoCartelsTable() {
             <div
               key={machine.slug}
               className="grid grid-cols-[4fr_1fr_1fr] gap-2 hover:text-mo-primary cursor-pointer odd:bg-black/5 p-1"
-              onClick={() => push(`/admin/expo/${machine.slug}`)}
+              onClick={() =>
+                push(`/admin/expo/${item.slug}/cartel/${machine.slug}`)
+              }
             >
               <div className="first-letter:uppercase font-bold">
                 {machine.name}

@@ -1,12 +1,11 @@
 import { BaseModel } from './utils/BaseModel.mjs'
 
-import { Company } from './Company.mjs';
-import { Model7 } from './Model7.mjs';
+import { Model2 } from './Model2.mjs';
 /**
- * @class Machine
- * @description Classe représentant une réponse de type Machine.
+ * @class CartelDetails
+ * @description Classe représentant une réponse de type CartelDetails.
  */
-export class Machine extends BaseModel {
+export class CartelDetails extends BaseModel {
   /**
    * @param {string} id
    * @param {string} name
@@ -20,8 +19,9 @@ export class Machine extends BaseModel {
    * @param {string} status
    * @param {string} created_at
    * @param {string} updated_at
-   * @param {Company} manufacturer
-   * @param {Model7} medias
+   * @param {string} expo_name
+   * @param {string} expo_slug
+   * @param {Model2} refItem
    */
   constructor(props = {}) {
 super(props);
@@ -49,10 +49,12 @@ super(props);
     this.created_at = props.created_at || null;
     /** @type {string} */
     this.updated_at = props.updated_at || null;
-    /** @type {Company} */
-    this.manufacturer = new Company(manufacturer);
-    /** @type {Model7} */
-    this.medias = new Model7(medias);
+    /** @type {string} */
+    this.expo_name = props.expo_name || null;
+    /** @type {string} */
+    this.expo_slug = props.expo_slug || null;
+    /** @type {Model2} */
+    this.refItem = new Model2(refItem);
   }
 
   /** @type {string} */
@@ -139,18 +141,25 @@ super(props);
     this._updated_at = value;
   }
 
-  /** @type {Company} */
-  get manufacturer() { return this._manufacturer; }
-  set manufacturer(value) {
-    if (!(value instanceof Company && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Company for manufacturer');
-    this._manufacturer = value;
+  /** @type {string} */
+  get expo_name() { return this._expo_name; }
+  set expo_name(value) {
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for expo_name');
+    this._expo_name = value;
   }
 
-  /** @type {Model7} */
-  get medias() { return this._medias; }
-  set medias(value) {
-    if (!(value instanceof Model7 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model7 for medias');
-    this._medias = value;
+  /** @type {string} */
+  get expo_slug() { return this._expo_slug; }
+  set expo_slug(value) {
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for expo_slug');
+    this._expo_slug = value;
+  }
+
+  /** @type {Model2} */
+  get refItem() { return this._refItem; }
+  set refItem(value) {
+    if (!(value instanceof Model2 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model2 for refItem');
+    this._refItem = value;
   }
 
 }

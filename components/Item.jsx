@@ -1,24 +1,15 @@
 'use client'
 
 import { createContext, useContext } from 'react'
-import { ItemCover } from './ItemCover'
 import { fetcher } from '@/utils/fetcher'
-import { ItemName } from './ItemName'
-import { ItemReleaseYear } from './ItemReleaseYear'
-import { ItemDescription } from './ItemDescription'
-import { ItemCompany } from './ItemCompany'
 import { toast } from 'react-toastify'
 import { useParams, useRouter } from 'next/navigation'
-import { ITEM_TYPE_TITLE } from '@/utils/constants'
-import { GameMachineSelector } from './GameMachineSelector'
 import { SessionProvider, useSession } from './SessionProvider'
-import { ItemStatus } from './ItemStatus'
 
 import { PutItemsIdStatusStatusService } from '@/_api/PutItemsIdStatusStatusService'
 import { ItemClassic } from './ItemClassic'
 import { Expo } from './Expo'
-
-const putItemsIdStatusStatusService = new PutItemsIdStatusStatusService()
+import { ItemCartel } from './ItemCartel'
 
 const Ctx = createContext()
 
@@ -32,10 +23,12 @@ export function useItem() {
   return ctx
 }
 
-export function Item({ item }) {
+export function Item({ item, type: type_ }) {
   const session = useSession()
-  const { type } = useParams()
+  const { type: paramsType } = useParams()
   const { push } = useRouter()
+
+  const type = type_ || paramsType
 
   return (
     <SessionProvider session={session}>
@@ -114,6 +107,7 @@ export function Item({ item }) {
       >
         {type.match(/game|machine|obj/) && <ItemClassic />}
         {type.match(/expo/) && <Expo />}
+        {type.match(/cartel/) && <ItemCartel />}
       </Provider>
     </SessionProvider>
   )
