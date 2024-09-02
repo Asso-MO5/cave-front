@@ -1,8 +1,29 @@
+'use client'
 import { dc } from '@/utils/dynamic-classes'
-import { useState } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useMemo, useState } from 'react'
 
-export function Tabs({ tabs, defaultTab }) {
-  const [activeTab, setActiveTab] = useState(defaultTab || 0)
+export function Tabs({ tabs, disabledquery = false }) {
+  const search = useSearchParams()
+  const pathname = usePathname()
+  const router = useRouter()
+  const tab = search.get('tab')
+  const [currentTab, setCurrentTab] = useState(0)
+  const activeTab = useMemo(() => {
+    if (disabledquery) return currentTab
+    if (!tab) return 0
+    const idx = tabs.findIndex((t) => t.key === tab)
+    if (idx === -1) return 0
+    return idx
+  }, [tab, currentTab])
+
+  const handleChangeTab = (index) => {
+    setCurrentTab(index)
+    if (disabledquery) return
+    const params = new URLSearchParams(search.toString())
+    params.set('tab', tabs[index].key)
+    router.push(pathname + '?' + params.toString())
+  }
 
   return (
     <>
@@ -10,7 +31,7 @@ export function Tabs({ tabs, defaultTab }) {
         {tabs.map((tab, index) => (
           <button
             key={tab.key}
-            onClick={() => setActiveTab(index)}
+            onClick={() => handleChangeTab(index)}
             className={dc('border-b-2 px-2 py-1 font-secondary', [
               index === activeTab,
               'border-mo-primary',

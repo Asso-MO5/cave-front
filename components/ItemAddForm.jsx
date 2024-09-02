@@ -2,16 +2,20 @@
 
 import { Button } from '@/ui/Button'
 import { Modal } from '@/ui/Modal'
-import { Fieldset } from './Fieldset'
+import { Fieldset } from '../ui/Fieldset'
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import { fetcher } from '@/utils/fetcher'
 import { useRouter } from 'next/navigation'
 import { useCheckRoles } from '@/hooks/useCheckRoles'
-import { ROLES } from '@/utils/constants'
+import { PostItemsService } from '@/_api/PostItemsService'
+import { useSession } from './SessionProvider'
+
+const postItemsService = new PostItemsService()
 
 export function ItemAddForm({ title, type }) {
-  const canCreate = useCheckRoles([ROLES.admin, ROLES.publisher])
+  const { apiContext } = useSession()
+  const canCreate = useCheckRoles(postItemsService.roles)
+
   // ===== HOOKS ================================================
   const router = useRouter()
   // ===== REFS ================================================
@@ -39,17 +43,23 @@ export function ItemAddForm({ title, type }) {
 
     if (!form.get('name')) return toast.warning('Nom obligatoire')
 
+    //DATA Control
+    const body = new ItemCreateBody({
+      name: form.get('name'),
+      type,
+    })
+
     // ----- API CALL ----------------------------------------
     try {
-      const res = await fetcher.post(
-        '/items?type=' + type,
-        signal.current,
-        form
-      )
+      const newItem = await postItemsService.execute({
+        body: {
+          type: body.type,
+          name: body.name,
+        },
+        context: apiContext,
+      })
 
-      const newItem = await res.json()
-
-      if (res.status > 201) {
+      if (newItem.slug > 201) {
         toast.update(toastId.current, {
           render: newItem.error || 'Erreur lors de la création',
           isLoading: false,
@@ -66,7 +76,7 @@ export function ItemAddForm({ title, type }) {
         autoClose: 5000,
         closeButton: true,
       })
-      return router.push(`/admin/${newItem.type}/${newItem.slug}`)
+      return router.push(`/admin/${type}/${newItem.slug}`)
     } catch (err) {
       toast.update(toastId.current, {
         render: typeof err === 'string' ? err : err.message,

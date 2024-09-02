@@ -3,7 +3,7 @@ import { Button } from '@/ui/Button'
 import { useItem } from './Item'
 import { ReadAndEdit } from '@/ui/ReadAndEdit'
 import { useRef, useState } from 'react'
-import { Fieldset } from './Fieldset'
+import { Fieldset } from '../ui/Fieldset'
 
 export function ItemReleaseYear() {
   const { item, update } = useItem()

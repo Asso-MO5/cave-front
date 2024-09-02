@@ -1,3 +1,4 @@
+import { useSession } from '@/components/SessionProvider'
 import { useState, useEffect, useCallback } from 'react'
 
 /**
@@ -9,10 +10,10 @@ import { useState, useEffect, useCallback } from 'react'
  * @param {object} [options.context={}] - Le contexte pour passer des informations supplémentaires comme les headers ou les tokens
  * @returns {object} - Contient { data, loading, error, refetch, mutate }
  */
-export function useApi(
-  ApiClass,
-  { autoFetch = true, params = {}, context = {} } = {}
-) {
+export function useApi(ApiClass, config = {}) {
+  const { autoFetch = true, params = {}, context = {} } = config
+
+  const session = useSession()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -20,16 +21,17 @@ export function useApi(
   const apiInstance = new ApiClass()
 
   const fetchData = useCallback(
-    async (fetchParams = params, fetchContext = context) => {
+    async (payload) => {
       setLoading(true)
       setError(null)
 
       try {
-        const result = await apiInstance.execute(
-          fetchParams,
-          false,
-          fetchContext
-        )
+        const result = await apiInstance.execute({
+          ...config,
+          ...payload,
+          context: { userRoles: session?.user.roles.map((r) => r.name) || [] },
+        })
+
         setData(result)
       } catch (err) {
         setError(err)
@@ -37,21 +39,22 @@ export function useApi(
         setLoading(false)
       }
     },
-    [apiInstance, params, context]
+    [params, context]
   )
 
   useEffect(() => {
-    if (apiInstance.httpMethod === 'GET' && autoFetch) fetchData()
+    if (apiInstance.verb === 'GET' && autoFetch) fetchData()
 
     return () => {
-      apiInstance.abort()
+      if (loading) apiInstance.abort()
     }
-  }, [apiInstance, autoFetch, fetchData])
+  }, [])
 
   return {
     data,
     loading,
     error,
-    [apiInstance.httpMethod === 'GET' ? 'refetch' : 'mutate']: fetchData,
+    refetch: fetchData,
+    [apiInstance.verb === 'GET' ? 'refetch' : 'mutate']: fetchData,
   }
 }

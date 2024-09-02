@@ -1,3 +1,4 @@
+'use client'
 import { dc } from '@/utils/dynamic-classes'
 
 export function Button({

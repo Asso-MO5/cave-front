@@ -1,14 +1,14 @@
 'use client'
-import { API } from '@/api/api'
-import { useCave } from '@/hooks/useCave'
+
+import { GetMachinesService } from '@/_api/GetMachinesService'
+import { useApi } from '@/hooks/useApi'
 import { useRouter } from 'next/navigation'
 
 export function MachineTable() {
   const { push } = useRouter()
-  const { data, error, loading } = useCave(API.items, {
+  const { data, error, loading } = useApi(GetMachinesService, {
     query: {
       limit: 100000,
-      type: 'machine',
     },
   })
 
@@ -29,8 +29,8 @@ export function MachineTable() {
 
   return (
     <div className="h-full grid grid-rows-[auto_1fr]">
-      <div className="grid grid-cols-[4fr_1fr_2fr] gap-2 sticky top-1 bg-mo-bg font-bold text-mo-primary mt-2 text-center">
-        {['Nom', 'Année de sortie', 'Fabricant'].map((header) => (
+      <div className="grid grid-cols-[4fr_1fr_2fr_1fr] gap-2 sticky top-1 bg-mo-bg font-bold text-mo-primary mt-2 text-center">
+        {['Nom', 'Année de sortie', 'Fabricant', 'Status'].map((header) => (
           <div key={header} className="truncate">
             {header}
           </div>
@@ -41,7 +41,7 @@ export function MachineTable() {
           {data?.map((machine) => (
             <div
               key={machine.slug}
-              className="grid grid-cols-[4fr_1fr_2fr] gap-2 hover:text-mo-primary cursor-pointer odd:bg-black/5 p-1"
+              className="grid grid-cols-[4fr_1fr_2fr_1fr] gap-2 hover:text-mo-primary cursor-pointer odd:bg-black/5 p-1"
               onClick={() => push(`/admin/machine/${machine.slug}`)}
             >
               <div className="first-letter:uppercase font-bold">
@@ -49,6 +49,7 @@ export function MachineTable() {
               </div>
               <div className="text-center">{machine.release_year || '---'}</div>
               <div className="text-center">{machine.manufacturer || '---'}</div>
+              <div className="text-center">{machine.status || '---'}</div>
             </div>
           ))}
         </div>

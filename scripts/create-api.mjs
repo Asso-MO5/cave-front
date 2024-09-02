@@ -1,7 +1,7 @@
 import { writeFileSync, mkdirSync, existsSync } from 'fs'
 import path from 'path'
 
-const BASE_FOLDER = 'api'
+const BASE_FOLDER = '_api'
 
 // Fonction utilitaire pour générer les imports des modèles à partir des réponses
 function generateImportsForModels(responses) {
@@ -10,7 +10,7 @@ function generateImportsForModels(responses) {
   for (const response of Object.values(responses)) {
     if (response.schema && response.schema.$ref) {
       const modelClass = response.schema.$ref.split('/').pop()
-      imports.add(`import { ${modelClass} } from './${modelClass}.js';`)
+      imports.add(`import { ${modelClass} } from './${modelClass}.mjs';`)
     }
   }
 
@@ -45,6 +45,7 @@ function generateApiServiceForEndpoint(
   // Générer les conditions pour les différents codes de réponse
   let responseHandling = ''
   let firstModel = null
+
   for (const [statusCode, response] of Object.entries(responses)) {
     if (response.schema && response.schema.$ref) {
       const modelClass = response.schema.$ref.split('/').pop()
@@ -52,14 +53,31 @@ function generateApiServiceForEndpoint(
         firstModel = modelClass
       responseHandling += `
         if (response.status === ${statusCode}) {
+        if(Array.isArray(data)) {
+          return data.map(item => this.bindModel(item, ${modelClass}));
+        } else {
           return this.bindModel(data, ${modelClass});
+        }
         }
       `
     }
   }
 
+  const args = endpoint
+    .split('/')
+    .filter((arg) => arg.startsWith('{'))
+    .map((arg) => arg.slice(1, -1))
+
+  const query = parameters
+    .filter((param) => param.in === 'query')
+    .map((param) => {
+      return `* @param { string } config.query.${param.name} - ${param.name} ${
+        param.required ? '(required)' : ''
+      }`
+    })
+
   return `
-    import { ApiService } from './ApiService';
+    import { ApiService } from './utils/ApiService.mjs';
     ${generateImportsForModels(responses)}
 
     /**
@@ -72,6 +90,7 @@ function generateApiServiceForEndpoint(
         super(baseURL);
         this.roles = ${JSON.stringify(roles)};
         this.verb = '${httpMethod.toUpperCase()}';
+        this.endpoint = '${endpoint}';
       }
 
       /**
@@ -84,20 +103,38 @@ function generateApiServiceForEndpoint(
       }
 
       /**
-       * ${description}
+       * @description ${description}
        * @roles ${roles.join(', ')}
-       * @returns {Promise<${firstModel}>} - Un modèle de type ${firstModel}
+       * 
+       * @param { Object } config - Les paramètres de la requête
+       * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
+       * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
+       ${
+         query.length > 0
+           ? '        * @param { Object } config.query - Les paramètres de la requête\n' +
+             query.join('\n')
+           : '*'
+       }
+       ${
+         endpoint.includes('{')
+           ? `* @param { Object } config.params - Les paramètres de la requête\n${args
+               .map(
+                 (arg) =>
+                   `       * @param { string } config.params.${arg} - ${arg}`
+               )
+               .join('\n')}`
+           : '*'
+       }
+       * @returns { Promise<${firstModel}> } - Un modèle de type ${firstModel}
        *
-${jsdocParams}
+    ${jsdocParams}
        */
-      async execute(queryParams = {}, ssr = false, context = {}) {
-        if (!this.hasAccess(context.userRoles)) {
+      async execute(config) {
+      const{ context } = config
+        if (!this.hasAccess(context.userRoles)) 
           throw new Error('Access denied: insufficient permissions');
-        }
 
-        const queryString = new URLSearchParams(queryParams).toString();
-        const endpoint = \`${endpoint}?\${queryString}\`;
-        const response = await this.fetchData(endpoint, '${httpMethod.toUpperCase()}', null, {}, ssr, context);
+        const response = await this.fetchData(config);
 
         const data = await response.json();
 
@@ -110,15 +147,23 @@ ${jsdocParams}
   `
 }
 
-// Fonction pour générer les classes des modèles à partir de Swagger
 function generateClassFromSwagger(definitionName, definition) {
-  let imports = '' // Stocke les imports nécessaires
+  const isArray = definition.type === 'array'
+  const extendsClass = isArray ? definition.items['$ref'].split('/').pop() : ''
+
+  let imports = isArray
+    ? `import { ${extendsClass} } from './${extendsClass}.mjs'\n\n`
+    : `import { BaseModel } from './utils/BaseModel.mjs'\n\n` // Stocke les imports nécessaires
+
+  console.log('Generating class for:', definitionName, definition.type)
 
   let classDef = `/**
  * @class ${definitionName}
  * @description Classe représentant une réponse de type ${definitionName}.
  */
-export class ${definitionName} {\n`
+export class ${definitionName} extends ${
+    isArray ? extendsClass : 'BaseModel'
+  } {\n`
 
   const properties = definition.properties || {}
 
@@ -126,25 +171,41 @@ export class ${definitionName} {\n`
   classDef += `  /**\n`
   for (const [propName, prop] of Object.entries(properties || {})) {
     let jsdocType = prop.type === 'integer' ? 'number' : prop.type || 'object'
-    if (prop.$ref) {
+
+    if (prop.type === 'array' && prop.items.$ref) {
+      const refModelName = prop.items.$ref.split('/').pop()
+      jsdocType = `${refModelName}[]` // Typage pour un tableau de modèles
+      // Ajouter l'import nécessaire pour les modèles imbriqués
+      if (imports.indexOf(`import { ${refModelName} }`) === -1)
+        imports += `import { ${refModelName} } from './${refModelName}.mjs';\n`
+    } else if (prop.$ref) {
       const refModelName = prop.$ref.split('/').pop()
       jsdocType = refModelName
       // Ajouter l'import nécessaire pour les modèles imbriqués
-      imports += `import { ${refModelName} } from './${refModelName}.js';\n`
+      if (imports.indexOf(`import { ${refModelName} }`) === -1)
+        imports += `import { ${refModelName} } from './${refModelName}.mjs';\n`
     }
+
     classDef += `   * @param {${jsdocType}} ${propName}\n`
   }
   classDef += `   */\n`
 
   // Constructor
-  const props = Object.keys(properties || {}).length
-    ? `{${Object.keys(properties || {}).join(', ')}}`
-    : ''
-  classDef += `  constructor(${props}) {\n`
+
+  classDef += `  constructor(props = {}) {\n`
+
+  classDef += `super(props);\n`
 
   for (const [propName, prop] of Object.entries(properties || {})) {
     let jsdocType = prop.type === 'integer' ? 'number' : prop.type || 'object'
-    if (prop.$ref) {
+
+    if (prop.type === 'array' && prop.items.$ref) {
+      const refModelName = prop.items.$ref.split('/').pop()
+      jsdocType = `${refModelName}[]` // Typage pour un tableau de modèles
+      // Instancier un tableau de modèles imbriqués
+      classDef += `    /** @type {${jsdocType}} */\n`
+      classDef += `    this.${propName} = (${propName} || []).map(item => new ${refModelName}(item));\n`
+    } else if (prop.$ref) {
       const refModelName = prop.$ref.split('/').pop()
       jsdocType = refModelName
       // Instancier la classe imbriquée
@@ -153,7 +214,7 @@ export class ${definitionName} {\n`
     } else {
       // Typage normal pour les propriétés non imbriquées
       classDef += `    /** @type {${jsdocType}} */\n`
-      classDef += `    this.${propName} = ${propName};\n`
+      classDef += `    this.${propName} = props.${propName} || null;\n`
     }
   }
 
@@ -162,20 +223,30 @@ export class ${definitionName} {\n`
   // Getters and Setters
   for (const [propName, prop] of Object.entries(properties)) {
     let jsdocType = prop.type === 'integer' ? 'number' : prop.type || 'object'
-    if (prop.$ref) {
+
+    if (prop.type === 'array' && prop.items.$ref) {
+      const refModelName = prop.items.$ref.split('/').pop()
+      jsdocType = `${refModelName}[]`
+      classDef += `  /** @type {${jsdocType}} */\n`
+      classDef += `  get ${propName}() { return this._${propName}; }\n`
+      classDef += `  set ${propName}(value) {\n`
+      classDef += `    if (!Array.isArray(value)) throw new TypeError('Expected an array for ${propName}');\n`
+      classDef += `    this._${propName} = value.map(item => new ${refModelName}(item));\n`
+      classDef += `  }\n\n`
+    } else if (prop.$ref) {
       const refModelName = prop.$ref.split('/').pop()
       jsdocType = refModelName
       classDef += `  /** @type {${jsdocType}} */\n`
       classDef += `  get ${propName}() { return this._${propName}; }\n`
       classDef += `  set ${propName}(value) {\n`
-      classDef += `    if (!(value instanceof ${refModelName})) throw new TypeError('Expected an instance of ${refModelName} for ${propName}');\n`
+      classDef += `    if (!(value instanceof ${refModelName} && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of ${refModelName} for ${propName}');\n`
       classDef += `    this._${propName} = value;\n`
       classDef += `  }\n\n`
     } else {
       classDef += `  /** @type {${jsdocType}} */\n`
       classDef += `  get ${propName}() { return this._${propName}; }\n`
       classDef += `  set ${propName}(value) {\n`
-      classDef += `    if (typeof value !== '${jsdocType}') throw new TypeError('Expected a ${jsdocType} for ${propName}');\n`
+      classDef += `    if (typeof value !== '${jsdocType}' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a ${jsdocType} for ${propName}');\n`
       classDef += `    this._${propName} = value;\n`
       classDef += `  }\n\n`
     }
@@ -189,7 +260,7 @@ export class ${definitionName} {\n`
 
 // Fonction principale qui génère les services d'API à partir de Swagger
 function generateServicesFromSwagger(apiJson) {
-  const apiFolder = path.join(process.cwd(), 'api')
+  const apiFolder = path.join(process.cwd(), BASE_FOLDER)
 
   if (!existsSync(apiFolder)) mkdirSync(apiFolder)
 
@@ -214,7 +285,7 @@ function generateServicesFromSwagger(apiJson) {
       )
 
       writeFileSync(
-        path.join(apiFolder, `${className}Service.js`),
+        path.join(apiFolder, `${className}Service.mjs`),
         apiService,
         'utf8'
       )
@@ -240,7 +311,7 @@ async function createApi() {
     for (const [definitionName, definition] of Object.entries(definitions)) {
       const classDef = generateClassFromSwagger(definitionName, definition)
       writeFileSync(
-        path.join(apiFolder, `${definitionName}.js`),
+        path.join(apiFolder, `${definitionName}.mjs`),
         classDef,
         'utf8'
       )

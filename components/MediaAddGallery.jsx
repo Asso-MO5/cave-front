@@ -4,7 +4,7 @@ import { VirtuosoGrid } from 'react-virtuoso'
 import { dc } from '@/utils/dynamic-classes'
 import { Button } from '@/ui/Button'
 import { useCave } from '@/hooks/useCave'
-import { API } from '@/api/api'
+import { API } from '@/_api/api'
 
 function Item({ children, ...props }) {
   return (
@@ -13,6 +13,7 @@ function Item({ children, ...props }) {
     </div>
   )
 }
+
 const gridComponents = {
   List: forwardRef(function List({ children, ...props }, ref) {
     return (

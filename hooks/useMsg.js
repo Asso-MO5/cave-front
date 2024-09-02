@@ -14,3 +14,9 @@ export function useMsg(room = '/public') {
     msg,
   }
 }
+
+export function useMsgCb(room = '/public', cb) {
+  useEffect(() => {
+    Message.getClient().subscribe(room, cb)
+  }, [])
+}

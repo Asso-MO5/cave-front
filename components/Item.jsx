@@ -1,25 +1,15 @@
 'use client'
 
 import { createContext, useContext } from 'react'
-import { ItemCover } from './ItemCover'
 import { fetcher } from '@/utils/fetcher'
-import { ItemName } from './ItemName'
-import { ItemReleaseYear } from './ItemReleaseYear'
-import { ItemDescription } from './ItemDescription'
-import { ItemCompany } from './ItemCompany'
 import { toast } from 'react-toastify'
 import { useParams, useRouter } from 'next/navigation'
-import { ITEM_TYPE_TITLE } from '@/utils/constants'
-import { GameMachineSelector } from './GameMachineSelector'
-import { SessionProvider } from './SessionProvider'
-import { ItemState } from './ItemState'
-import { cave } from '@/utils/cave'
-import { API } from '@/api/api'
+import { SessionProvider, useSession } from './SessionProvider'
 
-const companies = {
-  machine: ['manufacturer'],
-  game: ['developer', 'publisher'],
-}
+import { PutItemsIdStatusStatusService } from '@/_api/PutItemsIdStatusStatusService'
+import { ItemClassic } from './ItemClassic'
+import { Expo } from './Expo'
+import { ItemCartel } from './ItemCartel'
 
 const Ctx = createContext()
 
@@ -33,9 +23,12 @@ export function useItem() {
   return ctx
 }
 
-export function Item({ item, session }) {
-  const { type } = useParams()
+export function Item({ item, type: type_ }) {
+  const session = useSession()
+  const { type: paramsType } = useParams()
   const { push } = useRouter()
+
+  const type = type_ || paramsType
 
   return (
     <SessionProvider session={session}>
@@ -50,14 +43,20 @@ export function Item({ item, session }) {
 
             // -----|| Update status ||-----
             if (keys.includes('status')) {
-              const res = await cave(API.item_status, {
-                method: 'put',
-                params: { status: partial.status, id: item.id },
-              })
-              const resJson = await res.json()
-              if (resJson.status !== partial.status)
-                return toast.error('Erreur lors de la mise à jour du status')
-              return
+              const apiStatus = new PutItemsIdStatusStatusService()
+              try {
+                await apiStatus.execute({
+                  params: { status: partial.status, id: item.id },
+                  context: {
+                    userRoles: session?.user.roles.map((r) => r.name) || [],
+                  },
+                })
+              } catch (err) {
+                console.error(err)
+                toast.error('Erreur lors de la mise à jour du status')
+              } finally {
+                return
+              }
             }
             // --------------------------
 
@@ -106,29 +105,9 @@ export function Item({ item, session }) {
           },
         }}
       >
-        <div className="flex flex-col sm:grid sm:grid-cols-[4fr_1fr] w-full m-auto">
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="text-xs p-1 rounded-sm text-mo-white bg-mo-primary">
-                  {ITEM_TYPE_TITLE[type]}
-                </div>
-                <ItemName />
-              </div>
-              {type === 'game' && <GameMachineSelector />}
-            </div>
-            <ItemState />
-            <ItemDescription />
-          </div>
-
-          <div className="flex flex-col">
-            <ItemCover />
-            <ItemReleaseYear />
-            {companies[type].map((company) => (
-              <ItemCompany key={company} type={company} />
-            ))}
-          </div>
-        </div>
+        {type.match(/game|machine|obj/) && <ItemClassic />}
+        {type.match(/expo/) && <Expo />}
+        {type.match(/cartel/) && <ItemCartel />}
       </Provider>
     </SessionProvider>
   )

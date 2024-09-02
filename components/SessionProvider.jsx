@@ -9,5 +9,12 @@ export function SessionProvider({ children, session }) {
 export function useSession() {
   const ctx = useContext(Ctx)
   if (!ctx) throw new Error('useSession must be used within a SessionProvider')
-  return ctx
+
+  const apiContext = {
+    userRoles: ctx?.user.roles.map((r) => r.name) || [],
+  }
+  return {
+    ...ctx,
+    apiContext,
+  }
 }
