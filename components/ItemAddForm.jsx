@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import { useCheckRoles } from '@/hooks/useCheckRoles'
 import { PostItemsService } from '@/_api/PostItemsService'
 import { useSession } from './SessionProvider'
+import { ItemCreatePayload } from '@/_api/ItemCreatePayload.mjs'
 
 const postItemsService = new PostItemsService()
 
@@ -44,7 +45,7 @@ export function ItemAddForm({ title, type }) {
     if (!form.get('name')) return toast.warning('Nom obligatoire')
 
     //DATA Control
-    const body = new ItemCreateBody({
+    const body = new ItemCreatePayload({
       name: form.get('name'),
       type,
     })
