@@ -1,6 +1,6 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { CompanyLight } from './CompanyLight.mjs';
+    import { Company } from './Company.mjs';
 
     /**
      * Crée une entreprise
@@ -31,15 +31,12 @@
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
-               * @param { Object } config.query - Les paramètres de la requête
-* @param { string } config.query.name - name (required)
-* @param { string } config.query.activities - activities (required)
        *
-       * @returns { Promise<CompanyLight> } - Un modèle de type CompanyLight
+       *
+       * @returns { Promise<Company> } - Un modèle de type Company
        *
        * @param {string} authorization -  (header)
-   * @param {string} name -  (query)
-   * @param {string} activities -  (query)
+   * @param {undefined} body -  (body)
        */
       async execute(config) {
       const{ context } = config
@@ -52,11 +49,11 @@
 
         // Gérer les différentes réponses en fonction des codes de statut
         
-        if (response.status === 200) {
+        if (response.status === 201) {
         if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, CompanyLight));
+          return data.map(item => this.bindModel(item, Company));
         } else {
-          return this.bindModel(data, CompanyLight);
+          return this.bindModel(data, Company);
         }
         }
       

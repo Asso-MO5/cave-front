@@ -2,9 +2,8 @@
 
 import { GetCompaniesLightService } from '@/_api/GetCompaniesLightService.mjs'
 import { GetGameSlugService } from '@/_api/GetGameSlugService'
+import { PostCompaniesService } from '@/_api/PostCompaniesService.mjs'
 import { useApi } from '@/hooks/useApi'
-import { useDebounce } from '@/hooks/useDebounce'
-import { useFetch } from '@/hooks/useFetch'
 import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
 import { dc } from '@/utils/dynamic-classes'
 
@@ -17,10 +16,12 @@ import {
 } from '@headlessui/react'
 
 import { useEffect, useRef, useState } from 'react'
+import { useSession } from './SessionProvider'
 
 const te = new GetGameSlugService()
 te.verb
 
+const postCompaniesService = new PostCompaniesService()
 export function CompanySelector({
   defaultValue = {
     id: '',
@@ -29,32 +30,31 @@ export function CompanySelector({
   onSelect,
   type = 'manufacturer',
 }) {
+  const { apiContext } = useSession()
   const listRef = useRef(null)
   const [query, setQuery] = useState('')
-  const debouncedQuery = useDebounce(query, 500)
   const [companies, setCompanies] = useState([])
   const [selected, setSelected] = useState(defaultValue)
 
-  const { data, error, loading } = useApi(GetCompaniesLightService, {
+  const { data, refetch } = useApi(GetCompaniesLightService, {
     query: {
       limit: 100000,
       activities: type,
     },
   })
 
-  const { refetch: mutation, data: dataMutation } = useFetch({
-    url: '/companies',
-    method: 'post',
-    enabled: false,
-  })
-
   const handleCreate = async () => {
-    const form = new FormData()
-    form.append('name', query)
-    form.append('activities', type)
-    await mutation(form)
-    setQuery('')
-    refetch()
+    const res = await postCompaniesService.execute({
+      body: {
+        name: query,
+        activities: type,
+      },
+      context: apiContext,
+    })
+
+    setSelected(res)
+    onSelect?.(res)
+    setCompanies((prev) => [...prev, res])
   }
 
   useEffect(() => {
@@ -70,14 +70,6 @@ export function CompanySelector({
       )
     }
   }, [data])
-
-  useEffect(() => {
-    if (dataMutation?.id) {
-      setSelected(dataMutation)
-      onSelect?.(dataMutation)
-      setCompanies((prev) => [...prev, dataMutation])
-    }
-  }, [dataMutation])
 
   return (
     <Combobox
