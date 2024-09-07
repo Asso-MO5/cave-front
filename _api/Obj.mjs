@@ -12,7 +12,7 @@ export class Obj extends BaseModel {
    * @param {string} name
    * @param {string} slug
    * @param {string} description
-   * @param {number} release_year
+   * @param {string} release_year
    * @param {string} cover_id
    * @param {string} cover_url
    * @param {string} type
@@ -33,7 +33,7 @@ super(props);
     this.slug = props.slug || null;
     /** @type {string} */
     this.description = props.description || null;
-    /** @type {number} */
+    /** @type {string} */
     this.release_year = props.release_year || null;
     /** @type {string} */
     this.cover_id = props.cover_id || null;
@@ -83,10 +83,10 @@ super(props);
     this._description = value;
   }
 
-  /** @type {number} */
+  /** @type {string} */
   get release_year() { return this._release_year; }
   set release_year(value) {
-    if (typeof value !== 'number' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a number for release_year');
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for release_year');
     this._release_year = value;
   }
 

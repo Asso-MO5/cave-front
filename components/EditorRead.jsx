@@ -33,5 +33,5 @@ export function EditorRead({ value = undefined, inText = false }) {
   if (!editor) return null
 
   if (inText) return <span ref={ref} />
-  return <div ref={ref} />
+  return <div ref={ref} className="z-0" />
 }

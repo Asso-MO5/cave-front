@@ -50,7 +50,7 @@ export function Editor({ onChange, id, defaultValue = '', session }) {
   return (
     <BlockNoteView
       editor={editor}
-      className="min-h-20"
+      className="min-h-20 z-0"
       name="description"
       theme="light"
       style={{
