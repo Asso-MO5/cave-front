@@ -58,7 +58,7 @@ export function GameMachineSelector() {
       </MenuButton>
       <MenuItems
         anchor="bottom-right"
-        className="mt-1 rounded-sm border border-mo-primary bg-mo-white"
+        className="mt-1 rounded-sm border border-mo-primary bg-mo-white z-50"
       >
         {/*
         <MenuItem>
@@ -67,7 +67,7 @@ export function GameMachineSelector() {
           </a>
         </MenuItem>
         */}
-        <div className="flex flex-col max-h-56 overflow-y-auto">
+        <div className="flex flex-col max-h-56 overflow-y-auto ">
           {data?.map((machine) => (
             <MenuItem key={machine.id}>
               {machine.related_item_id === item.ref_id ? (

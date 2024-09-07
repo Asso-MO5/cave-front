@@ -11,7 +11,7 @@ export class Company extends BaseModel {
    * @param {string} slug
    * @param {string} country
    * @param {string} description
-   * @param {number} borned_at
+   * @param {string} borned_at
    * @param {string} logo_id
    * @param {string} logo_url
    * @param {string} activities
@@ -32,7 +32,7 @@ super(props);
     this.country = props.country || null;
     /** @type {string} */
     this.description = props.description || null;
-    /** @type {number} */
+    /** @type {string} */
     this.borned_at = props.borned_at || null;
     /** @type {string} */
     this.logo_id = props.logo_id || null;
@@ -85,10 +85,10 @@ super(props);
     this._description = value;
   }
 
-  /** @type {number} */
+  /** @type {string} */
   get borned_at() { return this._borned_at; }
   set borned_at(value) {
-    if (typeof value !== 'number' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a number for borned_at');
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for borned_at');
     this._borned_at = value;
   }
 
