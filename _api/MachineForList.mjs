@@ -1,10 +1,8 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class MachineForList
  * @description Classe représentant une réponse de type MachineForList.
  */
-export class MachineForList extends BaseModel {
+export class MachineForList   {
   /**
    * @param {string} name
    * @param {string} slug
@@ -13,7 +11,6 @@ export class MachineForList extends BaseModel {
    * @param {string} status
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */

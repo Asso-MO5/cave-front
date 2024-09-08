@@ -1,11 +1,9 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 import { medias } from './medias.mjs';
 /**
  * @class Expo
  * @description Classe représentant une réponse de type Expo.
  */
-export class Expo extends BaseModel {
+export class Expo   {
   /**
    * @param {string} id
    * @param {string} name
@@ -23,7 +21,6 @@ export class Expo extends BaseModel {
    * @param {medias} medias
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */

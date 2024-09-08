@@ -1,17 +1,14 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class ExpoForList
  * @description Classe représentant une réponse de type ExpoForList.
  */
-export class ExpoForList extends BaseModel {
+export class ExpoForList   {
   /**
    * @param {string} name
    * @param {string} slug
    * @param {string} status
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */

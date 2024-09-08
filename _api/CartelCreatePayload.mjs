@@ -1,17 +1,14 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class CartelCreatePayload
  * @description Classe représentant une réponse de type CartelCreatePayload.
  */
-export class CartelCreatePayload extends BaseModel {
+export class CartelCreatePayload   {
   /**
    * @param {string} name
    * @param {string} type
    * @param {string} slug
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */

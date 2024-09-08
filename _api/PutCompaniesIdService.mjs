@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { CartelList } from './CartelList.mjs';
+    
 
     /**
-     * Récupère la liste des cartels d'une exposition
-     * @class GetExposCartelsService
-     * @roles Membres MO5
+     * Modifie une entreprise
+     * @class PutCompaniesIdService
+     * @roles reviewer, publisher
      */
-    export class GetExposCartelsService extends ApiService {
+    export class PutCompaniesIdService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
-        this.roles = ["Membres MO5"];
-        this.verb = 'GET';
-        this.endpoint = '/expos/cartels';
+        this.roles = ["reviewer","publisher"];
+        this.verb = 'PUT';
+        this.endpoint = '/companies/{id}';
       }
 
       /**
@@ -25,15 +25,16 @@
       }
 
       /**
-       * @description Récupère la liste des cartels d'une exposition
-       * @roles Membres MO5
+       * @description Modifie une entreprise
+       * @roles reviewer, publisher
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
        *
-       *
-       * @returns { Promise<CartelList> } - Un modèle de type CartelList
+       * @param { Object } config.params - Les paramètres de la requête
+       * @param { string } config.params.id - id
+       * @returns { Promise<null> } - Un modèle de type null
        *
        * @param {string} authorization -  (header)
        */
@@ -48,14 +49,6 @@
 
         // Gérer les différentes réponses en fonction des codes de statut
         
-        if (response.status === 200) {
-        if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, CartelList));
-        } else {
-          return this.bindModel(data, CartelList);
-        }
-        }
-      
 
         throw new Error(`Unexpected response status: ${response.status}`);
       }

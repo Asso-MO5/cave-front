@@ -1,8 +1,7 @@
 'use client'
 import { Button } from '@/ui/Button'
-import { useItem } from './Item'
 import { ReadAndEdit } from '@/ui/ReadAndEdit'
-import { Suspense, useRef, useState } from 'react'
+import { Suspense, useId, useRef, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 
@@ -17,31 +16,31 @@ const EditorRead = dynamic(
   }
 )
 
-export function ItemDescription() {
-  const { item, update } = useItem()
-  const [description, setDescription] = useState(item.description)
-  const [desc, setDesc] = useState(item.description)
+export function TextReadEdit({ update, defaultValue, id = null }) {
+  const idGen = useId()
+  const ID = id || idGen
+  const [savedText, setSavedText] = useState(defaultValue)
+  const [text, setText] = useState(defaultValue)
   const ref = useRef()
 
   const handleSubmit = async (e, close) => {
     e.preventDefault()
-    const oldDesc = description
+    const oldText = savedText
 
-    console.log('description', desc)
-    setDescription(desc)
-    update({ description: desc }).catch(() => setDescription(oldDesc))
+    setSavedText(text)
+    update(text).catch(() => setSavedText(oldText))
     close()
   }
 
   return (
     <ReadAndEdit
       read={() =>
-        description ? (
+        text ? (
           <Suspense fallback={<div>Chargement...</div>}>
-            <EditorRead value={description} key={description} />
+            <EditorRead value={savedText} key={savedText} />
           </Suspense>
         ) : (
-          <div className="italic text-mo-text">Aucune description</div>
+          <div className="italic text-mo-text">---</div>
         )
       }
       edit={(close) => (
@@ -51,12 +50,7 @@ export function ItemDescription() {
           onSubmit={(e) => handleSubmit(e, close)}
         >
           <Suspense fallback={<div>Chargement...</div>}>
-            <Editor
-              onChange={setDesc}
-              defaultValue={description || ''}
-              id={`description-${item.id}`}
-              key={description}
-            />
+            <Editor onChange={setText} defaultValue={savedText || ''} id={ID} />
           </Suspense>
           <div className="flex gap-2">
             <Button onClick={close} theme="secondary">

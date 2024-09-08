@@ -1,23 +1,23 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class CompanyLight
  * @description Classe représentant une réponse de type CompanyLight.
  */
-export class CompanyLight extends BaseModel {
+export class CompanyLight   {
   /**
    * @param {string} id
    * @param {string} name
    * @param {string} slug
+   * @param {string} activities
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */
     this.slug = props.slug || null;
+    /** @type {string} */
+    this.activities = props.activities || null;
   }
 
   /** @type {string} */
@@ -39,6 +39,13 @@ super(props);
   set slug(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for slug');
     this._slug = value;
+  }
+
+  /** @type {string} */
+  get activities() { return this._activities; }
+  set activities(value) {
+    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for activities');
+    this._activities = value;
   }
 
 }

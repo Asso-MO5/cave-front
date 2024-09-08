@@ -1,13 +1,13 @@
 import { useItem } from './Item'
-import { ItemName } from './ItemName'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
-import { ItemDescription } from './ItemDescription'
 import { ExpoCartelsTable } from './ExpoCartelsTable'
 import { Tabs } from '@/ui/Tabs'
 import { ExpoCartelAddModal } from './ExpoCartelAddModal'
+import { StrReadEdit } from './StrReadEdit'
+import { TextReadEdit } from './TextreadEdit'
 
 export function Expo() {
-  const { item } = useItem()
+  const { item, update } = useItem()
   return (
     <div className="grid grid-rows-[auto_1fr] w-full h-full">
       <div>
@@ -16,13 +16,19 @@ export function Expo() {
             <div className="text-xs p-1 rounded-sm text-mo-white bg-mo-primary">
               {ITEM_TYPE_TITLE[item.type]}
             </div>
-            <ItemName />
+            <StrReadEdit
+              update={(value) => update({ name: value })}
+              defaultValue={item.name}
+            />
           </div>
           <div>
             <ExpoCartelAddModal />
           </div>
         </div>
-        <ItemDescription />
+        <TextReadEdit
+          defaultValue={item?.description}
+          update={(description) => update({ description })}
+        />
       </div>
       <div className="grid grid-rows-[auto_1fr] gap-2 h-full">
         <Tabs

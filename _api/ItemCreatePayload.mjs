@@ -1,16 +1,13 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class ItemCreatePayload
  * @description Classe représentant une réponse de type ItemCreatePayload.
  */
-export class ItemCreatePayload extends BaseModel {
+export class ItemCreatePayload   {
   /**
    * @param {string} type
    * @param {string} name
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.type = props.type || null;
     /** @type {string} */

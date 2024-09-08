@@ -1,16 +1,13 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class MediaCreateBody
  * @description Classe représentant une réponse de type MediaCreateBody.
  */
-export class MediaCreateBody extends BaseModel {
+export class MediaCreateBody   {
   /**
    * @param {file} file
    * @param {string} url
    */
   constructor(props = {}) {
-super(props);
     /** @type {file} */
     this.file = props.file || null;
     /** @type {string} */

@@ -1,11 +1,9 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 import { Model2 } from './Model2.mjs';
 /**
  * @class CartelDetails
  * @description Classe représentant une réponse de type CartelDetails.
  */
-export class CartelDetails extends BaseModel {
+export class CartelDetails   {
   /**
    * @param {string} id
    * @param {string} name
@@ -24,7 +22,6 @@ export class CartelDetails extends BaseModel {
    * @param {Model2} refItem
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */

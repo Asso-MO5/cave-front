@@ -1,10 +1,8 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class ItemStatusUpdated
  * @description Classe représentant une réponse de type ItemStatusUpdated.
  */
-export class ItemStatusUpdated extends BaseModel {
+export class ItemStatusUpdated   {
   /**
    * @param {string} id
    * @param {string} name
@@ -20,7 +18,6 @@ export class ItemStatusUpdated extends BaseModel {
    * @param {string} updated_at
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */

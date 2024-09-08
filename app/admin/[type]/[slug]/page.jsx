@@ -41,9 +41,10 @@ export default async function ItemDetails({ params: { slug, type } }) {
         {ITEM_TYPE_TITLE[type]} non trouvée
       </div>
     )
+
   return (
     <PageList session={session}>
-      <Item item={item} session={session} />
+      <Item item={item} />
     </PageList>
   )
 }

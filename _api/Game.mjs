@@ -1,5 +1,3 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 import { MachineInGame } from './MachineInGame.mjs';
 import { Company } from './Company.mjs';
 import { Model5 } from './Model5.mjs';
@@ -7,7 +5,7 @@ import { Model5 } from './Model5.mjs';
  * @class Game
  * @description Classe représentant une réponse de type Game.
  */
-export class Game extends BaseModel {
+export class Game   {
   /**
    * @param {string} id
    * @param {string} name
@@ -28,7 +26,6 @@ export class Game extends BaseModel {
    * @param {Model5} medias
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */

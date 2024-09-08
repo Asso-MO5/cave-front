@@ -52,10 +52,15 @@
         // Gérer les différentes réponses en fonction des codes de statut
         
         if (response.status === 201) {
-        if(Array.isArray(data)) {
+    
+        if(!config.noModel) {
+            if(Array.isArray(data)) {
           return data.map(item => this.bindModel(item, ItemStatusUpdated));
         } else {
           return this.bindModel(data, ItemStatusUpdated);
+        }
+        } else {
+          return data;
         }
         }
       
