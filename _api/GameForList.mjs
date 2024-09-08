@@ -1,10 +1,8 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class GameForList
  * @description Classe représentant une réponse de type GameForList.
  */
-export class GameForList extends BaseModel {
+export class GameForList   {
   /**
    * @param {string} name
    * @param {string} slug
@@ -14,7 +12,6 @@ export class GameForList extends BaseModel {
    * @param {string} developer
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */

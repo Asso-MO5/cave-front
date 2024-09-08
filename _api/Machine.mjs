@@ -1,12 +1,10 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 import { Company } from './Company.mjs';
 import { Model7 } from './Model7.mjs';
 /**
  * @class Machine
  * @description Classe représentant une réponse de type Machine.
  */
-export class Machine extends BaseModel {
+export class Machine   {
   /**
    * @param {string} id
    * @param {string} name
@@ -24,7 +22,6 @@ export class Machine extends BaseModel {
    * @param {Model7} medias
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */

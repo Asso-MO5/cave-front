@@ -1,18 +1,18 @@
 
     import { ApiService } from './utils/ApiService.mjs';
-    import { MachineList } from './MachineList.mjs';
+    import { Company } from './Company.mjs';
 
     /**
-     * Récupère la liste des machines
-     * @class GetMachinesService
+     * Récupère une entreprise par son slug
+     * @class GetCompaniesSlugService
      * @roles Membres MO5
      */
-    export class GetMachinesService extends ApiService {
+    export class GetCompaniesSlugService extends ApiService {
       constructor(baseURL) {
         super(baseURL);
         this.roles = ["Membres MO5"];
         this.verb = 'GET';
-        this.endpoint = '/machines';
+        this.endpoint = '/companies/{slug}';
       }
 
       /**
@@ -25,19 +25,19 @@
       }
 
       /**
-       * @description Récupère la liste des machines
+       * @description Récupère une entreprise par son slug
        * @roles Membres MO5
        * 
        * @param { Object } config - Les paramètres de la requête
        * @param { Object } config.context - Contexte (cookies en SSR, localStorage côté client)
        * @param { boolean } config.ssr - True si la requête est effectuée côté serveur
-               * @param { Object } config.query - Les paramètres de la requête
-* @param { string } config.query.limit - limit 
        *
-       * @returns { Promise<MachineList> } - Un modèle de type MachineList
+       * @param { Object } config.params - Les paramètres de la requête
+       * @param { string } config.params.slug - slug
+       * @returns { Promise<Company> } - Un modèle de type Company
        *
        * @param {string} authorization -  (header)
-   * @param {number} limit -  (query)
+   * @param {string} slug -  (path)
        */
       async execute(config) {
       const{ context } = config
@@ -54,9 +54,9 @@
     
         if(!config.noModel) {
             if(Array.isArray(data)) {
-          return data.map(item => this.bindModel(item, MachineList));
+          return data.map(item => this.bindModel(item, Company));
         } else {
-          return this.bindModel(data, MachineList);
+          return this.bindModel(data, Company);
         }
         } else {
           return data;

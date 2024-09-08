@@ -50,10 +50,15 @@
         // Gérer les différentes réponses en fonction des codes de statut
         
         if (response.status === 200) {
-        if(Array.isArray(data)) {
+    
+        if(!config.noModel) {
+            if(Array.isArray(data)) {
           return data.map(item => this.bindModel(item, MachineLightList));
         } else {
           return this.bindModel(data, MachineLightList);
+        }
+        } else {
+          return data;
         }
         }
       

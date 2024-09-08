@@ -1,17 +1,14 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class MachineLight
  * @description Classe représentant une réponse de type MachineLight.
  */
-export class MachineLight extends BaseModel {
+export class MachineLight   {
   /**
    * @param {string} id
    * @param {string} name
    * @param {string} related_item_id
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */

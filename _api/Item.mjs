@@ -1,10 +1,8 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class Item
  * @description Classe représentant une réponse de type Item.
  */
-export class Item extends BaseModel {
+export class Item   {
   /**
    * @param {string} id
    * @param {string} name
@@ -20,7 +18,6 @@ export class Item extends BaseModel {
    * @param {string} updated_at
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */

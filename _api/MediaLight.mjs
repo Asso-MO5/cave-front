@@ -1,10 +1,8 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class MediaLight
  * @description Classe représentant une réponse de type MediaLight.
  */
-export class MediaLight extends BaseModel {
+export class MediaLight   {
   /**
    * @param {string} id
    * @param {string} url
@@ -12,7 +10,6 @@ export class MediaLight extends BaseModel {
    * @param {string} type
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */

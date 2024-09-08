@@ -1,16 +1,13 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class CompanyCreateBody
  * @description Classe représentant une réponse de type CompanyCreateBody.
  */
-export class CompanyCreateBody extends BaseModel {
+export class CompanyCreateBody   {
   /**
    * @param {string} name
    * @param {string} activities
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */

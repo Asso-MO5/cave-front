@@ -1,28 +1,26 @@
 'use client'
 import { Button } from '@/ui/Button'
-import { useItem } from './Item'
 import { ReadAndEdit } from '@/ui/ReadAndEdit'
 import { useRef, useState } from 'react'
 
-export function ItemName() {
-  const { item, update } = useItem()
-  const [name, setName] = useState(item.name)
+export function StrReadEdit({ update, defaultValue }) {
+  const [value, setValue] = useState(defaultValue)
   const ref = useRef()
 
   const handleSubmit = async (e, close) => {
     e.preventDefault()
-    const oldName = name
+    const oldValue = value
     const form = new FormData(ref.current)
     const newName = form.get('name')
 
-    setName(newName)
-    update({ name: newName }).catch(() => setName(oldName))
+    setValue(newName)
+    update(value).catch(() => setValue(oldValue))
     close()
   }
 
   return (
     <ReadAndEdit
-      read={() => <h2 className="font-bold text-2xl text-mo-text">{name}</h2>}
+      read={() => <h2 className="font-bold text-2xl text-mo-text">{value}</h2>}
       edit={(close) => (
         <form
           className="flex flex-col gap-2"
@@ -34,8 +32,8 @@ export function ItemName() {
             className="w-full"
             id="name"
             name="name"
-            defaultValue={name}
-            onChange={(e) => (item.name = e.target.value)}
+            defaultValue={defaultValue}
+            onChange={(e) => setValue(e.target.value)}
           />
           <div className="flex gap-2">
             <Button onClick={close} theme="secondary">

@@ -1,10 +1,8 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class ObjForList
  * @description Classe représentant une réponse de type ObjForList.
  */
-export class ObjForList extends BaseModel {
+export class ObjForList   {
   /**
    * @param {string} name
    * @param {string} slug
@@ -13,7 +11,6 @@ export class ObjForList extends BaseModel {
    * @param {string} status
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */

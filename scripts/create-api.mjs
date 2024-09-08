@@ -53,10 +53,15 @@ function generateApiServiceForEndpoint(
         firstModel = modelClass
       responseHandling += `
         if (response.status === ${statusCode}) {
-        if(Array.isArray(data)) {
+    
+        if(!config.noModel) {
+            if(Array.isArray(data)) {
           return data.map(item => this.bindModel(item, ${modelClass}));
         } else {
           return this.bindModel(data, ${modelClass});
+        }
+        } else {
+          return data;
         }
         }
       `
@@ -153,7 +158,7 @@ function generateClassFromSwagger(definitionName, definition) {
 
   let imports = isArray
     ? `import { ${extendsClass} } from './${extendsClass}.mjs'\n\n`
-    : `import { BaseModel } from './utils/BaseModel.mjs'\n\n` // Stocke les imports nécessaires
+    : `` // Stocke les imports nécessaires
 
   console.log('Generating class for:', definitionName, definition.type)
 
@@ -161,9 +166,7 @@ function generateClassFromSwagger(definitionName, definition) {
  * @class ${definitionName}
  * @description Classe représentant une réponse de type ${definitionName}.
  */
-export class ${definitionName} extends ${
-    isArray ? extendsClass : 'BaseModel'
-  } {\n`
+export class ${definitionName}  ${isArray ? 'extends ' + extendsClass : ''} {\n`
 
   const properties = definition.properties || {}
 
@@ -194,7 +197,7 @@ export class ${definitionName} extends ${
 
   classDef += `  constructor(props = {}) {\n`
 
-  classDef += `super(props);\n`
+  if (isArray) classDef += `super(props);\n`
 
   for (const [propName, prop] of Object.entries(properties || {})) {
     let jsdocType = prop.type === 'integer' ? 'number' : prop.type || 'object'

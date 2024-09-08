@@ -1,10 +1,8 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class MachineInGame
  * @description Classe représentant une réponse de type MachineInGame.
  */
-export class MachineInGame extends BaseModel {
+export class MachineInGame   {
   /**
    * @param {string} id
    * @param {string} name
@@ -21,7 +19,6 @@ export class MachineInGame extends BaseModel {
    * @param {string} item_ref_id
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.id = props.id || null;
     /** @type {string} */

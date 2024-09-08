@@ -1,14 +1,11 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class Model6
  * @description Classe représentant une réponse de type Model6.
  */
-export class Model6 extends BaseModel {
+export class Model6   {
   /**
    */
   constructor(props = {}) {
-super(props);
   }
 
 }

@@ -1,10 +1,8 @@
-import { BaseModel } from './utils/BaseModel.mjs'
-
 /**
  * @class CartelForList
  * @description Classe représentant une réponse de type CartelForList.
  */
-export class CartelForList extends BaseModel {
+export class CartelForList   {
   /**
    * @param {string} name
    * @param {string} slug
@@ -12,7 +10,6 @@ export class CartelForList extends BaseModel {
    * @param {string} status
    */
   constructor(props = {}) {
-super(props);
     /** @type {string} */
     this.name = props.name || null;
     /** @type {string} */
