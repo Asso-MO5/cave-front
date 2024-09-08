@@ -1,13 +1,13 @@
 import { PutItemsIdStatusStatusService } from '@/_api/PutItemsIdStatusStatusService.mjs'
-import { useItem } from './Item'
-import { ItemCompany } from './ItemCompany'
+import { useItem } from '@/components/Item'
+import { ItemCompany } from '@/components/ItemCompany'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
-import { ItemStatus } from './ItemStatus'
-import { GameMachineSelector } from './GameMachineSelector'
-import { StrReadEdit } from './StrReadEdit'
-import { MediaReadEdit } from './MediaReadEdit'
-import { YearReadEdit } from './YearReadEdit'
-import { TextReadEdit } from './TextreadEdit'
+import { ItemStatus } from '@/components/ItemStatus'
+import { GameMachineSelector } from '@/components/GameMachineSelector'
+import { StrReadEdit } from '@/components/StrReadEdit'
+import { MediaReadEdit } from '@/components/MediaReadEdit'
+import { YearReadEdit } from '@/components/YearReadEdit'
+import { TextReadEdit } from '@/components/TextreadEdit'
 
 const companies = {
   machine: ['manufacturer'],
