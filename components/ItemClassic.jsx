@@ -5,9 +5,9 @@ import { ITEM_TYPE_TITLE } from '@/utils/constants'
 import { ItemStatus } from './ItemStatus'
 import { GameMachineSelector } from './GameMachineSelector'
 import { StrReadEdit } from './StrReadEdit'
-import { TextReadEdit } from './TextreadEdit'
 import { MediaReadEdit } from './MediaReadEdit'
 import { YearReadEdit } from './YearReadEdit'
+import { TextReadEdit } from './TextreadEdit'
 
 const companies = {
   machine: ['manufacturer'],
