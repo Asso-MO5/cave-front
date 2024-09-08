@@ -7,7 +7,7 @@ import { GameMachineSelector } from '@/components/GameMachineSelector'
 import { StrReadEdit } from '@/components/StrReadEdit'
 import { MediaReadEdit } from '@/components/MediaReadEdit'
 import { YearReadEdit } from '@/components/YearReadEdit'
-import { TextReadEdit } from '@/components/TextreadEdit'
+import { TextReadEdit } from '@/components/TextReadEdit'
 
 const companies = {
   machine: ['manufacturer'],

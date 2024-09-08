@@ -4,7 +4,7 @@ import { ExpoCartelsTable } from './ExpoCartelsTable'
 import { Tabs } from '@/ui/Tabs'
 import { ExpoCartelAddModal } from './ExpoCartelAddModal'
 import { StrReadEdit } from './StrReadEdit'
-import { TextReadEdit } from './TextreadEdit'
+import { TextReadEdit } from './TextReadEdit'
 
 export function Expo() {
   const { item, update } = useItem()

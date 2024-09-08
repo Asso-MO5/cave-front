@@ -1,7 +1,7 @@
 import { getActivities } from '@/utils/get-activities'
 import { useCompany } from './Company'
 import { StrReadEdit } from './StrReadEdit'
-import { TextReadEdit } from './TextreadEdit'
+import { TextReadEdit } from './TextReadEdit'
 import { MediaReadEdit } from './MediaReadEdit'
 import { YearReadEdit } from './YearReadEdit'
 

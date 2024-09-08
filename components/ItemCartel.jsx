@@ -2,7 +2,7 @@ import { PutItemsIdStatusStatusService } from '@/_api/PutItemsIdStatusStatusServ
 import { useItem } from './Item'
 import { ItemStatus } from './ItemStatus'
 import { StrReadEdit } from './StrReadEdit'
-import { TextReadEdit } from './TextreadEdit'
+import { TextReadEdit } from './TextReadEdit'
 
 export function ItemCartel() {
   const { update, item } = useItem()
