@@ -11,10 +11,13 @@ export function YearReadEdit({ defaultValue, update, label }) {
 
   const handleChange = (e) => {
     //only allow numbers
+    // No control for now, we will see later
+    /*
     e.target.value = e.target.value.replace(/\D/g, '')
     if (e.target.value.length > 4) {
       e.target.value = e.target.value.slice(0, 4)
     }
+      */
   }
 
   const handleSubmit = async (e, close) => {

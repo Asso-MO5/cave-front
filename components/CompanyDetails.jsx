@@ -4,9 +4,14 @@ import { StrReadEdit } from './StrReadEdit'
 import { TextReadEdit } from './TextReadEdit'
 import { MediaReadEdit } from './MediaReadEdit'
 import { YearReadEdit } from './YearReadEdit'
+import { useMemo } from 'react'
 
 export function CompanyDetails() {
   const { company, update } = useCompany()
+  const logo = useMemo(() => {
+    return company.medias.find((media) => media.relation_type === 'logo')
+  }, [company.medias])
+
   return (
     <div className="flex flex-col sm:grid sm:grid-cols-[4fr_1fr] w-full m-auto">
       <div className="flex flex-col gap-4">
@@ -29,8 +34,8 @@ export function CompanyDetails() {
 
       <div className="flex flex-col">
         <MediaReadEdit
-          name={company.name}
-          url={company.logo_url}
+          name={logo?.name}
+          url={logo?.url}
           update={(partial) => {
             const keys = Object.keys(partial)
 

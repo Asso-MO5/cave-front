@@ -139,7 +139,15 @@ export function MediaList() {
                 components={gridComponents}
                 itemContent={(index) => (
                   <ImageWrapper>
+                    {imgs[index].total_usage_count && (
+                      <div className="absolute text-xs text-mo-white bottom-1 right-1 rounded-full flex items-center justify-center bg-mo-primary z-30 w-4 h-4">
+                        {imgs[index].total_usage_count}
+                      </div>
+                    )}
                     <img
+                      title={`utilisé ${
+                        imgs[index].total_usage_count || 0
+                      } fois`}
                       //  onClick={() => handleSelect(index)}
                       src={imgs[index].url}
                       alt={imgs[index].name}

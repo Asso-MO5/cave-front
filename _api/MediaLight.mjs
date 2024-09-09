@@ -8,6 +8,7 @@ export class MediaLight   {
    * @param {string} url
    * @param {string} name
    * @param {string} type
+   * @param {number} total_usage_count
    */
   constructor(props = {}) {
     /** @type {string} */
@@ -18,6 +19,8 @@ export class MediaLight   {
     this.name = props.name || null;
     /** @type {string} */
     this.type = props.type || null;
+    /** @type {number} */
+    this.total_usage_count = props.total_usage_count || null;
   }
 
   /** @type {string} */
@@ -46,6 +49,13 @@ export class MediaLight   {
   set type(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for type');
     this._type = value;
+  }
+
+  /** @type {number} */
+  get total_usage_count() { return this._total_usage_count; }
+  set total_usage_count(value) {
+    if (typeof value !== 'number' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a number for total_usage_count');
+    this._total_usage_count = value;
   }
 
 }
