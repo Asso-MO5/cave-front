@@ -9,8 +9,6 @@ export class ItemStatusUpdated   {
    * @param {string} slug
    * @param {string} description
    * @param {string} release_year
-   * @param {string} cover_id
-   * @param {string} cover_url
    * @param {string} type
    * @param {string} author_id
    * @param {string} status
@@ -28,10 +26,6 @@ export class ItemStatusUpdated   {
     this.description = props.description || null;
     /** @type {string} */
     this.release_year = props.release_year || null;
-    /** @type {string} */
-    this.cover_id = props.cover_id || null;
-    /** @type {string} */
-    this.cover_url = props.cover_url || null;
     /** @type {string} */
     this.type = props.type || null;
     /** @type {string} */
@@ -77,20 +71,6 @@ export class ItemStatusUpdated   {
   set release_year(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for release_year');
     this._release_year = value;
-  }
-
-  /** @type {string} */
-  get cover_id() { return this._cover_id; }
-  set cover_id(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cover_id');
-    this._cover_id = value;
-  }
-
-  /** @type {string} */
-  get cover_url() { return this._cover_url; }
-  set cover_url(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cover_url');
-    this._cover_url = value;
   }
 
   /** @type {string} */

@@ -1,5 +1,5 @@
 import { Company } from './Company.mjs';
-import { Model7 } from './Model7.mjs';
+import { Model9 } from './Model9.mjs';
 /**
  * @class Machine
  * @description Classe représentant une réponse de type Machine.
@@ -11,15 +11,13 @@ export class Machine   {
    * @param {string} slug
    * @param {string} description
    * @param {string} release_year
-   * @param {string} cover_id
-   * @param {string} cover_url
    * @param {string} type
    * @param {string} author_id
    * @param {string} status
    * @param {string} created_at
    * @param {string} updated_at
    * @param {Company} manufacturer
-   * @param {Model7} medias
+   * @param {Model9} medias
    */
   constructor(props = {}) {
     /** @type {string} */
@@ -33,10 +31,6 @@ export class Machine   {
     /** @type {string} */
     this.release_year = props.release_year || null;
     /** @type {string} */
-    this.cover_id = props.cover_id || null;
-    /** @type {string} */
-    this.cover_url = props.cover_url || null;
-    /** @type {string} */
     this.type = props.type || null;
     /** @type {string} */
     this.author_id = props.author_id || null;
@@ -48,8 +42,8 @@ export class Machine   {
     this.updated_at = props.updated_at || null;
     /** @type {Company} */
     this.manufacturer = new Company(manufacturer);
-    /** @type {Model7} */
-    this.medias = new Model7(medias);
+    /** @type {Model9} */
+    this.medias = new Model9(medias);
   }
 
   /** @type {string} */
@@ -85,20 +79,6 @@ export class Machine   {
   set release_year(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for release_year');
     this._release_year = value;
-  }
-
-  /** @type {string} */
-  get cover_id() { return this._cover_id; }
-  set cover_id(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cover_id');
-    this._cover_id = value;
-  }
-
-  /** @type {string} */
-  get cover_url() { return this._cover_url; }
-  set cover_url(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cover_url');
-    this._cover_url = value;
   }
 
   /** @type {string} */
@@ -143,10 +123,10 @@ export class Machine   {
     this._manufacturer = value;
   }
 
-  /** @type {Model7} */
+  /** @type {Model9} */
   get medias() { return this._medias; }
   set medias(value) {
-    if (!(value instanceof Model7 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model7 for medias');
+    if (!(value instanceof Model9 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model9 for medias');
     this._medias = value;
   }
 

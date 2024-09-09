@@ -8,6 +8,7 @@ import { StrReadEdit } from '@/components/StrReadEdit'
 import { MediaReadEdit } from '@/components/MediaReadEdit'
 import { YearReadEdit } from '@/components/YearReadEdit'
 import { TextReadEdit } from '@/components/TextReadEdit'
+import { useMemo } from 'react'
 
 const companies = {
   machine: ['manufacturer'],
@@ -17,6 +18,10 @@ const companies = {
 
 export function ItemClassic() {
   const { item, update } = useItem()
+  const cover = useMemo(() => {
+    return item.medias.find((media) => media.relation_type === 'cover')
+  }, [item.medias])
+
   return (
     <div className="flex flex-col sm:grid sm:grid-cols-[4fr_1fr] w-full m-auto">
       <div className="flex flex-col gap-4">
@@ -41,8 +46,8 @@ export function ItemClassic() {
 
       <div className="flex flex-col">
         <MediaReadEdit
-          name={item.name}
-          url={item.cover_url}
+          name={cover?.name}
+          url={cover?.url}
           update={(partial) => {
             const keys = Object.keys(partial)
             if (keys.includes('id')) update({ cover_id: partial.id })

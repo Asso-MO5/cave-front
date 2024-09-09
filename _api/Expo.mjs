@@ -1,4 +1,4 @@
-import { medias } from './medias.mjs';
+import { Model5 } from './Model5.mjs';
 /**
  * @class Expo
  * @description Classe représentant une réponse de type Expo.
@@ -10,15 +10,13 @@ export class Expo   {
    * @param {string} slug
    * @param {string} description
    * @param {string} release_year
-   * @param {string} cover_id
-   * @param {string} cover_url
    * @param {string} type
    * @param {string} author_id
    * @param {string} status
    * @param {string} created_at
    * @param {string} updated_at
    * @param {string} cartelModel
-   * @param {medias} medias
+   * @param {Model5} medias
    */
   constructor(props = {}) {
     /** @type {string} */
@@ -32,10 +30,6 @@ export class Expo   {
     /** @type {string} */
     this.release_year = props.release_year || null;
     /** @type {string} */
-    this.cover_id = props.cover_id || null;
-    /** @type {string} */
-    this.cover_url = props.cover_url || null;
-    /** @type {string} */
     this.type = props.type || null;
     /** @type {string} */
     this.author_id = props.author_id || null;
@@ -47,8 +41,8 @@ export class Expo   {
     this.updated_at = props.updated_at || null;
     /** @type {string} */
     this.cartelModel = props.cartelModel || null;
-    /** @type {medias} */
-    this.medias = new medias(medias);
+    /** @type {Model5} */
+    this.medias = new Model5(medias);
   }
 
   /** @type {string} */
@@ -84,20 +78,6 @@ export class Expo   {
   set release_year(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for release_year');
     this._release_year = value;
-  }
-
-  /** @type {string} */
-  get cover_id() { return this._cover_id; }
-  set cover_id(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cover_id');
-    this._cover_id = value;
-  }
-
-  /** @type {string} */
-  get cover_url() { return this._cover_url; }
-  set cover_url(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cover_url');
-    this._cover_url = value;
   }
 
   /** @type {string} */
@@ -142,10 +122,10 @@ export class Expo   {
     this._cartelModel = value;
   }
 
-  /** @type {medias} */
+  /** @type {Model5} */
   get medias() { return this._medias; }
   set medias(value) {
-    if (!(value instanceof medias && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of medias for medias');
+    if (!(value instanceof Model5 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model5 for medias');
     this._medias = value;
   }
 

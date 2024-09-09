@@ -1,6 +1,6 @@
 import { MachineInGame } from './MachineInGame.mjs';
 import { Company } from './Company.mjs';
-import { Model5 } from './Model5.mjs';
+import { Model7 } from './Model7.mjs';
 /**
  * @class Game
  * @description Classe représentant une réponse de type Game.
@@ -12,8 +12,6 @@ export class Game   {
    * @param {string} slug
    * @param {string} description
    * @param {string} release_year
-   * @param {string} cover_id
-   * @param {string} cover_url
    * @param {string} type
    * @param {string} author_id
    * @param {string} status
@@ -23,7 +21,7 @@ export class Game   {
    * @param {MachineInGame} machine
    * @param {Company} developer
    * @param {Company} publisher
-   * @param {Model5} medias
+   * @param {Model7} medias
    */
   constructor(props = {}) {
     /** @type {string} */
@@ -36,10 +34,6 @@ export class Game   {
     this.description = props.description || null;
     /** @type {string} */
     this.release_year = props.release_year || null;
-    /** @type {string} */
-    this.cover_id = props.cover_id || null;
-    /** @type {string} */
-    this.cover_url = props.cover_url || null;
     /** @type {string} */
     this.type = props.type || null;
     /** @type {string} */
@@ -58,8 +52,8 @@ export class Game   {
     this.developer = new Company(developer);
     /** @type {Company} */
     this.publisher = new Company(publisher);
-    /** @type {Model5} */
-    this.medias = new Model5(medias);
+    /** @type {Model7} */
+    this.medias = new Model7(medias);
   }
 
   /** @type {string} */
@@ -95,20 +89,6 @@ export class Game   {
   set release_year(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for release_year');
     this._release_year = value;
-  }
-
-  /** @type {string} */
-  get cover_id() { return this._cover_id; }
-  set cover_id(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cover_id');
-    this._cover_id = value;
-  }
-
-  /** @type {string} */
-  get cover_url() { return this._cover_url; }
-  set cover_url(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for cover_url');
-    this._cover_url = value;
   }
 
   /** @type {string} */
@@ -174,10 +154,10 @@ export class Game   {
     this._publisher = value;
   }
 
-  /** @type {Model5} */
+  /** @type {Model7} */
   get medias() { return this._medias; }
   set medias(value) {
-    if (!(value instanceof Model5 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model5 for medias');
+    if (!(value instanceof Model7 && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of Model7 for medias');
     this._medias = value;
   }
 

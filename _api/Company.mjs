@@ -1,3 +1,4 @@
+import { medias } from './medias.mjs';
 /**
  * @class Company
  * @description Classe représentant une réponse de type Company.
@@ -10,13 +11,12 @@ export class Company   {
    * @param {string} country
    * @param {string} description
    * @param {string} borned_at
-   * @param {string} logo_id
-   * @param {string} logo_url
    * @param {string} activities
    * @param {string} author_id
    * @param {string} relation_type
    * @param {string} created_at
    * @param {string} updated_at
+   * @param {medias} medias
    */
   constructor(props = {}) {
     /** @type {string} */
@@ -32,10 +32,6 @@ export class Company   {
     /** @type {string} */
     this.borned_at = props.borned_at || null;
     /** @type {string} */
-    this.logo_id = props.logo_id || null;
-    /** @type {string} */
-    this.logo_url = props.logo_url || null;
-    /** @type {string} */
     this.activities = props.activities || null;
     /** @type {string} */
     this.author_id = props.author_id || null;
@@ -45,6 +41,8 @@ export class Company   {
     this.created_at = props.created_at || null;
     /** @type {string} */
     this.updated_at = props.updated_at || null;
+    /** @type {medias} */
+    this.medias = new medias(medias);
   }
 
   /** @type {string} */
@@ -90,20 +88,6 @@ export class Company   {
   }
 
   /** @type {string} */
-  get logo_id() { return this._logo_id; }
-  set logo_id(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for logo_id');
-    this._logo_id = value;
-  }
-
-  /** @type {string} */
-  get logo_url() { return this._logo_url; }
-  set logo_url(value) {
-    if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for logo_url');
-    this._logo_url = value;
-  }
-
-  /** @type {string} */
   get activities() { return this._activities; }
   set activities(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for activities');
@@ -136,6 +120,13 @@ export class Company   {
   set updated_at(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for updated_at');
     this._updated_at = value;
+  }
+
+  /** @type {medias} */
+  get medias() { return this._medias; }
+  set medias(value) {
+    if (!(value instanceof medias && (typeof value === 'null' || typeof value === 'undefined'))) throw new TypeError('Expected an instance of medias for medias');
+    this._medias = value;
   }
 
 }
