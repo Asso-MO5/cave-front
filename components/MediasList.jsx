@@ -13,6 +13,7 @@ import { toast } from 'react-toastify'
 import { Modal } from '@/ui/Modal'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { DeleteMediasIdService } from '@/_api/DeleteMediasIdService.mjs'
+import { useCheckRoles } from '@/hooks/useCheckRoles'
 
 function Item({ children, ...props }) {
   return (
@@ -56,6 +57,15 @@ export function MediaList() {
 
   const tab = search.get('tab')
 
+  const { mutate: deleteMedia, roles: rolesCanDel } = useApi(
+    DeleteMediasIdService,
+    {
+      autoFetch: false,
+    }
+  )
+
+  const canDelete = useCheckRoles(rolesCanDel)
+
   const { data, error, loading, refetch } = useApi(GetMediasLightService, {
     query: {
       search: '',
@@ -63,10 +73,6 @@ export function MediaList() {
   })
 
   const { mutate } = useApi(PostMediasService, {
-    autoFetch: false,
-  })
-
-  const { mutate: deleteMedia } = useApi(DeleteMediasIdService, {
     autoFetch: false,
   })
 
@@ -114,13 +120,12 @@ export function MediaList() {
   }
 
   const handleDelete = async (id) => {
-    console.log('id :', id)
     const toastId = toast.loading('Suppression en cours 🚀', {
       id: 'item-delete',
     })
 
     try {
-      const res = await deleteMedia({
+      await deleteMedia({
         params: { id },
       })
 
@@ -177,11 +182,13 @@ export function MediaList() {
                 components={gridComponents}
                 itemContent={(index) => (
                   <ImageWrapper>
-                    {imgs[index].total_usage_count ? (
+                    {imgs[index].total_usage_count && (
                       <div className="absolute text-xs text-mo-white top-1 right-1 rounded-full flex items-center justify-center bg-mo-primary z-30 w-4 h-4">
                         {imgs[index].total_usage_count}
                       </div>
-                    ) : (
+                    )}
+
+                    {canDelete && imgs[index].total_usage_count === 0 && (
                       <Modal
                         confirmTxt={'Supprimer'}
                         onConfirm={() => handleDelete(imgs[index].id)}

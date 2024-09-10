@@ -54,6 +54,7 @@ export function useApi(ApiClass, config = {}) {
     data,
     loading,
     error,
+    roles: apiInstance.roles,
     refetch: fetchData,
     [apiInstance.verb === 'GET' ? 'refetch' : 'mutate']: fetchData,
   }
