@@ -188,7 +188,7 @@ export function MediaList() {
                       </div>
                     )}
 
-                    {canDelete && imgs[index].total_usage_count === 0 && (
+                    {canDelete && !imgs[index].total_usage_count && (
                       <Modal
                         confirmTxt={'Supprimer'}
                         onConfirm={() => handleDelete(imgs[index].id)}
