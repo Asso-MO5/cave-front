@@ -10,6 +10,9 @@ import { MediaAddLocal } from './MediaAddLocal'
 import { DistantMedia } from './DistantMedia'
 import { PostMediasService } from '@/_api/PostMediasService.mjs'
 import { toast } from 'react-toastify'
+import { Modal } from '@/ui/Modal'
+import { TrashIcon } from '@/ui/icon/TrashIcon'
+import { DeleteMediasIdService } from '@/_api/DeleteMediasIdService.mjs'
 
 function Item({ children, ...props }) {
   return (
@@ -63,6 +66,10 @@ export function MediaList() {
     autoFetch: false,
   })
 
+  const { mutate: deleteMedia } = useApi(DeleteMediasIdService, {
+    autoFetch: false,
+  })
+
   const imgs = useMemo(
     () => data?.filter((d) => d.type.match(/image/)) || [],
     [data]
@@ -106,6 +113,37 @@ export function MediaList() {
     handleSend('file', file)
   }
 
+  const handleDelete = async (id) => {
+    console.log('id :', id)
+    const toastId = toast.loading('Suppression en cours 🚀', {
+      id: 'item-delete',
+    })
+
+    try {
+      const res = await deleteMedia({
+        params: { id },
+      })
+
+      toast.update(toastId, {
+        render: 'Média supprimé avec succès 🎉',
+        isLoading: false,
+        type: 'success',
+        autoClose: 5000,
+        closeButton: true,
+      })
+    } catch (err) {
+      toast.update(toastId, {
+        render: err.error || 'Erreur lors de la suppression',
+        isLoading: false,
+        type: 'error',
+        autoClose: 5000,
+        closeButton: true,
+      })
+    } finally {
+      refetch()
+    }
+  }
+
   useEffect(() => {
     if (tab === 'galerie' && !loading) refetch()
   }, [tab])
@@ -139,11 +177,32 @@ export function MediaList() {
                 components={gridComponents}
                 itemContent={(index) => (
                   <ImageWrapper>
-                    {imgs[index].total_usage_count && (
-                      <div className="absolute text-xs text-mo-white bottom-1 right-1 rounded-full flex items-center justify-center bg-mo-primary z-30 w-4 h-4">
+                    {imgs[index].total_usage_count ? (
+                      <div className="absolute text-xs text-mo-white top-1 right-1 rounded-full flex items-center justify-center bg-mo-primary z-30 w-4 h-4">
                         {imgs[index].total_usage_count}
                       </div>
+                    ) : (
+                      <Modal
+                        confirmTxt={'Supprimer'}
+                        onConfirm={() => handleDelete(imgs[index].id)}
+                        disabled={false}
+                        content={
+                          <div className="flex flex-col items-center gap-3 text-mo-error font-bold">
+                            Supprimer l'image ?
+                            <img
+                              src={imgs[index].url}
+                              alt={imgs[index].name}
+                              className="max-w-60 h-auto mx-auto"
+                            />
+                          </div>
+                        }
+                      >
+                        <div className="absolute fill-mo-error top-1 right-1  flex items-center justify-center z-30 w-4 h-4 cursor-pointer">
+                          <TrashIcon className="w-3" />
+                        </div>
+                      </Modal>
                     )}
+
                     <img
                       title={`utilisé ${
                         imgs[index].total_usage_count || 0
