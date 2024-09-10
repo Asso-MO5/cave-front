@@ -7,6 +7,7 @@ export class CompanyLight   {
    * @param {string} id
    * @param {string} name
    * @param {string} slug
+   * @param {number} item_count
    * @param {string} activities
    */
   constructor(props = {}) {
@@ -16,6 +17,8 @@ export class CompanyLight   {
     this.name = props.name || null;
     /** @type {string} */
     this.slug = props.slug || null;
+    /** @type {number} */
+    this.item_count = props.item_count || null;
     /** @type {string} */
     this.activities = props.activities || null;
   }
@@ -39,6 +42,13 @@ export class CompanyLight   {
   set slug(value) {
     if (typeof value !== 'string' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a string for slug');
     this._slug = value;
+  }
+
+  /** @type {number} */
+  get item_count() { return this._item_count; }
+  set item_count(value) {
+    if (typeof value !== 'number' && (typeof value === 'null' || typeof value === 'undefined')) throw new TypeError('Expected a number for item_count');
+    this._item_count = value;
   }
 
   /** @type {string} */
