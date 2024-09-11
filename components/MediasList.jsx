@@ -111,6 +111,7 @@ export function MediaList() {
       toast.dismiss(toastId.current)
     }
   }
+
   const handleUpdateUrl = (url) => {
     handleSend('url', url)
   }

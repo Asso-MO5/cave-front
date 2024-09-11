@@ -37,6 +37,7 @@ function ImageWrapper({ children, ...props }) {
     </div>
   )
 }
+
 export function MediaAddGallery({ onSubmit, multiple = false, close }) {
   const [selected, setSelected] = useState([])
   const { data, loading } = useApi(GetMediasLightService)
