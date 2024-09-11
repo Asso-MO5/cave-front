@@ -72,21 +72,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         .setExpirationTime('2h')
         .encrypt(secret)
 
-      const caveApi = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + '/auth/login',
-        {
-          method: 'POST',
-          body: jwt,
-        }
-      )
+      try {
+        const caveApi = await fetch(
+          process.env.NEXT_PUBLIC_API_URL + '/auth/login',
+          {
+            method: 'POST',
+            body: jwt,
+          }
+        )
 
-      const caveApiJson = await caveApi.json()
+        const caveApiJson = await caveApi.json()
+        session.api_token = caveApiJson.auth
+        session.routes = caveApiJson.routes
+        session.user.id = member.user.id
 
-      session.api_token = caveApiJson.auth
-      session.routes = caveApiJson.routes
-      session.user.id = member.user.id
-
-      return session
+        return session
+      } catch (e) {
+        console.log(e)
+        return session
+      }
     },
   },
 })
