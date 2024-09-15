@@ -20,9 +20,20 @@ async function _fetch(verb, signal, url, body) {
   })
 }
 
-async function _postFile(signal, url, body) {
+async function _post(signal, url, body) {
   return await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
     method: 'POST',
+    signal,
+    headers: {
+      Authorization: 'Bearer ' + getCookie('api_token'),
+    },
+    body: JSON.stringify(body),
+  })
+}
+
+async function _postFile(signal, url, body, verb = 'POST') {
+  return await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
+    method: verb,
     signal,
     headers: {
       Authorization: 'Bearer ' + getCookie('api_token'),
@@ -38,7 +49,7 @@ async function _put(signal, url, body) {
     headers: {
       Authorization: 'Bearer ' + getCookie('api_token'),
     },
-    body,
+    body: JSON.stringify(body),
   })
 }
 
@@ -50,10 +61,13 @@ export const fetcher = {
     return await _fetch('GET', signal, url)
   },
   async post(url, signal, body) {
-    return await _postFile(signal, url, body)
+    return await _post(signal, url, body)
   },
   async postFile(url, signal, body) {
     return await _postFile(signal, url, body)
+  },
+  async putFile(url, signal, body) {
+    return await _postFile(signal, url, body, 'PUT')
   },
   async put(url, signal, body) {
     return await _put(signal, url, body)

@@ -74,10 +74,9 @@ export function Item({ item, type: type_ }) {
               if (resJson.slug === item.slug) return window.location.reload()
             }
 
-            if (partial.cover) form.append('cover', partial.cover)
-
             if (keys.includes('name')) form.append('name', partial.name)
 
+            if (partial.cover) form.append('cover', partial.cover)
             if (keys.includes('cover_id'))
               form.append('cover_id', partial.cover_id)
 

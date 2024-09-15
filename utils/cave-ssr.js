@@ -1,8 +1,8 @@
 import { auth } from '@/auth'
 
-export async function caveSSR(action, config) {
+export async function caveSSR(path, config) {
   const session = await auth()
-  const url = action.path.replace(
+  const url = path.replace(
     /{([^}]*)}/g,
     (_, key) => config?.params?.[key] || key
   )

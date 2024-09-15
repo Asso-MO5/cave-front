@@ -1,8 +1,13 @@
 import { GetCartelSlugService } from '@/_api/GetCartelSlugService.mjs'
 import { auth } from '@/auth'
-import { Cartel } from '@/components/Cartel'
 import { PageList } from '@/layouts/page-list'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
+import dynamic from 'next/dynamic'
+
+const Crud = dynamic(
+  () => import('@/components/cartel/Crud').then((c) => c.Crud),
+  { ssr: false }
+)
 
 const getCartelSlugService = new GetCartelSlugService()
 export default async function ItemDetails({ params: { type, cartelSlug } }) {
@@ -25,7 +30,7 @@ export default async function ItemDetails({ params: { type, cartelSlug } }) {
 
   return (
     <PageList session={session}>
-      <Cartel cartel={cartel} />
+      <Crud cartel={cartel} />
     </PageList>
   )
 }

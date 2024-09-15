@@ -15,34 +15,12 @@ import { decimalToHex } from '@/utils/decimalToHex'
 
 const MENU = [
   {
-    name: 'Activités',
+    name: 'Outils',
     entries: [
       {
-        name: 'Expositions',
-        href: '/admin/expos',
-        regex: /admin\/expos|admin\/expo/,
-      },
-    ],
-  },
-  {
-    name: 'Banques de données',
-    entries: [
-      {
-        name: 'Machines',
-        href: '/admin/machines',
-        regex: /admin\/machine|admin\/machines/,
-      },
-      { name: 'Jeux', href: '/admin/games', regex: /amdin\/game|admin\/games/ },
-      { name: 'Objets', href: '/admin/objs', regex: /obj|objs/ },
-      {
-        name: 'Compagnies',
-        href: '/admin/companies',
-        regex: /admin\/company|admin\/companies/,
-      },
-      {
-        name: 'Medias',
-        href: '/admin/medias',
-        regex: /admin\/medias|admin\/media/,
+        name: 'Cartels',
+        href: '/admin/cartels',
+        regex: /admin\/cartel|admin\/cartels/,
       },
     ],
   },

@@ -1,5 +1,4 @@
 import { dc } from '@/utils/dynamic-classes'
-import { useItem } from './Item'
 import { useState } from 'react'
 import { useCheckProfiles } from '@/hooks/useCheckProfile'
 
@@ -9,9 +8,8 @@ import { useCheckProfiles } from '@/hooks/useCheckProfile'
  * @param { string[] } props.rolesCanEdit - Roles that can edit the item
  * @returns
  */
-export function ItemStatus({ rolesCanEdit }) {
+export function ItemStatus({ rolesCanEdit, item, update }) {
   const canPublish = useCheckProfiles(rolesCanEdit, 'put')
-  const { item, update } = useItem()
   const [status, setStatus] = useState(item.status)
 
   const handleStatus = async (newStatus) => {
