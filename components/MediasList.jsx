@@ -1,5 +1,5 @@
 'use client'
-
+/*
 import { GetMediasLightService } from '@/_api/GetMediasLightService.mjs'
 import { useApi } from '@/hooks/useApi'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -50,7 +50,7 @@ function ImageWrapper({ children, ...props }) {
   )
 }
 
-/*
+
 export function MediaList() {
   const { push } = useRouter()
   const search = useSearchParams()
