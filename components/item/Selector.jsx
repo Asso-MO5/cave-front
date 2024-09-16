@@ -1,5 +1,6 @@
 // ===== [[ FUNCTIONS ]] =====
 
+import { useDebounce } from '@/hooks/useDebounce'
 import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
 import { fetcher } from '@/utils/fetcher'
 import {
@@ -27,24 +28,24 @@ async function handleFetch({ type, search, setData, setLoading }) {
   setLoading(false)
 }
 
-async function handleCreate({
-  type,
-  query,
-  setCompanies,
-  setSelected,
-  onSelect,
-}) {
-  const res = await fetcher.post('/items', {
-    body: JSON.stringify({
-      name: query,
-      type,
-    }),
+async function handleCreate({ type, query, setData, setSelected, onSelect }) {
+  const ctrl = new AbortController()
+  const res = await fetcher.post('/items', ctrl.signal, {
+    name: query,
+    type,
   })
 
   const resJson = await res.json()
-  setSelected(resJson)
-  onSelect?.(resJson)
-  setCompanies((prev) => [...prev, resJson])
+
+  const newData = {
+    id: resJson.id,
+    name: query,
+    type,
+  }
+
+  setSelected(newData)
+  setData((prev) => [...prev, newData])
+  onSelect?.(resJson.id)
 }
 
 // ===== [[ COMPONENTS ]] =====
@@ -72,26 +73,27 @@ export function Selector({ type = 'company', onSelect, defaultValue }) {
   const listRef = useRef(null)
   const [_loading, setLoading] = useState(true)
   const [query, setQuery] = useState('')
-  const [data, setData] = useState([])
+  const [data, setData] = useState(defaultValue ? [defaultValue] : [])
   const [selected, setSelected] = useState(defaultValue)
+  const debouncedQuery = useDebounce(query, 300)
 
   useEffect(() => {
     handleFetch({ type, setData, setLoading, search: query })
-  }, [query])
+  }, [debouncedQuery])
 
   return (
     <Combobox
       value={selected}
       onChange={(value) => {
         setSelected(value)
-        if (typeof value !== 'string') onSelect?.(value)
+        if (typeof value !== 'string') onSelect?.(value.id)
       }}
       onClose={() => setQuery('')}
     >
       <div className="relative">
         <ComboboxInput
           className="w-full rounded-sm border-none py-1.5 pr-8 pl-3 text-sm/6 focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
-          displayValue={(company) => company?.name}
+          displayValue={(d) => d?.name}
           onChange={(event) => setQuery(event.target.value)}
         />
         <ComboboxButton
@@ -109,6 +111,29 @@ export function Selector({ type = 'company', onSelect, defaultValue }) {
         transition
         className="w-[var(--input-width)] rounded mt-1 border border-mo-primary bg-mo-white p-1 [--anchor-gap:var(--spacing-1)] empty:invisible transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 z-[999]"
       >
+        {query && (
+          <ComboboxOption
+            value={query}
+            className="border-b border-black/10 group flex cursor-pointer items-center gap-2 py-2 px-3 data-[focus]:bg-white/10 hover:text-mo-primary"
+          >
+            <div
+              className="text-sm/6"
+              onClick={() => {
+                handleCreate({
+                  type,
+                  query,
+                  setData,
+                  setSelected,
+                  onSelect,
+                })
+              }}
+            >
+              <span className="font-bold">Créer</span> {'"'}
+              {query}
+              {'"'}
+            </div>
+          </ComboboxOption>
+        )}
         {data
           ?.filter(
             (item) =>
@@ -126,29 +151,6 @@ export function Selector({ type = 'company', onSelect, defaultValue }) {
               </ComboboxOption>
             )
           })}
-        {query && (
-          <ComboboxOption
-            value={query}
-            className="group flex cursor-pointer items-center gap-2 rounded py-2 px-3 data-[focus]:bg-white/10 hover:text-mo-primary"
-          >
-            <div
-              className="text-sm/6"
-              onClick={() => {
-                handleCreate({
-                  type,
-                  query,
-                  setCompanies,
-                  setSelected,
-                  onSelect,
-                })
-              }}
-            >
-              Créer {'"'}
-              {query}
-              {'"'}
-            </div>
-          </ComboboxOption>
-        )}
       </ComboboxOptions>
     </Combobox>
   )

@@ -32,8 +32,11 @@ export function Item() {
       {companiesPerType[item.type].map((companyType) => (
         <Fieldset key={companyType} title={ACTIVITIES_COMPANY[companyType]}>
           <ItemSelector
-            defaultValue={item[companyType]?.id}
-            onChange={(id) => update({ [companyType]: { id } })}
+            type={companyType}
+            defaultValue={item?.relations?.find(
+              (it) => it.type === companyType
+            )}
+            onSelect={(id) => update({ company: { type: companyType, id } })}
           />
         </Fieldset>
       ))}

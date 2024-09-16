@@ -22,8 +22,6 @@ export function Crud({ cartel: defaultCartel }) {
 
             const keys = Object.keys(payload)
 
-            console.log('keys :', keys, payload)
-
             if (keys.length === 0) return
             // -----|| STATUS ||----------------------------------------------
             if (keys.some((key) => key === 'status')) {
