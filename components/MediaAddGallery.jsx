@@ -107,7 +107,7 @@ export function MediaAddGallery({ onSubmit, multiple = false, close }) {
               src={data[index].url}
               alt={data[index].alt}
               data-selected={selected?.includes(index)}
-              className="w-full border-4 h-full object-cover cursor-pointer transition-all border-transparent data-[selected=true]border-mo-primary"
+              className="w-full border-4 h-full object-cover cursor-pointer transition-all border-transparent data-[selected=true]:border-mo-primary"
             />
           </ImageWrapper>
         )}

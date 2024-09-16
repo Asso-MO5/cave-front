@@ -1,5 +1,6 @@
 import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { useState } from 'react'
 
 const choices = [
   {
@@ -17,16 +18,18 @@ const choices = [
 ]
 
 export function Selector({ defaultValue, onChange }) {
-  const defaultChoice = choices.find((choice) => choice.value === defaultValue)
-
+  const [choice, setChoice] = useState(
+    choices.find((choice) => choice.value === defaultValue) || choices[0]
+  )
   const handleSelect = (value) => {
+    setChoice(choices.find((choice) => choice.value === value))
     onChange?.(value)
   }
 
   return (
     <Menu>
       <MenuButton className="rounded-sm px-2 py-1 text-sm/6 border border-primary font-bold uppercase flex items-center justify-between gap-2 ">
-        {defaultChoice?.name || choices[0].name}
+        {choice?.name}
         <ChevronDownIcon className="w-4 h-4 ml-1 fill-mo-primary" />
       </MenuButton>
       <MenuItems

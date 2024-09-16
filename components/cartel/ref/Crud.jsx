@@ -6,7 +6,7 @@ import { createUrl } from '@/utils/create-url'
 import { fetcher } from '@/utils/fetcher'
 import { Item } from './Item'
 
-const { putItemId, putItemIdStatusStatus, putItemIdMedia } = operations
+const { putItemId } = operations
 
 export function Crud({ item: defaultItem }) {
   const [item, setItem] = useState(null)
@@ -40,43 +40,14 @@ export function Crud({ item: defaultItem }) {
             const keys = Object.keys(payload)
 
             if (keys.length === 0) return
-            // -----|| STATUS ||----------------------------------------------
-            if (keys.some((key) => key === 'status')) {
-              const oldStatus = cartel.status
 
-              setCartel((prev) => ({ ...prev, status: payload.status }))
-              const res = await fetcher[putItemIdStatusStatus.method](
-                createUrl(putItemIdStatusStatus.path, {
-                  id: cartel.id,
-                  status: payload.status,
-                }),
-                ctrl.signal
-              )
-
-              if (!res.ok) setCartel((prev) => ({ ...prev, status: oldStatus }))
-
-              return
-            }
-
-            if (keys.some((key) => key === 'cover')) {
-              const form = new FormData()
-
-              if (payload.cover?.file) form.append('cover', payload.cover.file)
-              if (payload.cover?.id) form.append('cover_id', payload.cover.id)
-              if (payload.cover?.url)
-                form.append('cover_url', payload.cover.url)
-
-              fetcher.putFile(
-                createUrl(putItemIdMedia.path, { id: cartel.id }),
-                ctrl.signal,
-                form
-              )
-              return
+            if (keys.some((key) => key.match(/type/))) {
+              setItem((prev) => ({ ...prev, type: payload.type }))
             }
 
             // -----|| ITEM ||----------------------------------------------
             fetcher[putItemId.method](
-              createUrl(putItemId.path, { id: cartel.id }),
+              createUrl(putItemId.path, { id: item.id }),
               ctrl.signal,
               payload
             )

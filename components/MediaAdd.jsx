@@ -7,7 +7,11 @@ import { MediaAddLocal } from './MediaAddLocal'
 import { MediaAddGallery } from './MediaAddGallery'
 
 export function MediaAdd({
-  update,
+  updateUrl,
+  updateId,
+  updateLocal,
+
+  // =================================================
   defaultImg = {
     src: '',
     alt: '',
@@ -20,7 +24,7 @@ export function MediaAdd({
       src: url,
       alt: 'media',
     })
-    update?.({ url })
+    updateUrl?.(url)
   }
 
   const handleUpdateId = (medias, close) => {
@@ -29,13 +33,13 @@ export function MediaAdd({
       src: url,
       alt: 'media',
     })
-    update?.({ id })
+    updateId?.(id)
     close()
   }
 
   const handleUpdateLocal = (file, newImg) => {
     setImg(newImg)
-    update?.({ file })
+    updateLocal?.(file)
   }
 
   return (

@@ -7,14 +7,17 @@ import './types' // Import the Method type
 /**
  * Retrieves the CRUD context.
  *
+ * @typedef {Object} Return
+ * @property {Method } Return.get
+ * @property {Method } Return.delete
+ * @property {Method } Return.update
+ * @property {Method } Return.create
+ *
  * @param {string} name - The name of the context.
  * @see {@link CrudProvider}
  * @see {@link Method}
- * @returns {Object} An object containing the CRUD methods.
- * @returns {Method} get - The method for fetching data.
- * @returns {Method} update - The method for updating data.
- * @returns {Method} create - The method for creating data.
- * @returns {Method} delete - The method for deleting data.
+ * @see {@link Return}
+ * @returns { Return } Return - object containing the CRUD methods.
  * @throws Will throw an error if not used within a valid Provider.
  */
 export function useCrud(name) {

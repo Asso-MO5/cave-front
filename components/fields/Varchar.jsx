@@ -13,7 +13,7 @@ export function Varchar({ defaultValue, update, placeholder, disabled }) {
       try {
         update(fixVal)
       } catch (e) {
-        setValue(fixVal)
+        setValue(defaultValue)
       }
     }
   }, [debouncedUpdate])
