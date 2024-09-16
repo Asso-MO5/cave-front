@@ -50,6 +50,7 @@ function ImageWrapper({ children, ...props }) {
   )
 }
 
+/*
 export function MediaList() {
   const { push } = useRouter()
   const search = useSearchParams()
@@ -248,3 +249,6 @@ export function MediaList() {
     </div>
   )
 }
+
+
+*/
