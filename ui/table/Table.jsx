@@ -109,112 +109,113 @@ export function Table(props) {
 
           <StretchBox>
             <section className="bg-mo-bg text-sm h-full w-full">
-              <Virtuoso
-                style={{ height: '100%', width: '100%' }}
-                data={rows}
-                totalCount={totalCount}
-                itemContent={(index) => {
-                  return (
-                    <div
-                      className="grid gap-2 px-2 py-3 cursor-pointer hover:bg-mo-tertiary odd:bg-black/5"
-                      style={{ gridTemplateColumns: columnTemplate }}
-                    >
-                      {cols.map((col) => {
-                        const row = data[index]
-                        const key = `${row?.[rowKey] || index}-${col.key}`
-                        const keys = col.key.split('.')
-                        if (loading) return <Placeholder key={key} />
-
-                        const value = keys.reduce((acc, key) => {
-                          if (Array.isArray(acc)) {
-                            return acc.map((item) => item?.[key])
-                          }
-                          return acc?.[key]
-                        }, row)
-
-                        if (col.component) {
-                          const Comp = col.component
-                          return (
-                            <Comp
-                              key={key}
-                              data={value}
-                              rowData={row}
-                              onClick={() => onRowClick?.(row)}
-                            />
-                          )
-                        }
-
-                        if (Array.isArray(value)) {
-                          return (
-                            <div key={key}>
-                              {value.length <= 1 ? (
-                                <div onClick={() => onRowClick?.(row)}>
-                                  <DefaultCell value={value[0] || '--'} />
-                                </div>
-                              ) : (
-                                <Modal
-                                  noControl
-                                  content={
-                                    <div className="flex flex-col gap-2 text-sm max-h-[70dvh] p-4 -m-4 overflow-y-auto">
-                                      {value
-                                        .sort((a, b) => a.localeCompare(b))
-                                        .map((item, i) => (
-                                          <div
-                                            key={`${item}-${i}`}
-                                            className="text-mo-text"
-                                          >
-                                            {item}
-                                          </div>
-                                        ))}
-                                    </div>
-                                  }
-                                >
-                                  <DefaultCell
-                                    value={
-                                      <span className="whitespace-nowrap">
-                                        {value[0]}
-                                        <span className="opacity-50">
-                                          {'+'}
-                                          {value.length - 1}
-                                        </span>
-                                      </span>
-                                    }
-                                  />
-                                </Modal>
-                              )}
-                            </div>
-                          )
-                        }
-
-                        if (
-                          typeof value === 'string' ||
-                          typeof value === 'number'
-                        )
-                          return (
-                            <div key={key} onClick={() => onRowClick?.(row)}>
-                              <DefaultCell value={value} />
-                            </div>
-                          )
-
-                        return (
-                          <span
-                            onClick={() => onRowClick?.(row)}
-                            className="h-full flex items-center"
-                            key={key}
-                          >
-                            --
-                          </span>
-                        )
-                      })}
-                    </div>
-                  )
-                }}
-              />
-
-              {!data.length && !loading && (
+              {!data.length && !loading ? (
                 <div className="text-center p-4">
                   {noDataMessage || "Aucune donnée n'a été trouvée"}
                 </div>
+              ) : (
+                <Virtuoso
+                  style={{ height: '100%', width: '100%' }}
+                  data={rows}
+                  totalCount={totalCount}
+                  itemContent={(index) => {
+                    return (
+                      <div
+                        data-odd={index % 2}
+                        className="grid gap-2 px-2 py-3 cursor-pointer hover:bg-mo-tertiary data-[odd=1]:bg-black/5"
+                        style={{ gridTemplateColumns: columnTemplate }}
+                      >
+                        {cols.map((col) => {
+                          const row = data[index]
+                          const key = `${row?.[rowKey] || index}-${col.key}`
+                          const keys = col.key.split('.')
+                          if (loading) return <Placeholder key={key} />
+
+                          const value = keys.reduce((acc, key) => {
+                            if (Array.isArray(acc)) {
+                              return acc.map((item) => item?.[key])
+                            }
+                            return acc?.[key]
+                          }, row)
+
+                          if (col.component) {
+                            const Comp = col.component
+                            return (
+                              <Comp
+                                key={key}
+                                data={value}
+                                rowData={row}
+                                onClick={() => onRowClick?.(row)}
+                              />
+                            )
+                          }
+
+                          if (Array.isArray(value)) {
+                            return (
+                              <div key={key}>
+                                {value.length <= 1 ? (
+                                  <div onClick={() => onRowClick?.(row)}>
+                                    <DefaultCell value={value[0] || '--'} />
+                                  </div>
+                                ) : (
+                                  <Modal
+                                    noControl
+                                    content={
+                                      <div className="flex flex-col gap-2 text-sm max-h-[70dvh] p-4 -m-4 overflow-y-auto">
+                                        {value
+                                          .sort((a, b) => a.localeCompare(b))
+                                          .map((item, i) => (
+                                            <div
+                                              key={`${item}-${i}`}
+                                              className="text-mo-text"
+                                            >
+                                              {item}
+                                            </div>
+                                          ))}
+                                      </div>
+                                    }
+                                  >
+                                    <DefaultCell
+                                      value={
+                                        <span className="whitespace-nowrap">
+                                          {value[0]}
+                                          <span className="opacity-50">
+                                            {'+'}
+                                            {value.length - 1}
+                                          </span>
+                                        </span>
+                                      }
+                                    />
+                                  </Modal>
+                                )}
+                              </div>
+                            )
+                          }
+
+                          if (
+                            typeof value === 'string' ||
+                            typeof value === 'number'
+                          )
+                            return (
+                              <div key={key} onClick={() => onRowClick?.(row)}>
+                                <DefaultCell value={value} />
+                              </div>
+                            )
+
+                          return (
+                            <span
+                              onClick={() => onRowClick?.(row)}
+                              className="h-full flex items-center"
+                              key={key}
+                            >
+                              --
+                            </span>
+                          )
+                        })}
+                      </div>
+                    )
+                  }}
+                />
               )}
             </section>
           </StretchBox>

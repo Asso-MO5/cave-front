@@ -86,7 +86,7 @@ export function Selector({ type = 'company', onSelect, defaultValue }) {
       value={selected}
       onChange={(value) => {
         setSelected(value)
-        if (typeof value !== 'string') onSelect?.(value.id)
+        if (typeof value !== 'string' && value?.id) onSelect?.(value.id)
       }}
       onClose={() => setQuery('')}
     >

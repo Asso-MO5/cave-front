@@ -1,5 +1,6 @@
 'use client'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
+import { Modal } from '@/ui/Modal'
 import { Table as TableUi } from '@/ui/table/Table'
 import { fetcher } from '@/utils/fetcher'
 import { useRouter } from 'next/navigation'
@@ -67,22 +68,34 @@ export function Table() {
       key: 'type',
     },
     {
+      name: 'Emplacement',
+      key: 'place',
+      size: 'medium',
+    },
+    {
       name: '',
       key: 'delete',
       size: 'x-small',
       component: ({ rowData }) => (
-        <button
-          onClick={() =>
+        <Modal
+          content={
+            <div className='text-center'>
+              <div>Êtes-vous sûr de vouloir supprimer ce cartel ?</div>
+              <div className="font-bold">{rowData.name}</div>
+            </div>
+          }
+          onConfirm={() =>
             handleDelete({
               id: rowData.id,
               setData,
               data,
             })
           }
-          className="fill-mo-error"
         >
-          <TrashIcon />
-        </button>
+          <button className="fill-mo-error">
+            <TrashIcon />
+          </button>
+        </Modal>
       ),
     },
   ]
