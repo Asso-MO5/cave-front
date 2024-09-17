@@ -1,5 +1,3 @@
-// ===== [[ FUNCTIONS ]] =====
-
 import { useDebounce } from '@/hooks/useDebounce'
 import { ChevronDownIcon } from '@/ui/icon/ChevronDownIcon'
 import { fetcher } from '@/utils/fetcher'
@@ -11,6 +9,8 @@ import {
   ComboboxOptions,
 } from '@headlessui/react'
 import { useEffect, useRef, useState } from 'react'
+
+// ===== [[ FUNCTIONS ]] =====
 
 async function handleFetch({ type, search, setData, setLoading }) {
   setLoading(true)

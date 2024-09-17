@@ -11,6 +11,14 @@ import { Crud } from './ref/Crud'
 
 const { putItemIdStatusStatus } = operations
 
+const txtVarchars = {
+  var_place: 'Emplacement',
+  var_origin: 'Provenance',
+  var_release_fr: 'Date de sortie Française',
+  var_release_jap: 'Date de sortie japonnaise',
+  var_release_us: 'Date de sortie USA',
+}
+
 const Editor = dynamic(() => import('../Editor').then((mod) => mod.Editor))
 
 export function Cartel() {
@@ -48,13 +56,15 @@ export function Cartel() {
         </div>
       </div>
 
-      <div className="sm:flex-row flex flex-col-reverse gap-2 w-full">
+      <div className="sm:flex-row flex flex-col-reverse gap-6 w-full">
         <div className="flex-1">
           <Fieldset title="Description Courte">
             <Editor
               id="short_description"
-              defaultValue={cartel.short_description}
-              onChange={(short_description) => update({ short_description })}
+              defaultValue={cartel.long_short_description}
+              onChange={(long_short_description) =>
+                update({ long_short_description })
+              }
               disabled={cartel.status === 'published'}
             />
           </Fieldset>
@@ -62,8 +72,8 @@ export function Cartel() {
           <Fieldset title="Description">
             <Editor
               id="description"
-              defaultValue={cartel.description}
-              onChange={(description) => update({ description })}
+              defaultValue={cartel.long_description}
+              onChange={(long_description) => update({ long_description })}
               disabled={cartel.status === 'published'}
             />
           </Fieldset>
@@ -78,30 +88,17 @@ export function Cartel() {
           {cartel.relations.map((item) => (
             <Crud item={item} key={item.id} />
           ))}
-          <Fieldset title="Année">
-            <Varchar
-              placeholder="Année"
-              defaultValue={cartel.place}
-              update={(year) => update({ year })}
-              disabled={cartel.status === 'published'}
-            />
-          </Fieldset>
-          <Fieldset title="Emplacement">
-            <Varchar
-              placeholder="Emplacement"
-              defaultValue={cartel.place}
-              update={(place) => update({ place })}
-              disabled={cartel.status === 'published'}
-            />
-          </Fieldset>
-          <Fieldset title="Provenance">
-            <Varchar
-              placeholder="Provenance"
-              defaultValue={cartel?.origin}
-              update={(origin) => update({ origin })}
-              disabled={cartel.status === 'published'}
-            />
-          </Fieldset>
+
+          {Object.entries(txtVarchars).map(([key, title]) => (
+            <Fieldset title={title} key={key}>
+              <Varchar
+                placeholder={title}
+                defaultValue={cartel[key]}
+                update={(value) => update({ [key]: value })}
+                disabled={cartel.status === 'published'}
+              />
+            </Fieldset>
+          ))}
         </div>
       </div>
     </div>

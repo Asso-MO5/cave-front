@@ -23,7 +23,7 @@ export default async function Cartel({ params: { id } }) {
   if (!res.ok) {
     ctrl.abort()
     return (
-      <PageList title="Cartel" session={session}>
+      <PageList session={session}>
         <div className="h-full flex items-center justify-center text-lg text-mo-error font-bold">
           Cartel non trouvé
         </div>
@@ -34,7 +34,7 @@ export default async function Cartel({ params: { id } }) {
   const { item: cartel } = await res.json()
 
   return (
-    <PageList title="Cartel" session={session}>
+    <PageList session={session}>
       <Crud cartel={cartel} />
     </PageList>
   )

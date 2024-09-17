@@ -8,7 +8,6 @@ import { WebsocketProvider } from 'y-websocket'
 import { decimalToHex } from '@/utils/decimalToHex'
 import { editorInitialContent } from '@/utils/editor-initial-content'
 import { useDebounce } from '@/hooks/useDebounce'
-import { isNotFoundError } from 'next/dist/client/components/not-found'
 import { EditorRead } from './EditorRead'
 
 const doc = new Y.Doc()
