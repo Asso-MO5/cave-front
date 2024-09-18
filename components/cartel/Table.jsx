@@ -7,50 +7,6 @@ import { fetcher } from '@/utils/fetcher'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-// =====  [[ FUNCTIONS ]]  =====
-
-/**
- * @testable
- * @param {Object} props
- * @param {number} props.id
- * @param {function} props.setData
- * @param {Array} props.data
- * @returns {Promise<void>}
- */
-async function handleDelete({ id, setData, data }) {
-  const ctrl = new AbortController()
-  const oldData = data
-  setData(data.filter((item) => item.id !== id))
-  try {
-    await fetcher.delete(`/items/${id}`, ctrl.signal)
-  } catch (e) {
-    setData(oldData)
-  }
-}
-
-/**
- *
- * @testable
- * @param {Object} props
- * @param {function} props.setLoading
- * @param {function} props.setData
- * @param {function} props.setTotal
- * @return {Promise<void>}
- *
- **/
-async function handleFetch({ setLoading, setData, setTotal }) {
-  setLoading(true)
-
-  const ctrl = new AbortController()
-
-  const response = await fetcher.get('/items?type=cartel', ctrl.signal)
-  const { total, items } = await response.json()
-
-  setData(items)
-  setTotal(total)
-  setLoading(false)
-}
-
 // =====  [[ COMPONENT ]]  =====
 
 export function Table() {
@@ -101,6 +57,30 @@ export function Table() {
       ),
     },
   ]
+
+  async function handleDelete({ id }) {
+    const ctrl = new AbortController()
+    const oldData = data
+    setData(data.filter((item) => item.id !== id))
+    try {
+      await fetcher.delete(`/items/${id}`, ctrl.signal)
+    } catch (e) {
+      setData(oldData)
+    }
+  }
+
+  async function handleFetch() {
+    setLoading(true)
+
+    const ctrl = new AbortController()
+
+    const response = await fetcher.get('/items?type=cartel', ctrl.signal)
+    const { total, items } = await response.json()
+
+    setData(items)
+    setTotal(total)
+    setLoading(false)
+  }
 
   useEffect(() => {
     handleFetch({
