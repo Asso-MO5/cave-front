@@ -66,6 +66,15 @@ export function Cartel() {
               disabled={cartel.status === 'published'}
             />
           </Fieldset>
+
+          <Fieldset title="Description">
+            <Editor
+              id="description"
+              defaultValue={cartel.long_description}
+              onChange={(long_description) => update({ long_description })}
+              disabled={cartel.status === 'published'}
+            />
+          </Fieldset>
         </div>
         <div className="flex flex-col gap-2 sm:max-w-64">
           <MediaAdd
