@@ -1,6 +1,5 @@
 'use client'
 import { Fieldset } from '@/ui/Fieldset'
-import { useCrud } from '../crud/useCrud'
 import { Varchar } from '../fields/Varchar'
 import { Status } from '../item/Status'
 import { operations } from '@/_api/operations'
@@ -8,6 +7,7 @@ import { MediaAdd } from '../MediaAdd'
 import { useMemo } from 'react'
 import { Crud } from './ref/Crud'
 import { Editor } from '../Editor'
+import { useCrudItem } from './useCrudItem'
 
 const { putItemIdStatusStatus } = operations
 
@@ -23,7 +23,7 @@ export function Cartel() {
   const {
     get: { data: cartel },
     update: { action: update },
-  } = useCrud('cartel')
+  } = useCrudItem()
 
   const cover = useMemo(() => {
     const cover = cartel?.medias?.find(

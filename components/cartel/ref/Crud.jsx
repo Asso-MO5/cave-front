@@ -1,10 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { CrudProvider } from '@/components/crud/provider'
 import { operations } from '@/_api/operations'
 import { createUrl } from '@/utils/create-url'
 import { fetcher } from '@/utils/fetcher'
 import { Item } from './Item'
+import { CrudRefProvider } from './CrudRefProvider'
 
 const { putItemId } = operations
 
@@ -28,8 +28,7 @@ export function Crud({ item: defaultItem }) {
   }, [defaultItem])
 
   return (
-    <CrudProvider
-      name="ref_item"
+    <CrudRefProvider
       crud={{
         get: { data: item, action: handleFetch },
         update: {
@@ -58,6 +57,6 @@ export function Crud({ item: defaultItem }) {
       }}
     >
       {loading ? <div>Chargement ...</div> : <Item />}
-    </CrudProvider>
+    </CrudRefProvider>
   )
 }

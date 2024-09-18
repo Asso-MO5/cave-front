@@ -1,18 +1,17 @@
 'use client'
 import { useState } from 'react'
-import { CrudProvider } from '../crud/provider'
 import { Cartel } from './Cartel'
 import { operations } from '@/_api/operations'
 import { createUrl } from '@/utils/create-url'
 import { fetcher } from '@/utils/fetcher'
+import { CrudItemProvider } from './CrudItemProvider'
 
 const { putItemId, putItemIdStatusStatus, putItemIdMedia } = operations
 export function Crud({ cartel: defaultCartel }) {
   const [cartel, setCartel] = useState(defaultCartel)
 
   return (
-    <CrudProvider
-      name="cartel"
+    <CrudItemProvider
       crud={{
         get: { data: cartel },
         update: {
@@ -70,6 +69,6 @@ export function Crud({ cartel: defaultCartel }) {
       }}
     >
       <Cartel />
-    </CrudProvider>
+    </CrudItemProvider>
   )
 }

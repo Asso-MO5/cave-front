@@ -1,10 +1,10 @@
 'use client'
 
-import { useCrud } from '@/components/crud/useCrud'
 import { Selector as ItemSelector } from '@/components/item/Selector'
 import { Selector as TypeSelector } from '@/components/item/type/Selector'
 import { Fieldset } from '@/ui/Fieldset'
 import { ACTIVITIES_COMPANY } from '@/utils/constants'
+import { useCrudRef } from './useCrudRef'
 
 const companiesPerType = {
   obj: ['manufacturer'],
@@ -22,7 +22,7 @@ export function Item() {
   const {
     get: { data: item },
     update: { action: update },
-  } = useCrud('ref_item')
+  } = useCrudRef()
 
   return (
     <div className="flex flex-col gap-2">

@@ -2,14 +2,9 @@ import { operations } from '@/_api/operations'
 import { auth } from '@/auth'
 import { PageList } from '@/layouts/page-list'
 import { caveSSR } from '@/utils/cave-ssr'
-import dynamic from 'next/dynamic'
+import { Crud } from '@/components/cartel/Crud'
 
 const { getItemId } = operations
-
-const Crud = dynamic(
-  () => import('@/components/cartel/Crud').then((c) => c.Crud),
-  { ssr: false }
-)
 
 export default async function Cartel({ params: { id } }) {
   const session = await auth()
@@ -19,17 +14,6 @@ export default async function Cartel({ params: { id } }) {
     params: { id },
     method: getItemId.method,
   })
-
-  if (!res.ok) {
-    ctrl.abort()
-    return (
-      <PageList session={session}>
-        <div className="h-full flex items-center justify-center text-lg text-mo-error font-bold">
-          Cartel non trouvé
-        </div>
-      </PageList>
-    )
-  }
 
   const { item: cartel } = await res.json()
 
