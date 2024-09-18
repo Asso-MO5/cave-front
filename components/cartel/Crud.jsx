@@ -7,6 +7,7 @@ import { fetcher } from '@/utils/fetcher'
 import { CrudItemProvider } from './CrudItemProvider'
 
 const { putItemId, putItemIdStatusStatus, putItemIdMedia } = operations
+
 export function Crud({ cartel: defaultCartel }) {
   const [cartel, setCartel] = useState(defaultCartel)
 
