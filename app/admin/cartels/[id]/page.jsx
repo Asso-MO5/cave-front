@@ -3,7 +3,6 @@ import { auth } from '@/auth'
 import { PageList } from '@/layouts/page-list'
 import { caveSSR } from '@/utils/cave-ssr'
 import dynamic from 'next/dynamic'
-import { Crud } from '@/components/cartel/Crud'
 
 const { getItemId } = operations
 
