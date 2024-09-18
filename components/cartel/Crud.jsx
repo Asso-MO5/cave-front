@@ -1,12 +1,16 @@
 'use client'
 import { useState } from 'react'
-import { Cartel } from './Cartel'
 import { operations } from '@/_api/operations'
 import { createUrl } from '@/utils/create-url'
 import { fetcher } from '@/utils/fetcher'
 import { CrudItemProvider } from './CrudItemProvider'
+import dynamic from 'next/dynamic'
 
 const { putItemId, putItemIdStatusStatus, putItemIdMedia } = operations
+
+const Cartel = dynamic(() => import('./Cartel').then((mod) => mod.Cartel), {
+  ssr: false,
+})
 
 export function Crud({ cartel: defaultCartel }) {
   const [cartel, setCartel] = useState(defaultCartel)

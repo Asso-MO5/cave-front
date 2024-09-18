@@ -3,10 +3,14 @@ import { useEffect, useState } from 'react'
 import { operations } from '@/_api/operations'
 import { createUrl } from '@/utils/create-url'
 import { fetcher } from '@/utils/fetcher'
-import { Item } from './Item'
 import { CrudRefProvider } from './CrudRefProvider'
+import dynamic from 'next/dynamic'
 
 const { putItemId } = operations
+
+const Item = dynamic(() => import('./Item').then((mod) => mod.Item), {
+  ssr: false,
+})
 
 export function Crud({ item: defaultItem }) {
   const [item, setItem] = useState(null)
