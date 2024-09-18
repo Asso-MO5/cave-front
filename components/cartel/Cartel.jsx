@@ -8,6 +8,7 @@ import { useMemo } from 'react'
 import { Crud } from './ref/Crud'
 import { useCrudItem } from './useCrudItem'
 import dynamic from 'next/dynamic'
+import { Editor } from '../Editor'
 
 const { putItemIdStatusStatus } = operations
 
@@ -18,10 +19,6 @@ const txtVarchars = {
   var_release_jap: 'Date de sortie japonnaise',
   var_release_us: 'Date de sortie USA',
 }
-
-const Editor = dynamic(() => import('./Editor').then((mod) => mod.Cartel), {
-  ssr: false,
-})
 
 export function Cartel() {
   const {

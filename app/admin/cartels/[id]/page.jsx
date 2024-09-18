@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic'
 const { getItemId } = operations
 
 const Crud = dynamic(
-  () => import('@/components/cartel/ref/Crud').then((mod) => mod.Crud),
+  () => import('@/components/cartel/Crud').then((mod) => mod.Crud),
   {
     ssr: false,
   }
