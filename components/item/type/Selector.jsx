@@ -3,7 +3,13 @@ import { ITEM_TYPE, ITEM_TYPE_TITLE } from '@/utils/constants'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { useState } from 'react'
 
-const choices = [ITEM_TYPE.obj, ITEM_TYPE.game, ITEM_TYPE.machine]
+const choices = [
+  ITEM_TYPE.obj,
+  ITEM_TYPE.game,
+  ITEM_TYPE.machine,
+  ITEM_TYPE.accessory,
+  ITEM_TYPE.soft,
+]
 
 /**
  * @description

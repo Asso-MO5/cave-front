@@ -8,8 +8,10 @@ import { ACTIVITIES_COMPANY } from '@/utils/constants'
 
 const companiesPerType = {
   obj: ['manufacturer'],
-  game: ['publisher', 'developer'],
+  accessory: ['manufacturer'],
   machine: ['manufacturer'],
+  soft: ['publisher', 'developer'],
+  game: ['publisher', 'developer'],
 }
 
 /**

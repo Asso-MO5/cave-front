@@ -2,6 +2,7 @@
 import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { Modal } from '@/ui/Modal'
 import { Table as TableUi } from '@/ui/table/Table'
+import { ITEM_TYPE_TITLE } from '@/utils/constants'
 import { fetcher } from '@/utils/fetcher'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -65,7 +66,8 @@ export function Table() {
     },
     {
       name: 'Type',
-      key: 'type',
+      key: 'rType',
+      component: ({ rowData }) => <div>{ITEM_TYPE_TITLE[rowData.rType]}</div>,
     },
     {
       name: 'Emplacement',
@@ -79,7 +81,7 @@ export function Table() {
       component: ({ rowData }) => (
         <Modal
           content={
-            <div className='text-center'>
+            <div className="text-center">
               <div>Êtes-vous sûr de vouloir supprimer ce cartel ?</div>
               <div className="font-bold">{rowData.name}</div>
             </div>

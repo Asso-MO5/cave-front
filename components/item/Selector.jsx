@@ -93,7 +93,7 @@ export function Selector({ type = 'company', onSelect, defaultValue }) {
       <div className="relative">
         <ComboboxInput
           className="w-full rounded-sm border-none py-1.5 pr-8 pl-3 text-sm/6 focus:outline-none data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25"
-          displayValue={(d) => d?.name}
+          displayValue={(d) => d?.name?.toUpperCase()}
           onChange={(event) => setQuery(event.target.value)}
         />
         <ComboboxButton
@@ -147,7 +147,7 @@ export function Selector({ type = 'company', onSelect, defaultValue }) {
                 value={item}
                 className="group flex cursor-pointer items-center gap-2 rounded py-2 px-3  data-[focus]:bg-white/10 hover:text-mo-primary"
               >
-                <div className="text-sm/6 ">{item.name}</div>
+                <div className="text-sm/6 ">{item.name?.toUpperCase()}</div>
               </ComboboxOption>
             )
           })}

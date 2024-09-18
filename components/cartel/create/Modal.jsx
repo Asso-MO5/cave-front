@@ -47,6 +47,7 @@ export function Modal() {
           <input
             name="name"
             id="name"
+            autoFocus
             value={loading ? 'creation en cours...' : name}
             onChange={(e) => setName(e.target.value)}
             disabled={loading}

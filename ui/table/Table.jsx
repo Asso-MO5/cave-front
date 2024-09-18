@@ -256,7 +256,7 @@ export function Table(props) {
           <Pagination totalItems={totalCount} />
 
           <div className="text-xs text-mo-text">
-            nb page: {totalCount}
+            résultat{totalCount > 1 ? 's' : ''}: {totalCount}
             {' | '}
             <span className="opacity-50">
               Résultat de {startRange} à {endRange}
