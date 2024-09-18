@@ -2,7 +2,6 @@
 import { Fieldset } from '@/ui/Fieldset'
 import { useCrud } from '../crud/useCrud'
 import { Varchar } from '../fields/Varchar'
-import dynamic from 'next/dynamic'
 import { Status } from '../item/Status'
 import { operations } from '@/_api/operations'
 import { MediaAdd } from '../MediaAdd'
@@ -64,15 +63,6 @@ export function Cartel() {
               onChange={(long_short_description) =>
                 update({ long_short_description })
               }
-              disabled={cartel.status === 'published'}
-            />
-          </Fieldset>
-
-          <Fieldset title="Description">
-            <Editor
-              id="description"
-              defaultValue={cartel.long_description}
-              onChange={(long_description) => update({ long_description })}
               disabled={cartel.status === 'published'}
             />
           </Fieldset>
