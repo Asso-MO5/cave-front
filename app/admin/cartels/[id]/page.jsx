@@ -2,9 +2,15 @@ import { operations } from '@/_api/operations'
 import { auth } from '@/auth'
 import { PageList } from '@/layouts/page-list'
 import { caveSSR } from '@/utils/cave-ssr'
+import dynamic from 'next/dynamic'
 import { Crud } from '@/components/cartel/Crud'
 
 const { getItemId } = operations
+
+const Crud = dynamic(
+  () => import('@/components/cartel/Crud').then((c) => c.Crud),
+  { ssr: false }
+)
 
 export default async function Cartel({ params: { id } }) {
   const session = await auth()
