@@ -8,6 +8,7 @@ import { operations } from '@/_api/operations'
 import { MediaAdd } from '../MediaAdd'
 import { useMemo } from 'react'
 import { Crud } from './ref/Crud'
+import { Editor } from '../Editor'
 
 const { putItemIdStatusStatus } = operations
 
@@ -18,8 +19,6 @@ const txtVarchars = {
   var_release_jap: 'Date de sortie japonnaise',
   var_release_us: 'Date de sortie USA',
 }
-
-const Editor = dynamic(() => import('../Editor').then((mod) => mod.Editor))
 
 export function Cartel() {
   const {
