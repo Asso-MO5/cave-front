@@ -83,6 +83,9 @@ export function Cartel() {
             updateId={(cover_id) => update({ cover_id })}
             updateLocal={(cover_file) => update({ cover_file })}
           />
+          {cartel.relations.map((item) => (
+            <Crud item={item} key={item.id} />
+          ))}
 
           {Object.entries(txtVarchars).map(([key, title]) => (
             <Fieldset title={title} key={key}>
