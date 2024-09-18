@@ -2,6 +2,8 @@ export const ITEM_TYPE = {
   obj: 'obj',
   game: 'game',
   machine: 'machine',
+  accessory: 'accessory',
+  soft: 'soft',
 }
 
 export const ITEM_TYPE_TITLE = {
@@ -9,6 +11,8 @@ export const ITEM_TYPE_TITLE = {
   game: 'Jeu',
   machine: 'Machine',
   expo: 'Exposition',
+  soft: 'Logiciel',
+  accessory: 'Accessoire',
 }
 
 export const ACTIVITIES_COMPANY = {

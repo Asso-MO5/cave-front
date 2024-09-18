@@ -1,10 +1,11 @@
 'use client'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useEffect, useState } from 'react'
 import { VirtuosoGrid } from 'react-virtuoso'
-import { dc } from '@/utils/dynamic-classes'
 import { Button } from '@/ui/Button'
-import { useApi } from '@/hooks/useApi'
-import { GetMediasLightService } from '@/_api/GetMediasLightService.mjs'
+import { operations } from '@/_api/operations'
+import { fetcher } from '@/utils/fetcher'
+
+const { getMediasLight } = operations
 
 function Item({ children, ...props }) {
   return (
@@ -40,7 +41,21 @@ function ImageWrapper({ children, ...props }) {
 
 export function MediaAddGallery({ onSubmit, multiple = false, close }) {
   const [selected, setSelected] = useState([])
-  const { data, loading } = useApi(GetMediasLightService)
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState([])
+
+  const handleFetch = async () => {
+    setLoading(true)
+    const ctrl = new AbortController()
+    const res = await fetcher[getMediasLight.method](
+      getMediasLight.path,
+      ctrl.signal
+    )
+
+    const resData = await res.json()
+    setData(resData)
+    setLoading(false)
+  }
 
   const handleSelect = (index) => {
     if (multiple) {
@@ -63,9 +78,20 @@ export function MediaAddGallery({ onSubmit, multiple = false, close }) {
     onSubmit?.(data.filter((_, index) => selected.includes(index)))
   }
 
+  useEffect(() => {
+    handleFetch()
+  }, [])
+
   if (!data || loading)
     return (
       <div className="w-80 flex justify-center items-end">Chargement...</div>
+    )
+
+  if (data.length === 0)
+    return (
+      <div className="p-3 flex justify-center items-end italic text-mo-error">
+        Aucune image
+      </div>
     )
 
   return (
@@ -80,14 +106,8 @@ export function MediaAddGallery({ onSubmit, multiple = false, close }) {
               onClick={() => handleSelect(index)}
               src={data[index].url}
               alt={data[index].alt}
-              className={dc(
-                'w-full border-4 h-full object-cover cursor-pointer transition-all',
-                [
-                  selected?.includes(index),
-                  ' border-mo-primary',
-                  'border-transparent',
-                ]
-              )}
+              data-selected={selected?.includes(index)}
+              className="w-full border-4 h-full object-cover cursor-pointer transition-all border-transparent data-[selected=true]:border-mo-primary"
             />
           </ImageWrapper>
         )}

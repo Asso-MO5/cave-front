@@ -22,7 +22,6 @@ export function Modal({
   confirmTxt,
   closeModalOnConfirm = true,
   noControl = false,
-  dialogStyle = {},
   onConfirm,
   onCancel,
   size = 'sm',
@@ -83,12 +82,11 @@ export function Modal({
             >
               <DialogPanel
                 className={dc(
-                  'space-y-4 bg-mo-bg border-2 rounded-md p-4 flex flex-col justify-between min-h-32 mx-3 shadow-lg max-h-[calc(100vh-8rem)]',
+                  'z-[999] space-y-4 bg-mo-bg border-2 rounded-md p-4 flex flex-col justify-between min-h-32 mx-3 shadow-lg max-h-[calc(100vh-8rem)]',
                   [theme === 'primary', 'border-mo-primary'],
                   [theme === 'danger', 'border-mo-warning'],
                   [size === 'lg', 'h-min w-2/3']
                 )}
-                style={{ zIndex: '999', ...dialogStyle }}
               >
                 <div className="flex flex-col gap-3 flex-1 overflow-y-auto">
                   <div className="flex flex-col sticky top-0 left-0 z-[4] bg-base-bg">

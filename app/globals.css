@@ -81,7 +81,7 @@
 }
 
 .bn-editor {
-  @apply bg-transparent border border-transparent focus:border-black/10 transition  outline-none text-mo-primary;
+  @apply bg-transparent border border-transparent focus:border-black/10 transition  outline-none;
 }
 
 .bn-side-menu .mantine-UnstyledButton-root:not(.mantine-Menu-item) svg,
