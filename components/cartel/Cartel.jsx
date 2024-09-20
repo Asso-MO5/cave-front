@@ -6,9 +6,8 @@ import { operations } from '@/_api/operations'
 import { MediaAdd } from '../MediaAdd'
 import { useMemo } from 'react'
 import { Crud } from './ref/Crud'
-import { useCrudItem } from './useCrudItem'
-import dynamic from 'next/dynamic'
 import { Editor } from '../Editor'
+import { useCrud } from '../crud/useCrud'
 
 const { putItemIdStatusStatus } = operations
 
@@ -24,7 +23,7 @@ export function Cartel() {
   const {
     get: { data: cartel },
     update: { action: update },
-  } = useCrudItem()
+  } = useCrud('cartel')
 
   const cover = useMemo(() => {
     const cover = cartel?.medias?.find(

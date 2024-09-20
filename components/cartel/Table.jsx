@@ -4,13 +4,14 @@ import { Modal } from '@/ui/Modal'
 import { Table as TableUi } from '@/ui/table/Table'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
 import { fetcher } from '@/utils/fetcher'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 // =====  [[ COMPONENT ]]  =====
 
 export function Table() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
   const [total, setTotal] = useState(0)
@@ -19,6 +20,7 @@ export function Table() {
     {
       name: 'Nom',
       key: 'name',
+      sortable: true,
     },
     {
       name: 'Type',
@@ -29,6 +31,7 @@ export function Table() {
       name: 'Emplacement',
       key: 'place',
       size: 'medium',
+      sortable: true,
     },
     {
       name: '',
@@ -73,8 +76,10 @@ export function Table() {
     setLoading(true)
 
     const ctrl = new AbortController()
+    const params = new URLSearchParams(window.location.search)
+    const url = `/items?type=cartel&${params.toString()}`
 
-    const response = await fetcher.get('/items?type=cartel', ctrl.signal)
+    const response = await fetcher.get(url, ctrl.signal)
     const { total, items } = await response.json()
 
     setData(items)
@@ -88,7 +93,12 @@ export function Table() {
       setData,
       setTotal,
     })
-  }, [])
+  }, [
+    searchParams.get('page'),
+    searchParams.get('sort'),
+    searchParams.get('order'),
+    searchParams.get('search'),
+  ])
 
   return (
     <TableUi

@@ -1,4 +1,4 @@
-import { useParams } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { StretchBox } from '../StretchBox'
 import { Pagination } from './Pagination'
@@ -18,21 +18,13 @@ export function Table(props) {
     rowKey = 'id',
     pagination = true,
     onRowClick,
-    onSort,
     onPaginate,
   } = props
-  const searchParams = useParams()
-  const page = Number(searchParams.page) || 1
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const page = Number(searchParams.get('page')) || 1
 
   const [perPage, setPerPage] = useState(50)
-
-  useEffect(() => {
-    onPaginate?.(page, perPage)
-  }, [page, perPage, onPaginate])
-
-  useEffect(() => {
-    setPerPage(parseInt(searchParams.limit || '50'))
-  }, [searchParams.page, searchParams.limit])
 
   const columnTemplate = useMemo(() => {
     const colSizes = cols.map((col) => col.size || 'normal')
@@ -64,16 +56,30 @@ export function Table(props) {
   const rows = loading ? Array.from({ length: 25 }) : data
 
   const handlePerPage = (value) => {
-    setPerPage(parseInt(value || '50'))
-    /*
-    setSearchParams((prev) => {
-      const newParams = new URLSearchParams(prev)
-      newParams.set('limit', value)
-      newParams.set('page', String(1))
-      return newParams
-    })
-      */
+    const newParams = new URLSearchParams(window.location.search)
+    newParams.set('limit', value)
+    newParams.set('page', String(1))
+    router.push(`${window.location.pathname}?${newParams.toString()}`)
   }
+
+  const handleSort = (key) => {
+    const newParams = new URLSearchParams(window.location.search)
+    const order = newParams.get('order') || 'asc'
+    const newOrder =
+      key === newParams.get('sort') ? (order === 'asc' ? 'desc' : 'asc') : 'asc'
+    newParams.set('sort', key)
+    newParams.set('order', newOrder)
+    newParams.set('page', String(1))
+    router.push(`${window.location.pathname}?${newParams.toString()}`)
+  }
+
+  useEffect(() => {
+    onPaginate?.(page, perPage)
+  }, [page, perPage, onPaginate])
+
+  useEffect(() => {
+    setPerPage(parseInt(searchParams.get('limit') || '50'))
+  }, [searchParams.get('page'), searchParams.get('limit')])
 
   return (
     <div className="w-full grid grid-rows-[1fr_auto] h-full overflow-hidden relative">
@@ -87,20 +93,20 @@ export function Table(props) {
               <div
                 key={`${col.key}-${col.order}`}
                 onClick={() => {
-                  if (!loading && col.sortable)
-                    onSort?.(
-                      typeof col.sortable === 'string' ? col.sortable : col.key
-                    )
+                  if (!loading && col.sortable) handleSort(col.key)
                 }}
                 className="cursor-pointer text-sm font-bold flex items-center gap-1 w-full"
               >
                 {col.name}
                 {col.sortable && (
                   <div
-                    data-order={!!col.order?.match(/desc/i)}
+                    data-order={
+                      searchParams.get('order') === 'desc' &&
+                      col.key === searchParams.get('sort')
+                    }
                     className="transition origin-center data-[order=true]:rotate-180  data-[order=false]:rotate-0"
                   >
-                    "&#x25B2;"
+                    &#x25B2;
                   </div>
                 )}
               </div>
@@ -109,7 +115,7 @@ export function Table(props) {
 
           <StretchBox>
             <section className="bg-mo-bg text-sm h-full w-full">
-              {!data.length && !loading ? (
+              {!data?.length && !loading ? (
                 <div className="text-center p-4">
                   {noDataMessage || "Aucune donnée n'a été trouvée"}
                 </div>
@@ -238,7 +244,7 @@ export function Table(props) {
                 className="mt-1 rounded-sm border border-mo-primary bg-mo-white z-50"
               >
                 <div className="flex flex-col max-h-56 overflow-y-auto ">
-                  {[25, 50, 100, 200]?.map((num) => (
+                  {[25, 50, 100, 200, 500]?.map((num) => (
                     <MenuItem key={num}>
                       <div
                         className="block data-[focus]:bg-mo-primary data-[focus]:text-mo-white w-full cursor-pointer p-1 text-cetner px-3"
@@ -256,7 +262,7 @@ export function Table(props) {
           <Pagination totalItems={totalCount} />
 
           <div className="text-xs text-mo-text">
-            résultat{totalCount > 1 ? 's' : ''}: {totalCount}
+            total: {totalCount}
             {' | '}
             <span className="opacity-50">
               Résultat de {startRange} à {endRange}
