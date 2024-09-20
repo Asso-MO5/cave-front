@@ -1,7 +1,20 @@
 import { auth } from '@/auth'
-import { Modal } from '@/components/cartel/create/Modal'
-import { Table } from '@/components/cartel/Table'
 import { PageList } from '@/layouts/page-list'
+import dynamic from 'next/dynamic'
+
+const Modal = dynamic(
+  () => import('@/components/cartel/create/Modal').then((mod) => mod.Modal),
+  {
+    ssr: false,
+  }
+)
+
+const Table = dynamic(
+  () => import('@/components/cartel/Table').then((mod) => mod.Table),
+  {
+    ssr: false,
+  }
+)
 
 export default async function Cartels() {
   const session = await auth()
