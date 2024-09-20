@@ -7,6 +7,7 @@ import { DefaultCell } from './DefaultCell'
 import { Virtuoso } from 'react-virtuoso'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon } from '../icon/ChevronDownIcon'
+import { useDebounce } from '@/hooks/useDebounce'
 
 export function Table(props) {
   const {
@@ -23,6 +24,8 @@ export function Table(props) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const page = Number(searchParams.get('page')) || 1
+  const [search, setSearch] = useState(searchParams.get('search') || '')
+  const debounceSearch = useDebounce(search, 500)
 
   const [perPage, setPerPage] = useState(50)
 
@@ -73,6 +76,17 @@ export function Table(props) {
     router.push(`${window.location.pathname}?${newParams.toString()}`)
   }
 
+  const handleSearch = () => {
+    const newParams = new URLSearchParams(window.location.search)
+    newParams.set('search', search)
+    newParams.set('page', String(1))
+    router.push(`${window.location.pathname}?${newParams.toString()}`)
+  }
+
+  useEffect(() => {
+    handleSearch()
+  }, [debounceSearch])
+
   useEffect(() => {
     onPaginate?.(page, perPage)
   }, [page, perPage, onPaginate])
@@ -92,18 +106,26 @@ export function Table(props) {
             {cols.map((col) => (
               <div
                 key={`${col.key}-${col.order}`}
-                onClick={() => {
-                  if (!loading && col.sortable) handleSort(col.key)
-                }}
                 className="cursor-pointer text-sm font-bold flex items-center gap-1 w-full"
               >
-                {col.name}
+                <input
+                  defaultValue={col.name}
+                  name="sort"
+                  className="disabled:cursor-text disabled:opacity-100 bg-transparent border-none text-mo-text w-full"
+                  disabled={!col.searchable}
+                  onClick={(e) => e.target.select()}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder={col.name}
+                />
                 {col.sortable && (
                   <div
                     data-order={
                       searchParams.get('order') === 'desc' &&
                       col.key === searchParams.get('sort')
                     }
+                    onClick={() => {
+                      if (!loading) handleSort(col.key)
+                    }}
                     className="transition origin-center data-[order=true]:rotate-180  data-[order=false]:rotate-0"
                   >
                     &#x25B2;

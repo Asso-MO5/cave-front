@@ -21,6 +21,7 @@ export function Table() {
       name: 'Nom',
       key: 'name',
       sortable: true,
+      searchable: true,
     },
     {
       name: 'Type',
@@ -32,6 +33,7 @@ export function Table() {
       key: 'place',
       size: 'medium',
       sortable: true,
+      searchable: true,
     },
     {
       name: '',
