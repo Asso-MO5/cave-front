@@ -16,7 +16,7 @@ export function Editor({ onChange, id, defaultValue = '', disabled, limits }) {
   const charCount =
     blocks?.reduce((acc, block) => {
       block?.content?.forEach((content) => {
-        acc += content.text.length
+        if (content?.text?.length) acc += content.text.length
       })
 
       return acc

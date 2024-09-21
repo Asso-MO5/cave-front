@@ -24,7 +24,7 @@ const txtVarchars = {
 const longText = [
   {
     label: 'Description courte',
-    key: 'short_description',
+    key: 'long_short_description',
   },
   {
     label: 'Description FR',
