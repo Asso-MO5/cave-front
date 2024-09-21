@@ -16,6 +16,7 @@ export const ITEM_TYPE_TITLE = {
 }
 
 export const ACTIVITIES_COMPANY = {
+  machine: 'Machine',
   manufacturer: 'Fabricant',
   publisher: 'Éditeur',
   developer: 'Développeur',
