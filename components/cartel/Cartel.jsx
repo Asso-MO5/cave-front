@@ -96,9 +96,9 @@ export function Cartel() {
         <div className="flex flex-col gap-2 sm:max-w-64">
           <MediaAdd
             defaultImg={cover}
-            updateUrl={(cover_url) => update({ cover_url })}
-            updateId={(cover_id) => update({ cover_id })}
-            updateLocal={(cover_file) => update({ cover_file })}
+            updateUrl={(url) => update({ url, media: 'cover' })}
+            updateId={(id) => update({ id, media: 'cover' })}
+            updateLocal={(file) => update({ file, media: 'cover' })}
           />
           {cartel.relations.map((item) => (
             <Crud item={item} key={item.id} />

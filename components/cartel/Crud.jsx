@@ -46,13 +46,13 @@ export function Crud({ cartel: defaultCartel }) {
               return
             }
 
-            if (keys.some((key) => key.match(/cover/))) {
+            if (keys.some((key) => key.match(/media/))) {
               const form = new FormData()
 
-              if (payload.cover_file) form.append('cover', payload.cover_file)
-              if (payload.cover_id) form.append('cover_id', payload.cover_id)
-              if (payload.cover_url)
-                form.append('cover_url', payload.cover_urll)
+              if (payload.media) form.append('media', payload.media)
+              if (payload.file) form.append('file', payload.file)
+              if (payload.id) form.append('id', payload.id)
+              if (payload.url) form.append('url', payload.url)
 
               fetcher.putFile(
                 createUrl(putItemIdMedia.path, { id: cartel.id }),
