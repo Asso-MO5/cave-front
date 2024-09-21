@@ -1,10 +1,11 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
+import { Button } from '../Button'
 
 export function Pagination({ totalItems, defaultLimit = 50 }) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const btnClass = 'whitespace-nowrap cursor-pointer'
+
   const totalPages = Math.ceil(
     totalItems / Number(searchParams.get('limit') || defaultLimit)
   )
@@ -51,40 +52,38 @@ export function Pagination({ totalItems, defaultLimit = 50 }) {
   }
 
   return (
-    <div className="flex gap-2">
-      <button
-        data-current={isOnFirstPage}
-        className={`${btnClass} text-base-border data-[current=true]:opacity-50`}
-        onClick={() => handleChangePage(Number(currentPage - 1))}
-        disabled={isOnFirstPage}
-      >
-        Precédent
-      </button>
-
-      {getPageNumbers.map((pageNumber, i) => (
-        <button
-          key={i}
-          data-current={pageNumber === currentPage}
-          className={`${btnClass} text-lg relative data-[current=true]:text-mo-secondary`}
-          onClick={() => handleChangePage(Number(pageNumber))}
-          disabled={pageNumber === currentPage || pageNumber === '...'}
+    <div className="absolute inset-0">
+      <div className="flex gap-3 justify-center items-center pt-3">
+        <Button
+          onClick={() => handleChangePage(Number(currentPage - 1))}
+          disabled={isOnFirstPage}
         >
-          {pageNumber}
-          {pageNumber === currentPage && totalPages > 1 && (
-            <div className="absolute top-full left-[2px] right-0 flex justify-center">
-              <div className="w-1 h-1 -mt-1 bg-base-secondary rounded-full"></div>
-            </div>
-          )}
-        </button>
-      ))}
-      <button
-        data-current={isOnLastPage}
-        className={`${btnClass} text-base-border data-[current=true]:opacity-50`}
-        onClick={() => handleChangePage(Number(currentPage + 1))}
-        disabled={isOnLastPage}
-      >
-        Suivant
-      </button>
+          Precédent
+        </Button>
+
+        {getPageNumbers.map((pageNumber, i) => (
+          <button
+            key={i}
+            data-current={pageNumber === currentPage}
+            className={`whitespace-nowrap cursor-pointer text-lg relative data-[current=true]:font-bold data-[current=true]:underline disabled:opacity-100`}
+            onClick={() => handleChangePage(Number(pageNumber))}
+            disabled={pageNumber === currentPage || pageNumber === '...'}
+          >
+            {pageNumber}
+            {pageNumber === currentPage && totalPages > 1 && (
+              <div className="absolute top-full left-[2px] right-0 flex justify-center">
+                <div className="w-1 h-1 -mt-1 bg-base-secondary rounded-full"></div>
+              </div>
+            )}
+          </button>
+        ))}
+        <Button
+          onClick={() => handleChangePage(Number(currentPage + 1))}
+          disabled={isOnLastPage}
+        >
+          Suivant
+        </Button>
+      </div>
     </div>
   )
 }

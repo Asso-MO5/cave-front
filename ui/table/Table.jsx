@@ -108,15 +108,19 @@ export function Table(props) {
                 key={`${col.key}-${col.order}`}
                 className="cursor-pointer text-sm font-bold flex items-center gap-1 w-full"
               >
-                <input
-                  defaultValue={col.name}
-                  name="sort"
-                  className="disabled:cursor-text disabled:opacity-100 bg-transparent border-none text-mo-text w-full"
-                  disabled={!col.searchable}
-                  onClick={(e) => e.target.select()}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder={col.name}
-                />
+                {typeof col.name === 'string' ? (
+                  <input
+                    defaultValue={col.name}
+                    name="sort"
+                    className="disabled:cursor-text disabled:opacity-100 bg-transparent border-none text-mo-text w-full"
+                    disabled={!col.searchable}
+                    onClick={(e) => e.target.select()}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder={col.name}
+                  />
+                ) : (
+                  col.name()
+                )}
                 {col.sortable && (
                   <div
                     data-order={
@@ -150,7 +154,7 @@ export function Table(props) {
                     return (
                       <div
                         data-odd={index % 2}
-                        className="grid gap-2 px-2 py-3 cursor-pointer hover:bg-mo-tertiary data-[odd=1]:bg-black/5"
+                        className="grid gap-2 p-1 cursor-pointer hover:bg-mo-tertiary data-[odd=1]:bg-white"
                         style={{ gridTemplateColumns: columnTemplate }}
                       >
                         {cols.map((col) => {
@@ -251,7 +255,7 @@ export function Table(props) {
       </StretchBox>
 
       {pagination && totalCount ? (
-        <footer className="p-2 flex items-center justify-between w-full border-t border-mo-primary">
+        <footer className="p-2 flex items-center justify-between w-full border-t border-mo-primary relative">
           <div className="flex items-center">
             <div className="text-xs whitespace-nowrap hidden md:block">
               Résultat par page

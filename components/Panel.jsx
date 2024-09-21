@@ -117,7 +117,7 @@ export function Panel({ session }) {
               </MenuButton>
               <MenuItems
                 anchor="top"
-                className="mx-2 -mb-4 bg-mo-white p-2 rounded border border-base flex flex-col gap-1"
+                className="mx-2 -mb-4 bg-mo-white p-2 rounded border border-base flex flex-col gap-1 z-[9999]"
               >
                 {session.user.roles.map((role) => (
                   <MenuItem key={role.name}>

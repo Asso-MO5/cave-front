@@ -30,7 +30,7 @@ export function Button({
 
   const styles = dc(
     'flex items-center',
-    'gap-1 px-2 py-1 rounded-md hover:text-mo-white transition-colors ease-in-out',
+    'gap-1 px-2 py-1 rounded-md hover:text-mo-white transition-colors ease-in-out text-sm',
     themeClasses[theme],
     [disabled, 'opacity-50 cursor-not-allowed'],
     [iconPosition === 'right', 'flex-row-reverse']
