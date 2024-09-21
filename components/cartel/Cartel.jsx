@@ -78,7 +78,7 @@ export function Cartel() {
           </div>
 
           {longText.map(({ label, key }) => (
-            <Fieldset title={label}>
+            <Fieldset title={label} key={key}>
               <Editor
                 id={key}
                 defaultValue={cartel[key]}
