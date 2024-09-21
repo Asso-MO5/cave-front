@@ -18,7 +18,7 @@ export function Table() {
   const [total, setTotal] = useState(0)
 
   const cols = [
-    {
+    /* {
       name: '',
       key: 'select',
       size: 'x-small',
@@ -31,7 +31,7 @@ export function Table() {
           }}
         />
       ),
-    },
+    },*/
     {
       name: 'Nom',
       key: 'name',
