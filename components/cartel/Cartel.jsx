@@ -9,7 +9,7 @@ import { Crud } from './ref/Crud'
 import { Editor } from '../Editor'
 import { useCrud } from '../crud/useCrud'
 import { PrintSelector } from './PrintSelector'
-import { PRINT_TYPES } from './cartel.utils'
+import { PRINT_TYPES, PRINT_TYPES_GAME } from './cartel.utils'
 
 const { putItemIdStatusStatus } = operations
 
@@ -20,6 +20,21 @@ const txtVarchars = {
   var_release_jap: 'Date de sortie japonnaise',
   var_release_us: 'Date de sortie USA',
 }
+
+const longText = [
+  {
+    label: 'Description courte',
+    key: 'short_description',
+  },
+  {
+    label: 'Description FR',
+    key: 'long_description_fr',
+  },
+  {
+    label: 'Description EN',
+    key: 'long_description_en',
+  },
+]
 
 export function Cartel() {
   const {
@@ -61,40 +76,22 @@ export function Cartel() {
           <div className="mb-2">
             <PrintSelector id={cartel.id} name={cartel.name} />
           </div>
-          <Fieldset title="Description Courte">
-            <Editor
-              id="short_description"
-              defaultValue={cartel.long_short_description}
-              onChange={(long_short_description) =>
-                update({ long_short_description })
-              }
-              disabled={cartel.status === 'published'}
-              limits={PRINT_TYPES}
-            />
-          </Fieldset>
 
-          <Fieldset title="Description FR">
-            <Editor
-              id="long_description_fr"
-              defaultValue={cartel.long_description_fr}
-              onChange={(long_description_fr) =>
-                update({ long_description_fr })
-              }
-              disabled={cartel.status === 'published'}
-              limits={PRINT_TYPES}
-            />
-          </Fieldset>
-          <Fieldset title="Description EN">
-            <Editor
-              id="long_description_en"
-              defaultValue={cartel.long_description_en}
-              onChange={(long_description_en) =>
-                update({ long_description_en })
-              }
-              disabled={cartel.status === 'published'}
-              limits={PRINT_TYPES}
-            />
-          </Fieldset>
+          {longText.map(({ label, key }) => (
+            <Fieldset title={label}>
+              <Editor
+                id={key}
+                defaultValue={cartel[key]}
+                onChange={(value) => update({ [key]: value })}
+                disabled={cartel.status === 'published'}
+                limits={
+                  cartel?.relations?.[0]?.type === 'game'
+                    ? PRINT_TYPES_GAME
+                    : PRINT_TYPES
+                }
+              />
+            </Fieldset>
+          ))}
         </div>
         <div className="flex flex-col gap-2 sm:max-w-64">
           <MediaAdd
