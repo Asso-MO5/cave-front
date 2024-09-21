@@ -10,7 +10,8 @@ import { Checkbox } from '@/ui/Checkbox'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { Modal } from '@/ui/Modal'
-import { ExportItemsBtn } from '../ExportItemsBtn'
+import { ExportBtn } from '../items/ExportBtn'
+import { PrintSelector } from '../items/PrintSelector'
 
 export function Cartels() {
   const router = useRouter()
@@ -78,11 +79,14 @@ export function Cartels() {
             }}
             checked={selectedTotal}
           />
-          <ExportItemsBtn
+          <ExportBtn
             selectedIds={data.filter((d) => d.selected).map((d) => d.id)}
             selectedTotal={selectedTotal}
           />
-
+          <PrintSelector
+            selectedIds={data.filter((d) => d.selected).map((d) => d.id)}
+            selectedTotal={selectedTotal}
+          />
           <div>
             <ModalCreate />
           </div>

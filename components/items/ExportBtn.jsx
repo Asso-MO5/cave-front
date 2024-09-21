@@ -2,7 +2,7 @@ import { Button } from '@/ui/Button'
 import { fetcher } from '@/utils/fetcher'
 import { useState } from 'react'
 
-export function ExportItemsBtn({ selectedIds, selectedTotal }) {
+export function ExportBtn({ selectedIds, selectedTotal }) {
   const [loading, setLoading] = useState(false)
 
   const handleDl = async () => {
