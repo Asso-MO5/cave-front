@@ -73,30 +73,21 @@ export function Cartel() {
             />
           </Fieldset>
 
-          <Fieldset title="Description">
+          <Fieldset title="Description FR">
             <Editor
-              id="long_description"
-              defaultValue={cartel.long_description}
-              onChange={(long_description) => update({ long_description })}
-              disabled={cartel.status === 'published'}
-              limits={PRINT_TYPES}
-            />
-          </Fieldset>
-          <Fieldset title="Description Rollup">
-            <Editor
-              id="description_rollup"
-              defaultValue={cartel.long_description}
-              onChange={(long_description_rollup) =>
-                update({ long_description_rollup })
+              id="long_description_fr"
+              defaultValue={cartel.long_description_fr}
+              onChange={(long_description_fr) =>
+                update({ long_description_fr })
               }
               disabled={cartel.status === 'published'}
               limits={PRINT_TYPES}
             />
           </Fieldset>
-          <Fieldset title="Version anglaise">
+          <Fieldset title="Description EN">
             <Editor
-              id="description_en"
-              defaultValue={cartel.description_en}
+              id="long_description_en"
+              defaultValue={cartel.long_description_en}
               onChange={(long_description_en) =>
                 update({ long_description_en })
               }

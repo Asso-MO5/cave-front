@@ -11,7 +11,7 @@ const companiesPerType = {
   accessory: ['manufacturer'],
   machine: ['manufacturer'],
   soft: ['publisher', 'developer'],
-  game: ['publisher', 'developer'],
+  game: ['machine', 'publisher', 'developer'],
 }
 
 /**
