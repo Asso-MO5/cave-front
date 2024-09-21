@@ -1,4 +1,5 @@
 'use client'
+import { Checkbox } from '@/ui/Checkbox'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { Modal } from '@/ui/Modal'
 import { Table as TableUi } from '@/ui/table/Table'
@@ -17,6 +18,20 @@ export function Table() {
   const [total, setTotal] = useState(0)
 
   const cols = [
+    {
+      name: '',
+      key: 'select',
+      size: 'x-small',
+      component: ({ rowData }) => (
+        <Checkbox
+          checked={rowData.selected}
+          onCheck={(checked) => {
+            rowData.selected = checked
+            setData([...data])
+          }}
+        />
+      ),
+    },
     {
       name: 'Nom',
       key: 'name',

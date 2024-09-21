@@ -93,7 +93,7 @@ export function Cartel() {
               limits={PRINT_TYPES}
             />
           </Fieldset>
-          <Fieldset title="version anglaise">
+          <Fieldset title="Version anglaise">
             <Editor
               id="description_en"
               defaultValue={cartel.description_en}
