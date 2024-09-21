@@ -6,9 +6,10 @@ import { operations } from '@/_api/operations'
 import { MediaAdd } from '../MediaAdd'
 import { useMemo } from 'react'
 import { Crud } from './ref/Crud'
-import { useCrudItem } from './useCrudItem'
-import dynamic from 'next/dynamic'
 import { Editor } from '../Editor'
+import { useCrud } from '../crud/useCrud'
+import { PrintSelector } from './PrintSelector'
+import { PRINT_TYPES } from './cartel.utils'
 
 const { putItemIdStatusStatus } = operations
 
@@ -24,7 +25,7 @@ export function Cartel() {
   const {
     get: { data: cartel },
     update: { action: update },
-  } = useCrudItem()
+  } = useCrud('cartel')
 
   const cover = useMemo(() => {
     const cover = cartel?.medias?.find(
@@ -57,6 +58,9 @@ export function Cartel() {
 
       <div className="sm:flex-row flex flex-col-reverse gap-6 w-full">
         <div className="flex-1">
+          <div className="mb-2">
+            <PrintSelector id={cartel.id} name={cartel.name} />
+          </div>
           <Fieldset title="Description Courte">
             <Editor
               id="short_description"
@@ -65,15 +69,28 @@ export function Cartel() {
                 update({ long_short_description })
               }
               disabled={cartel.status === 'published'}
+              limits={PRINT_TYPES}
             />
           </Fieldset>
 
           <Fieldset title="Description">
             <Editor
-              id="description"
+              id="long_description"
               defaultValue={cartel.long_description}
               onChange={(long_description) => update({ long_description })}
               disabled={cartel.status === 'published'}
+              limits={PRINT_TYPES}
+            />
+          </Fieldset>
+          <Fieldset title="Description Cartel">
+            <Editor
+              id="description_cartel"
+              defaultValue={cartel.long_description}
+              onChange={(long_description_cartel) =>
+                update({ long_description_cartel })
+              }
+              disabled={cartel.status === 'published'}
+              limits={PRINT_TYPES}
             />
           </Fieldset>
         </div>

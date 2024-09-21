@@ -1,14 +1,15 @@
-import { useParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
 
 export function Pagination({ totalItems, defaultLimit = 50 }) {
-  const searchParams = useParams()
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const btnClass = 'whitespace-nowrap cursor-pointer'
   const totalPages = Math.ceil(
-    totalItems / Number(searchParams.limit || defaultLimit)
+    totalItems / Number(searchParams.get('limit') || defaultLimit)
   )
 
-  const currentPage = Number(searchParams.page) || 1
+  const currentPage = Number(searchParams.get('page')) || 1
   const isOnFirstPage = currentPage === 1
   const isOnLastPage = currentPage === totalPages
 
@@ -40,17 +41,13 @@ export function Pagination({ totalItems, defaultLimit = 50 }) {
     }
 
     return pages
-  }, [currentPage, totalPages])
+  }, [searchParams.get('page'), totalPages])
 
   const handleChangePage = (pageNumber) => {
-    //TODO
-    /*
-        setSearchParams((prev) => {
-      const newParams = new URLSearchParams(prev)
-      newParams.set("page", String(pageNumber))
-      return newParams
-    })
-    */
+    const newParams = new URLSearchParams(window.location.search)
+    newParams.set('page', String(pageNumber))
+
+    router.push(`${window.location.pathname}?${newParams.toString()}`)
   }
 
   return (

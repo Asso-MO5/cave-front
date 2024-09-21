@@ -1,4 +1,4 @@
 'use client'
 import { createContext } from 'react'
 
-export const CrudRefCtx = createContext({})
+export const CrudCtx = createContext(null)

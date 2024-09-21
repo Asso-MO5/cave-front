@@ -3,8 +3,8 @@ import { useState } from 'react'
 import { operations } from '@/_api/operations'
 import { createUrl } from '@/utils/create-url'
 import { fetcher } from '@/utils/fetcher'
-import { CrudItemProvider } from './CrudItemProvider'
 import dynamic from 'next/dynamic'
+import { CrudProvider } from '../crud/provider'
 
 const { putItemId, putItemIdStatusStatus, putItemIdMedia } = operations
 
@@ -16,7 +16,8 @@ export function Crud({ cartel: defaultCartel }) {
   const [cartel, setCartel] = useState(defaultCartel)
 
   return (
-    <CrudItemProvider
+    <CrudProvider
+      name="cartel"
       crud={{
         get: { data: cartel },
         update: {
@@ -74,6 +75,6 @@ export function Crud({ cartel: defaultCartel }) {
       }}
     >
       <Cartel />
-    </CrudItemProvider>
+    </CrudProvider>
   )
 }
