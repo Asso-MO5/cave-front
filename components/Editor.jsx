@@ -7,7 +7,7 @@ import { editorInitialContent } from '@/utils/editor-initial-content'
 import { useDebounce } from '@/hooks/useDebounce'
 import { EditorRead } from './EditorRead'
 
-export function Editor({ onChange, id, defaultValue = '', disabled }) {
+export function Editor({ onChange, id, defaultValue = '', disabled, limits }) {
   // ==== EDITOR ========================================
   const idGen = useId()
   const [init, setInit] = useState(false)
@@ -55,8 +55,33 @@ export function Editor({ onChange, id, defaultValue = '', disabled }) {
         }}
         id={id || idGen}
       />
-      <div className="text-right text-sm italic text-mo-primary opacity-50">
-        {charCount} caractère{charCount > 1 ? 's' : ''}
+      <div className="text-right text-xs  flex gap-1 items-center justify-end">
+        {limits
+          .filter((limit) => limit[id] > 0)
+          .map((limit) => (
+            <div
+              key={limit.name}
+              className="p-1 flex items-center gap-1 border border-black/5 rounded-sm"
+            >
+              <span className="text-mo-primary font-bold first-letter:uppercase">
+                {limit.name}
+              </span>
+
+              <span className="text-mo-primary">
+                <span
+                  className="data-[warning=true]:text-yellow-500 data-[exceed=true]:text-red-500 text-mo-primary"
+                  data-exceed={charCount > limit[id]}
+                  data-warning={
+                    charCount > limit[id] - limit[id] / 15 &&
+                    charCount <= limit[id]
+                  }
+                >
+                  {charCount}
+                </span>{' '}
+                / {limit[id]}
+              </span>
+            </div>
+          ))}
       </div>
     </>
   )

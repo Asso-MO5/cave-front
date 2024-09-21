@@ -11,6 +11,16 @@ async function _fetch(verb, signal, url, body) {
   })
 }
 
+async function _fetchFile(verb, signal, url) {
+  return await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
+    method: verb,
+    signal,
+    headers: {
+      Authorization: 'Bearer ' + getCookie('api_token'),
+    },
+  })
+}
+
 async function _post(signal, url, body) {
   return await fetch(process.env.NEXT_PUBLIC_API_URL + url, {
     method: 'POST',
@@ -65,5 +75,8 @@ export const fetcher = {
   },
   async delete(url, signal) {
     return await _fetch('DELETE', signal, url)
+  },
+  async getFile(url, signal) {
+    return await _fetchFile('GET', signal, url)
   },
 }
