@@ -5,6 +5,7 @@ import { createUrl } from '@/utils/create-url'
 import { fetcher } from '@/utils/fetcher'
 import dynamic from 'next/dynamic'
 import { CrudProvider } from '../crud/provider'
+import { toast } from 'react-toastify'
 
 const { putItemId, putItemIdStatusStatus, putItemIdMedia } = operations
 
@@ -63,11 +64,21 @@ export function Crud({ cartel: defaultCartel }) {
             }
 
             // -----|| ITEM ||----------------------------------------------
-            fetcher[putItemId.method](
-              createUrl(putItemId.path, { id: cartel.id }),
-              ctrl.signal,
-              payload
-            )
+
+            try {
+              const response = await fetcher[putItemId.method](
+                createUrl(putItemId.path, { id: cartel.id }),
+                ctrl.signal,
+                payload
+              )
+
+              if (!response.ok) {
+                const errorData = await response.json()
+                throw new Error(errorData.error)
+              }
+            } catch (e) {
+              toast.error(e.message)
+            }
           },
         },
         create: { data: cartel },
