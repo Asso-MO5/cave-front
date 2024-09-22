@@ -10,6 +10,8 @@ import { Editor } from '../Editor'
 import { useCrud } from '../crud/useCrud'
 import { PrintSelector } from './PrintSelector'
 import { PRINT_TYPES, PRINT_TYPES_GAME } from './cartel.utils'
+import { AddBtn } from '../media/AddBtn'
+import { MediaReadEdit } from '../MediaReadEdit'
 
 const { putItemIdStatusStatus } = operations
 
@@ -94,6 +96,37 @@ export function Cartel() {
               />
             </Fieldset>
           ))}
+
+          <div className="flex flex-col gap-3 my-2">
+            <div className="flex justify-center">
+              <div>
+                <AddBtn
+                  updateUrl={(url) =>
+                    update({ url, media: 'media', create: true })
+                  }
+                  updateId={(id) =>
+                    update({ id, media: 'media', create: true })
+                  }
+                  updateLocal={(file) =>
+                    update({ file, media: 'media', create: true })
+                  }
+                />
+              </div>
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {cartel?.medias.map((media) => (
+                <div key={media.id} className="max-w-60 h-auto">
+                  <MediaReadEdit
+                    url={media.url}
+                    name={media.alt}
+                    update={(payload) =>
+                      update({ ...payload, media: media.id })
+                    }
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
         <div className="flex flex-col gap-2 sm:max-w-64">
           <MediaAdd
@@ -102,6 +135,7 @@ export function Cartel() {
             updateId={(id) => update({ id, media: 'cover' })}
             updateLocal={(file) => update({ file, media: 'cover' })}
           />
+
           {cartel.relations.map((item) => (
             <Crud item={item} key={item.id} />
           ))}

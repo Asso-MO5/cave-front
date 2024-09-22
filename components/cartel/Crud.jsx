@@ -54,12 +54,20 @@ export function Crud({ cartel: defaultCartel }) {
               if (payload.file) form.append('file', payload.file)
               if (payload.id) form.append('id', payload.id)
               if (payload.url) form.append('url', payload.url)
+              if (payload.create) form.append('create', payload.create)
 
-              fetcher.putFile(
+              const resMedia = await fetcher.putFile(
                 createUrl(putItemIdMedia.path, { id: cartel.id }),
                 ctrl.signal,
                 form
               )
+              const { item: resMediaJson } = await resMedia.json()
+
+              console.log(resMediaJson)
+              setCartel((prev) => ({
+                ...prev,
+                ...resMediaJson,
+              }))
               return
             }
 

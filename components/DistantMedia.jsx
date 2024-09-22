@@ -31,7 +31,7 @@ export function DistantMedia({ close, onSubmit }) {
           src={url}
           alt="media"
           onError={handleErrors}
-          className="h-56 w-auto"
+          className="h-auto w-56"
         />
       )}
       <input
