@@ -63,6 +63,15 @@ export const operations = {
     ],
     "method": "post"
   },
+  "postItemsExist": {
+    "path": "/items/exist",
+    "description": "Vérifie si un item existe",
+    "roles": [
+      "publisher",
+      "reviewer"
+    ],
+    "method": "post"
+  },
   "postItemsExport": {
     "path": "/items/export",
     "description": "Permet d exporter les items",
@@ -93,7 +102,6 @@ export const operations = {
     "path": "/items/{id}",
     "description": "Permet de supprimer un item",
     "roles": [
-      "publisher",
       "reviewer"
     ],
     "method": "delete"
