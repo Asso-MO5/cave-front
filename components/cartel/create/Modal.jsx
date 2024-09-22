@@ -17,7 +17,8 @@ export function Modal() {
   const display = useCheckRoles(roles)
   const router = useRouter()
 
-  const handleClick = async () => {
+  const handleClick = async (e) => {
+    e?.preventDefault()
     setLoading(true)
 
     const ctrl = new AbortController()
@@ -43,16 +44,18 @@ export function Modal() {
   return (
     <ModalUi
       content={
-        <Fieldset title="Nom du cartel">
-          <input
-            name="name"
-            id="name"
-            autoFocus
-            value={loading ? 'creation en cours...' : name}
-            onChange={(e) => setName(e.target.value)}
-            disabled={loading}
-          />
-        </Fieldset>
+        <form onSubmit={handleClick}>
+          <Fieldset title="Nom du cartel">
+            <input
+              name="name"
+              id="name"
+              autoFocus
+              value={loading ? 'creation en cours...' : name}
+              onChange={(e) => setName(e.target.value)}
+              disabled={loading}
+            />
+          </Fieldset>
+        </form>
       }
       closeModalOnConfirm={false}
       onConfirm={handleClick}
