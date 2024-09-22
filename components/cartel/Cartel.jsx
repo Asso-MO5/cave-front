@@ -17,8 +17,9 @@ const txtVarchars = {
   var_place: 'Emplacement',
   var_origin: 'Provenance',
   var_price: 'Prix',
-  var_release_fr: 'Date de sortie Française',
-  var_release_jap: 'Date de sortie japonnaise',
+  var_release_fr: 'Date de sortie',
+  var_release_eu: 'Date de sortie EUR',
+  var_release_jap: 'Date de sortie JAP',
   var_release_us: 'Date de sortie USA',
 }
 
