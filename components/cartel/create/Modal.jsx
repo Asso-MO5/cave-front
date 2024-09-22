@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/ui/Button'
 import { Modal as ModalUi } from '@/ui/Modal'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Fieldset } from '@/ui/Fieldset'
 import { toast } from 'react-toastify'
 import { operations } from '@/_api/operations'
@@ -14,6 +14,9 @@ const { roles, path } = operations.postItems
 export function Modal() {
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
+  const [open, setOpen] = useState(false)
+  const inputRef = useRef(null) // Créer une référence pour l'input
+  const timeRef = useRef(null) // Créer une référence pour le timeout
   const display = useCheckRoles(roles)
   const router = useRouter()
 
@@ -39,17 +42,30 @@ export function Modal() {
     }
   }
 
+  useEffect(() => {
+    if (open) {
+      const animationDuration = 400
+      timeRef.current = setTimeout(() => {
+        inputRef?.current?.focus()
+      }, animationDuration)
+    } else {
+      timeRef.current && clearTimeout(timeRef.current)
+    }
+    return () => timeRef.current && clearTimeout(timeRef.current)
+  }, [open])
+
   if (!display) return null
 
   return (
     <ModalUi
+      onCancel={() => setOpen(false)}
       content={
         <form onSubmit={handleClick}>
           <Fieldset title="Nom du cartel">
             <input
-              name="name"
-              id="name"
-              autoFocus
+              ref={inputRef}
+              name="cartel_name"
+              id="cartel_name"
               value={loading ? 'creation en cours...' : name}
               onChange={(e) => setName(e.target.value)}
               disabled={loading}
@@ -61,7 +77,7 @@ export function Modal() {
       onConfirm={handleClick}
       isConfirmDisabled={loading}
     >
-      <Button>Créer un cartel</Button>
+      <Button onClick={() => setOpen(!open)}>Créer un cartel</Button>
     </ModalUi>
   )
 }

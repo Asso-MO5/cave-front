@@ -24,6 +24,7 @@ export function Item() {
     update: { action: update },
   } = useCrud('item_ref')
 
+  const companies = companiesPerType?.[item.type] || []
   return (
     <div className="flex flex-col gap-2">
       <TypeSelector
@@ -31,7 +32,7 @@ export function Item() {
         onChange={(type) => update({ type })}
       />
 
-      {companiesPerType[item.type].map((companyType) => (
+      {companies.map((companyType) => (
         <Fieldset key={companyType} title={ACTIVITIES_COMPANY[companyType]}>
           <ItemSelector
             type={companyType}
