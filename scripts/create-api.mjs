@@ -26,7 +26,7 @@ async function createApi() {
         acc[operationId] = {
           path,
           description: summary,
-          roles: description.split('<br/>').filter((c) => c !== ''),
+          roles: description?.split('<br/>').filter((c) => c !== ''),
           method,
         }
       })
