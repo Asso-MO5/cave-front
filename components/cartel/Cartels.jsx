@@ -133,7 +133,7 @@ export function Cartels() {
             {
               name: 'Status',
               key: 'status',
-              size: 'small',
+              size: 'x-small',
               sortable: true,
               component: ({ rowData }) => {
                 return <StatusChip status={rowData.status} />
