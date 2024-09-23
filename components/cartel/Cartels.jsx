@@ -142,6 +142,7 @@ export function Cartels() {
             {
               name: 'Type',
               key: 'rType',
+
               component: ({ rowData }) => (
                 <div>{ITEM_TYPE_TITLE[rowData.rType]}</div>
               ),

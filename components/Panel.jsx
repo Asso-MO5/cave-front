@@ -24,6 +24,16 @@ const MENU = [
       },
     ],
   },
+  {
+    name: 'Ressources',
+    entries: [
+      {
+        name: 'Entreprises',
+        href: '/admin/companies',
+        regex: /admin\/company|admin\/companies/,
+      },
+    ],
+  },
 ]
 
 export function Panel({ session }) {

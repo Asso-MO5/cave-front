@@ -7,22 +7,22 @@ import dynamic from 'next/dynamic'
 import { CrudProvider } from '../crud/provider'
 import { toast } from 'react-toastify'
 
-const { putItemId, putItemIdStatusStatus, putItemIdMedia } = operations
+const { putCompanies, putCompanyIdMedia, putCompanyIdStatusStatus } = operations
 
-const Cartel = dynamic(() => import('./Cartel').then((mod) => mod.Cartel), {
+const Company = dynamic(() => import('./Company').then((mod) => mod.Company), {
   ssr: false,
 })
 
-export function Crud({ cartel: defaultCartel }) {
-  const [cartel, setCartel] = useState(defaultCartel)
+export function Crud({ company: defaultCompany }) {
+  const [company, setCompany] = useState(defaultCompany)
 
   return (
     <CrudProvider
-      name="cartel"
+      name="company"
       crud={{
-        get: { data: cartel },
+        get: { data: company },
         update: {
-          data: cartel,
+          data: company,
           async action(payload) {
             const ctrl = new AbortController()
 
@@ -30,19 +30,21 @@ export function Crud({ cartel: defaultCartel }) {
 
             if (keys.length === 0) return
             // -----|| STATUS ||----------------------------------------------
-            if (keys.some((key) => key === 'status')) {
-              const oldStatus = cartel.status
 
-              setCartel((prev) => ({ ...prev, status: payload.status }))
-              const res = await fetcher[putItemIdStatusStatus.method](
-                createUrl(putItemIdStatusStatus.path, {
-                  id: cartel.id,
+            if (keys.some((key) => key === 'status')) {
+              const oldStatus = company.status
+
+              setCompany((prev) => ({ ...prev, status: payload.status }))
+              const res = await fetcher[putCompanyIdStatusStatus.method](
+                createUrl(putCompanyIdStatusStatus.path, {
+                  id: company.id,
                   status: payload.status,
                 }),
                 ctrl.signal
               )
 
-              if (!res.ok) setCartel((prev) => ({ ...prev, status: oldStatus }))
+              if (!res.ok)
+                setCompany((prev) => ({ ...prev, status: oldStatus }))
 
               return
             }
@@ -57,13 +59,13 @@ export function Crud({ cartel: defaultCartel }) {
               if (payload.create) form.append('create', payload.create)
 
               const resMedia = await fetcher.putFile(
-                createUrl(putItemIdMedia.path, { id: cartel.id }),
+                createUrl(putCompanyIdMedia.path, { id: company.id }),
                 ctrl.signal,
                 form
               )
               const { item: resMediaJson } = await resMedia.json()
 
-              setCartel((prev) => ({
+              setCompany((prev) => ({
                 ...prev,
                 ...resMediaJson,
               }))
@@ -73,10 +75,13 @@ export function Crud({ cartel: defaultCartel }) {
             // -----|| ITEM ||----------------------------------------------
 
             try {
-              const response = await fetcher[putItemId.method](
-                createUrl(putItemId.path, { id: cartel.id }),
+              const response = await fetcher[putCompanies.method](
+                createUrl(putCompanies.path),
                 ctrl.signal,
-                payload
+                {
+                  ids: company.alternatives.map((alt) => alt.id),
+                  body: payload,
+                }
               )
 
               if (!response.ok) {
@@ -88,11 +93,11 @@ export function Crud({ cartel: defaultCartel }) {
             }
           },
         },
-        create: { data: cartel },
-        delete: { data: cartel },
+        create: { data: company },
+        delete: { data: company },
       }}
     >
-      <Cartel />
+      <Company />
     </CrudProvider>
   )
 }

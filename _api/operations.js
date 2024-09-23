@@ -1,4 +1,20 @@
 export const operations = {
+  "getCompanies": {
+    "path": "/companies",
+    "description": "Récupère la liste des entreprises",
+    "roles": [
+      "Membres MO5"
+    ],
+    "method": "get"
+  },
+  "putCompanies": {
+    "path": "/companies",
+    "description": "Met à jour une entreprise",
+    "roles": [
+      "Master Control Program"
+    ],
+    "method": "put"
+  },
   "getItems": {
     "path": "/items",
     "description": "Récupère la liste des items par type et recherche",
@@ -15,6 +31,14 @@ export const operations = {
       "reviewer"
     ],
     "method": "post"
+  },
+  "getCompaniesId": {
+    "path": "/companies/{id}",
+    "description": "Récupère une entreprise",
+    "roles": [
+      "Membres MO5"
+    ],
+    "method": "get"
   },
   "getItemId": {
     "path": "/item/{id}",
@@ -80,12 +104,30 @@ export const operations = {
     ],
     "method": "post"
   },
+  "putCompanyIdMedia": {
+    "path": "/company/{id}/media",
+    "description": "Permet de mettre à jour le media d une company",
+    "roles": [
+      "reviewer",
+      "publisher"
+    ],
+    "method": "put"
+  },
   "putItemIdMedia": {
     "path": "/item/{id}/media",
     "description": "Permet de mettre à jour le media d un item",
     "roles": [
       "reviewer",
       "publisher"
+    ],
+    "method": "put"
+  },
+  "putCompanyIdStatusStatus": {
+    "path": "/company/{id}/status/{status}",
+    "description": "Permet de modifier le status d'une entreprise",
+    "roles": [
+      "publisher",
+      "reviewer"
     ],
     "method": "put"
   },
