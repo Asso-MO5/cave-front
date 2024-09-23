@@ -108,6 +108,20 @@ export function Table(props) {
                 key={`${col.key}-${col.order}`}
                 className="cursor-pointer text-sm font-bold flex items-center gap-1 w-full"
               >
+                {col.sortable && (
+                  <div
+                    data-order={
+                      searchParams.get('order') === 'desc' &&
+                      col.key === searchParams.get('sort')
+                    }
+                    onClick={() => {
+                      if (!loading) handleSort(col.key)
+                    }}
+                    className="transition origin-center data-[order=true]:rotate-180  data-[order=false]:rotate-0"
+                  >
+                    <ChevronDownIcon className="fill-mo-primary" />
+                  </div>
+                )}
                 {typeof col.name === 'string' ? (
                   <input
                     defaultValue={col.name}
@@ -120,20 +134,6 @@ export function Table(props) {
                   />
                 ) : (
                   col.name()
-                )}
-                {col.sortable && (
-                  <div
-                    data-order={
-                      searchParams.get('order') === 'desc' &&
-                      col.key === searchParams.get('sort')
-                    }
-                    onClick={() => {
-                      if (!loading) handleSort(col.key)
-                    }}
-                    className="transition origin-center data-[order=true]:rotate-180  data-[order=false]:rotate-0"
-                  >
-                    &#x25B2;
-                  </div>
                 )}
               </div>
             ))}
