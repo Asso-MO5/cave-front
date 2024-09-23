@@ -12,6 +12,7 @@ import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { Modal } from '@/ui/Modal'
 import { ExportBtn } from '../items/ExportBtn'
 import { PrintSelector } from '../items/PrintSelector'
+import { StatusChip } from '@/ui/StatusChip'
 
 export function Cartels() {
   const router = useRouter()
@@ -128,6 +129,15 @@ export function Cartels() {
               key: 'name',
               sortable: true,
               searchable: true,
+            },
+            {
+              name: 'Status',
+              key: 'status',
+              size: 'small',
+              sortable: true,
+              component: ({ rowData }) => {
+                return <StatusChip status={rowData.status} />
+              },
             },
             {
               name: 'Type',
