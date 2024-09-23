@@ -144,6 +144,11 @@ export function Cartel() {
             <Fieldset title={title} key={key}>
               <Varchar
                 placeholder={title}
+                type={
+                  key.includes('release') && key !== 'var_release_fr'
+                    ? 'date'
+                    : 'text'
+                }
                 defaultValue={cartel[key]}
                 update={(value) => update({ [key]: value })}
                 disabled={cartel.status === 'published'}

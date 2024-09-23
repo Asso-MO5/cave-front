@@ -1,7 +1,13 @@
 import { useDebounce } from '@/hooks/useDebounce'
 import { useEffect, useState } from 'react'
 
-export function Varchar({ defaultValue, update, placeholder, disabled }) {
+export function Varchar({
+  defaultValue,
+  update,
+  placeholder,
+  type = 'text',
+  disabled,
+}) {
   const [init, setInit] = useState(false)
   const [value, setValue] = useState(defaultValue || '')
   const debouncedUpdate = useDebounce(value, 500)
@@ -22,6 +28,7 @@ export function Varchar({ defaultValue, update, placeholder, disabled }) {
     <input
       disabled={disabled}
       value={value}
+      type={type}
       title={disabled ? 'Non modifiable' : ''}
       placeholder={placeholder}
       onChange={(e) => {
