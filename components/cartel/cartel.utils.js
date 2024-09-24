@@ -4,7 +4,7 @@ export const PRINT_TYPES = [
     long_short_description: 200,
   },
   {
-    name: 'a4',
+    name: 'cartel machine',
     long_short_description: 200,
     long_description_fr: 600,
     long_description_en: 600,
@@ -23,7 +23,7 @@ export const PRINT_TYPES_GAME = [
     long_short_description: 100,
   },
   {
-    name: 'a4',
+    name: 'cartel machine',
     short_description: 200,
     long_description_fr: 1000,
     long_description_en: 1000,
