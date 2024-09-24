@@ -1,7 +1,7 @@
 export const PRINT_TYPES = [
   {
     name: 'carte',
-    long_short_description: 450,
+    long_short_description: 200,
   },
   {
     name: 'a4',
