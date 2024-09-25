@@ -56,6 +56,8 @@ export function Cartel() {
     }
   }, [cartel])
 
+  const isLock = cartel.status === 'published'
+
   return (
     <div className="p-2">
       <div className="flex flex-col sm:flex-row gap-2 justify-center sm:justify-between items-center sticky top-0 bg-mo-bg p-2 z-[500]">
@@ -81,21 +83,33 @@ export function Cartel() {
             <PrintSelector id={cartel.id} name={cartel.name} />
           </div>
 
-          {longText.map(({ label, key }) => (
-            <Fieldset title={label} key={key}>
-              <Editor
-                id={key}
-                defaultValue={cartel[key]}
-                onChange={(value) => update({ [key]: value })}
-                disabled={cartel.status === 'published'}
-                limits={
-                  cartel?.relations?.[0]?.type === 'game'
-                    ? PRINT_TYPES_GAME
-                    : PRINT_TYPES
-                }
-              />
-            </Fieldset>
-          ))}
+          {longText
+            .filter(({ key }) =>
+              isLock
+                ? cartel?.[key]?.reduce((acc, block) => {
+                    block?.content?.forEach((content) => {
+                      if (content?.text?.length) acc += content.text.length
+                    })
+
+                    return acc
+                  }, 0) || 0 > 0
+                : true
+            )
+            .map(({ label, key }) => (
+              <Fieldset title={label} key={key}>
+                <Editor
+                  id={key}
+                  defaultValue={cartel[key]}
+                  onChange={(value) => update({ [key]: value })}
+                  disabled={cartel.status === 'published'}
+                  limits={
+                    cartel?.relations?.[0]?.type === 'game'
+                      ? PRINT_TYPES_GAME
+                      : PRINT_TYPES
+                  }
+                />
+              </Fieldset>
+            ))}
 
           <div className="flex flex-col gap-3 my-2">
             <div className="flex justify-center">
