@@ -9,35 +9,15 @@ import { Crud } from './ref/Crud'
 import { Editor } from '../Editor'
 import { useCrud } from '../crud/useCrud'
 import { PrintSelector } from './PrintSelector'
-import { PRINT_TYPES, PRINT_TYPES_GAME } from './cartel.utils'
+import {
+  PRINT_TYPES,
+  PRINT_TYPES_GAME,
+  TXT_LONGS,
+  TXT_VARS,
+} from './cartel.utils'
 import { AddBtn } from '../media/AddBtn'
 
 const { putItemIdStatusStatus } = operations
-
-const txtVarchars = {
-  var_place: 'Emplacement',
-  var_origin: 'Provenance',
-  var_price: 'Prix',
-  var_release_fr: 'Date de sortie',
-  var_release_eu: 'Date de sortie EUR',
-  var_release_jap: 'Date de sortie JAP',
-  var_release_us: 'Date de sortie USA',
-}
-
-const longText = [
-  {
-    label: 'Description courte',
-    key: 'long_short_description',
-  },
-  {
-    label: 'Description FR',
-    key: 'long_description_fr',
-  },
-  {
-    label: 'Description EN',
-    key: 'long_description_en',
-  },
-]
 
 export function Cartel() {
   const {
@@ -83,33 +63,31 @@ export function Cartel() {
             <PrintSelector id={cartel.id} name={cartel.name} />
           </div>
 
-          {longText
-            .filter(({ key }) =>
-              isLock
-                ? cartel?.[key]?.reduce((acc, block) => {
-                    block?.content?.forEach((content) => {
-                      if (content?.text?.length) acc += content.text.length
-                    })
+          {TXT_LONGS.filter(({ key }) =>
+            isLock
+              ? cartel?.[key]?.reduce((acc, block) => {
+                  block?.content?.forEach((content) => {
+                    if (content?.text?.length) acc += content.text.length
+                  })
 
-                    return acc
-                  }, 0) || 0 > 0
-                : true
-            )
-            .map(({ label, key }) => (
-              <Fieldset title={label} key={key}>
-                <Editor
-                  id={key}
-                  defaultValue={cartel[key]}
-                  onChange={(value) => update({ [key]: value })}
-                  disabled={cartel.status === 'published'}
-                  limits={
-                    cartel?.relations?.[0]?.type === 'game'
-                      ? PRINT_TYPES_GAME
-                      : PRINT_TYPES
-                  }
-                />
-              </Fieldset>
-            ))}
+                  return acc
+                }, 0) || 0 > 0
+              : true
+          ).map(({ label, key }) => (
+            <Fieldset title={label} key={key}>
+              <Editor
+                id={key}
+                defaultValue={cartel[key]}
+                onChange={(value) => update({ [key]: value })}
+                disabled={cartel.status === 'published'}
+                limits={
+                  cartel?.relations?.[0]?.type === 'game'
+                    ? PRINT_TYPES_GAME
+                    : PRINT_TYPES
+                }
+              />
+            </Fieldset>
+          ))}
 
           <div className="flex flex-col gap-3 my-2">
             <div className="flex justify-center">
@@ -166,7 +144,7 @@ export function Cartel() {
             <Crud item={item} key={item.id} />
           ))}
 
-          {Object.entries(txtVarchars).map(([key, title]) => (
+          {Object.entries(TXT_VARS).map(([key, title]) => (
             <Fieldset title={title} key={key}>
               <Varchar
                 placeholder={title}

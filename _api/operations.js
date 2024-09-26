@@ -57,6 +57,11 @@ export const operations = {
     ],
     "method": "put"
   },
+  "getItemsPublic": {
+    "path": "/items/public",
+    "description": "Récupère la liste des items par type et recherche",
+    "method": "get"
+  },
   "getMediasLight": {
     "path": "/medias/light",
     "description": "Récupère la liste des medias",

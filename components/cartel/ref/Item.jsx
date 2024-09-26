@@ -5,14 +5,7 @@ import { Selector as TypeSelector } from '@/components/item/type/Selector'
 import { Fieldset } from '@/ui/Fieldset'
 import { ACTIVITIES_COMPANY } from '@/utils/constants'
 import { useCrud } from '@/components/crud/useCrud'
-
-const companiesPerType = {
-  obj: ['manufacturer'],
-  accessory: ['manufacturer'],
-  machine: ['manufacturer'],
-  soft: ['publisher', 'developer'],
-  game: ['machine', 'publisher', 'developer'],
-}
+import { COMPANIES_PER_TYPE } from '../cartel.utils'
 
 /**
  *
@@ -24,7 +17,7 @@ export function Item() {
     update: { action: update },
   } = useCrud('item_ref')
 
-  const companies = companiesPerType?.[item.type] || []
+  const companies = COMPANIES_PER_TYPE?.[item.type] || []
   return (
     <div className="flex flex-col gap-2">
       <TypeSelector
