@@ -3,13 +3,12 @@ import { Fieldset } from '@/ui/Fieldset'
 import { Varchar } from '../fields/Varchar'
 import { Status } from '../item/Status'
 import { operations } from '@/_api/operations'
-import { MediaAdd } from '../media/Media'
 import { useMemo } from 'react'
 import { Editor } from '../Editor'
 import { useCrud } from '../crud/useCrud'
 import { PRINT_TYPES, PRINT_TYPES_GAME } from './cartel.utils'
-import { AddBtn } from '../media/AddBtn'
 import { ACTIVITIES_COMPANY } from '@/utils/constants'
+import { Media } from '@/components/media/Media'
 
 const { putItemIdStatusStatus } = operations
 
@@ -87,7 +86,7 @@ export function Company() {
           ))}
         </div>
         <div className="flex flex-col gap-2 sm:max-w-64">
-          <MediaAdd
+          <Media
             defaultImg={cover}
             updateUrl={(url) => update({ url, media: 'cover' })}
             updateId={(id) => update({ id, media: 'cover' })}
