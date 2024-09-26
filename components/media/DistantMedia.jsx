@@ -2,9 +2,11 @@
 import { Button } from '@/ui/Button'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { MediaSelector } from './MediaSelector'
 
 export function DistantMedia({ close, onSubmit }) {
   const [url, setUrl] = useState('')
+
   const [error, setError] = useState(false)
 
   const handleErrors = () => {
@@ -26,14 +28,7 @@ export function DistantMedia({ close, onSubmit }) {
 
   return (
     <form className="m-4 flex flex-col gap-2" onSubmit={handleSubmit}>
-      {url && (
-        <img
-          src={url}
-          alt="media"
-          onError={handleErrors}
-          className="h-auto w-56"
-        />
-      )}
+      <MediaSelector url={url} onError={handleErrors} />
       <input
         type="text"
         placeholder="URL"

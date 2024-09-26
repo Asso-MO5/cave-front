@@ -1,8 +1,8 @@
 import { Button } from '@/ui/Button'
 import { Tabs } from '@/ui/Tabs'
-import { MediaAddGallery } from '../MediaAddGallery'
-import { MediaAddLocal } from '../MediaAddLocal'
-import { DistantMedia } from '../DistantMedia'
+import { MediaAddGallery } from './MediaAddGallery'
+import { MediaAddLocal } from './MediaAddLocal'
+import { DistantMedia } from './DistantMedia'
 import { useState } from 'react'
 
 export function AddBtn({ updateUrl, updateId, updateLocal }) {
@@ -14,7 +14,7 @@ export function AddBtn({ updateUrl, updateId, updateLocal }) {
     handleClose()
   }
 
-  const handleUpdateId = (medias, close) => {
+  const handleUpdateId = (medias) => {
     const { id } = medias[0]
     updateId?.(id)
     handleClose()

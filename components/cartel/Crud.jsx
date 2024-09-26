@@ -7,7 +7,12 @@ import dynamic from 'next/dynamic'
 import { CrudProvider } from '../crud/provider'
 import { toast } from 'react-toastify'
 
-const { putItemId, putItemIdStatusStatus, putItemIdMedia } = operations
+const {
+  putItemId,
+  putItemIdStatusStatus,
+  putItemIdMedia,
+  deleteItemItemidMediaMediaid,
+} = operations
 
 const Cartel = dynamic(() => import('./Cartel').then((mod) => mod.Cartel), {
   ssr: false,
@@ -61,7 +66,7 @@ export function Crud({ cartel: defaultCartel }) {
                 ctrl.signal,
                 form
               )
-              const { item: resMediaJson } = await resMedia.json()
+              const resMediaJson = await resMedia.json()
 
               setCartel((prev) => ({
                 ...prev,
@@ -89,7 +94,33 @@ export function Crud({ cartel: defaultCartel }) {
           },
         },
         create: { data: cartel },
-        delete: { data: cartel },
+        delete: {
+          data: cartel,
+          async action(mediaId) {
+            const ctrl = new AbortController()
+
+            const oldCartel = { ...cartel }
+            setCartel((prev) => ({
+              ...prev,
+              medias: prev.medias.filter((m) => m.id !== mediaId),
+            }))
+
+            try {
+              await fetcher.delete(
+                createUrl(deleteItemItemidMediaMediaid.path, {
+                  itemId: cartel.id,
+                  mediaId,
+                }),
+                ctrl.signal
+              )
+            } catch (e) {
+              setCartel(oldCartel)
+              toast.error(e.message)
+            }
+
+            deleteItemItemidMediaMediaid
+          },
+        },
       }}
     >
       <Cartel />

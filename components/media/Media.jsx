@@ -5,11 +5,14 @@ import { useState } from 'react'
 import { DistantMedia } from './DistantMedia'
 import { MediaAddLocal } from './MediaAddLocal'
 import { MediaAddGallery } from './MediaAddGallery'
+import { DeleteMedia } from './DeleteMedia'
+import { MediaSelector } from './MediaSelector'
 
-export function MediaAdd({
+export function Media({
   updateUrl,
   updateId,
   updateLocal,
+  deleteMedia,
 
   // =================================================
   defaultImg = {
@@ -42,14 +45,24 @@ export function MediaAdd({
     updateLocal?.(file)
   }
 
+  const handleDelete = () => {
+    setImg({
+      src: '',
+      alt: '',
+    })
+    deleteMedia?.()
+  }
+
   return (
     <ReadAndEdit
       read={() => (
-        <div className="flex justify-center items-center overflow-hidden">
+        <div className="h-full overflow-hidden">
           {img?.src ? (
-            <img src={img.src} alt={img.alt} className="h-full w-auto" />
+            <div className="flex justify-center h-full items-center">
+              <MediaSelector url={img.src} onError={() => setImg(defaultImg)} />
+            </div>
           ) : (
-            <div className="italic">aucune image définie</div>
+            <div className="italic">aucun media définie</div>
           )}
         </div>
       )}
@@ -85,6 +98,11 @@ export function MediaAdd({
                 content: (
                   <DistantMedia close={close} onSubmit={handleUpdateUrl} />
                 ),
+              },
+              {
+                key: 'delete',
+                label: 'Supprimer',
+                content: <DeleteMedia close={close} onSubmit={handleDelete} />,
               },
             ]}
           />

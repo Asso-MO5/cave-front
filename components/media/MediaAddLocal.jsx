@@ -84,7 +84,7 @@ export function MediaAddLocal({
           <img
             src={previewCover.src}
             alt={previewCover.alt}
-            className="h-56 w-auto"
+            className="h-auto w-auto"
           />
           <Modal
             onConfirm={handleDeleteCover}

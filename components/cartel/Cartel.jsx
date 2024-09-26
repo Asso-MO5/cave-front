@@ -3,7 +3,7 @@ import { Fieldset } from '@/ui/Fieldset'
 import { Varchar } from '../fields/Varchar'
 import { Status } from '../item/Status'
 import { operations } from '@/_api/operations'
-import { MediaAdd } from '../MediaAdd'
+import { Media } from '../media/Media'
 import { useMemo } from 'react'
 import { Crud } from './ref/Crud'
 import { Editor } from '../Editor'
@@ -11,7 +11,6 @@ import { useCrud } from '../crud/useCrud'
 import { PrintSelector } from './PrintSelector'
 import { PRINT_TYPES, PRINT_TYPES_GAME } from './cartel.utils'
 import { AddBtn } from '../media/AddBtn'
-import { MediaReadEdit } from '../MediaReadEdit'
 
 const { putItemIdStatusStatus } = operations
 
@@ -44,6 +43,7 @@ export function Cartel() {
   const {
     get: { data: cartel },
     update: { action: update },
+    delete: { action: del },
   } = useCrud('cartel')
 
   const cover = useMemo(() => {
@@ -113,7 +113,7 @@ export function Cartel() {
 
           <div className="flex flex-col gap-3 my-2">
             <div className="flex justify-center">
-              <div>
+              <div className="w-full">
                 <AddBtn
                   updateUrl={(url) =>
                     update({ url, media: 'media', create: true })
@@ -127,27 +127,39 @@ export function Cartel() {
                 />
               </div>
             </div>
-            <div className="flex gap-2 flex-wrap">
-              {cartel?.medias.map((media) => (
-                <div key={media.id} className="max-w-60 h-auto">
-                  <MediaReadEdit
-                    url={media.url}
-                    name={media.alt}
-                    update={(payload) =>
-                      update({ ...payload, media: media.id })
-                    }
-                  />
-                </div>
-              ))}
+            <div className="flex gap-2 flex-wrap justify-center items-center text-sm">
+              {cartel?.medias
+                .filter((m) => m.relation_type !== 'cover')
+                .map((media) => (
+                  <div key={media.id} className="max-w-60 h-auto">
+                    <Media
+                      defaultImg={{
+                        src: media.url,
+                        alt: 'img',
+                      }}
+                      updateUrl={(url) =>
+                        update({ url, media: media.relation_type })
+                      }
+                      updateId={(id) =>
+                        update({ id, media: media.relation_type })
+                      }
+                      updateLocal={(file) =>
+                        update({ file, media: media.relation_type })
+                      }
+                      deleteMedia={() => del(media.id)}
+                    />
+                  </div>
+                ))}
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-2 sm:max-w-64">
-          <MediaAdd
+        <div className="flex flex-col gap-2 sm:max-w-72">
+          <Media
             defaultImg={cover}
             updateUrl={(url) => update({ url, media: 'cover' })}
             updateId={(id) => update({ id, media: 'cover' })}
             updateLocal={(file) => update({ file, media: 'cover' })}
+            deleteMedia={() => del(cover.id)}
           />
 
           {cartel.relations.map((item) => (

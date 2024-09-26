@@ -156,5 +156,14 @@ export const operations = {
       "reviewer"
     ],
     "method": "delete"
+  },
+  "deleteItemItemidMediaMediaid": {
+    "path": "/item/{itemId}/media/{mediaId}",
+    "description": "Permet de supprimer un media d un item",
+    "roles": [
+      "reviewer",
+      "publisher"
+    ],
+    "method": "delete"
   }
 }
