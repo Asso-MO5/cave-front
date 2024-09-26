@@ -65,6 +65,7 @@ export function Cartels() {
     searchParams.get('sort'),
     searchParams.get('order'),
     searchParams.get('search'),
+    searchParams.get('limit'),
   ])
 
   return (
