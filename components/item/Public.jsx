@@ -70,9 +70,6 @@ export function Public({ item }) {
               <div>{item[companyType]?.name}</div>
             </Fieldset>
           ))}
-          {/* cartel.relations.map((item) => (
-            <Crud item={item} key={item.id} />
-          )) */}
 
           {Object.entries(TXT_VARS)
             .filter(([key]) => key !== 'place')
