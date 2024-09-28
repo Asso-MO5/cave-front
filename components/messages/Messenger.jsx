@@ -26,8 +26,6 @@ export function Messenger({ session }) {
     [pathname, params]
   )
 
-  console.log('room_id', room_id)
-
   useMsgCb(`/room/${room_id}`, (msg) => {
     setMessages((prev) => [...prev, msg])
     if (session.user.id !== msg.author_id) setCount((prev) => prev + 1)
