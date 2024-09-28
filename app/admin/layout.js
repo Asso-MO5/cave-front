@@ -41,7 +41,7 @@ export default async function AdminLayout({ children }) {
             <ToastProvider />
           </main>
         </div>
-        <Messenger session={session} />
+        {/*<Messenger session={session} /> */}
       </body>
     </html>
   )
