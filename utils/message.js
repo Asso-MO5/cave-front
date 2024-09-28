@@ -9,7 +9,7 @@ const URL =
 class WebSocketSingleton {
   constructor() {
     if (!WebSocketSingleton.instance) {
-      this.client = new Nes.Client(URL)
+      this.client = new Nes.Client(URL, { reconnect: true, maxDelay: 1000 })
       WebSocketSingleton.instance = this
     }
 
