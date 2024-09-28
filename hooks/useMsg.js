@@ -18,5 +18,6 @@ export function useMsg(room = '/public') {
 export function useMsgCb(room = '/public', cb) {
   useEffect(() => {
     Message.getClient().subscribe(room, cb)
-  }, [])
+    return () => Message.getClient().unsubscribe(room)
+  }, [room])
 }
