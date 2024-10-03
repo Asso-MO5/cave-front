@@ -69,7 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         .setIssuedAt()
         .setIssuer('cave_front')
         .setAudience('cave_back')
-        .setExpirationTime('2h')
+        .setExpirationTime('720h')
         .encrypt(secret)
 
       try {

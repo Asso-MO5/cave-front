@@ -55,11 +55,7 @@ export function Cartels() {
   }
 
   useEffect(() => {
-    handleFetch({
-      setLoading,
-      setData,
-      setTotal,
-    })
+    handleFetch()
   }, [
     searchParams.get('page'),
     searchParams.get('sort'),

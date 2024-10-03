@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation'
 import { ToastProvider } from '@/ui/ToastProvider'
 import { SetCookie } from '@/components/SetCookie'
 import { Panel } from '@/components/Panel'
-import dynamic from 'next/dynamic'
 
 export const metadata = {
   title: 'Cave MO5',
@@ -15,13 +14,6 @@ export const metadata = {
 }
 
 export const runtime = 'edge'
-
-const Messenger = dynamic(
-  () => import('@/components/messages/Messenger').then((mod) => mod.Messenger),
-  {
-    ssr: false,
-  }
-)
 
 export default async function AdminLayout({ children }) {
   // ====== HOOKS =========================================

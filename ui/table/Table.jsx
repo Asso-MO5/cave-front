@@ -103,7 +103,7 @@ export function Table(props) {
             className="grid gap-2 border-b border-mo-primary p-2 bg-mo-bg z-10"
             style={{ gridTemplateColumns: columnTemplate }}
           >
-            {cols.map((col) => (
+            {cols?.map((col) => (
               <div
                 key={`${col.key}-${col.order}`}
                 className="cursor-pointer text-sm font-bold flex items-center gap-1 w-full"
@@ -157,7 +157,7 @@ export function Table(props) {
                         className="grid gap-2 p-1 cursor-pointer hover:bg-mo-tertiary data-[odd=1]:bg-white"
                         style={{ gridTemplateColumns: columnTemplate }}
                       >
-                        {cols.map((col) => {
+                        {cols?.map((col) => {
                           const row = data[index]
                           const key = `${row?.[rowKey] || index}-${col.key}`
                           const keys = col.key.split('.')
