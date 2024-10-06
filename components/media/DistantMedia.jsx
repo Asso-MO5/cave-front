@@ -28,21 +28,28 @@ export function DistantMedia({ close, onSubmit }) {
 
   return (
     <form className="m-4 flex flex-col gap-2" onSubmit={handleSubmit}>
-      <MediaSelector url={url} onError={handleErrors} />
-      <input
-        type="text"
-        placeholder="URL"
-        className="border border-gray-300 w-full"
-        value={url}
-        onChange={handleChange}
-      />
-      <div className="flex gap-2 justify-end">
-        <Button theme="secondary" onClick={close}>
-          Annuler
-        </Button>
-        <Button type="submit" disabled={error}>
-          Valider
-        </Button>
+      <div className="flex gap-2 items-center flex-wrap">
+        <input
+          type="text"
+          placeholder="URL"
+          className="border border-gray-300 w-full flex-1"
+          value={url}
+          onChange={handleChange}
+        />
+        <div className="flex gap-2 justify-end">
+          <Button theme="secondary" onClick={close}>
+            Annuler
+          </Button>
+          <Button type="submit" disabled={error}>
+            Valider
+          </Button>
+        </div>
+      </div>
+      <div
+        data-url={!!url}
+        className="min-h-60 data-[url=false]:min-h-0 grid grid-cols-1"
+      >
+        <MediaSelector url={url} onError={handleErrors} />
       </div>
     </form>
   )
