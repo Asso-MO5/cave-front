@@ -13,6 +13,7 @@ import { Modal } from '@/ui/Modal'
 import { ExportBtn } from '../items/ExportBtn'
 import { PrintSelector } from '../items/PrintSelector'
 import { StatusChip } from '@/ui/StatusChip'
+import Link from 'next/link'
 
 export function Companies() {
   const router = useRouter()
@@ -81,6 +82,13 @@ export function Companies() {
               key: 'name',
               sortable: true,
               searchable: true,
+              component: ({ rowData }) => (
+                <div className="w-full flex h-full items-center">
+                  <Link href={`/admin/companies/${rowData.id}`}>
+                    {rowData.name}
+                  </Link>
+                </div>
+              ),
             },
             {
               name: 'Status',

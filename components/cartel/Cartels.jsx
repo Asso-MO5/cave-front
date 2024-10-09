@@ -13,6 +13,8 @@ import { Modal } from '@/ui/Modal'
 import { ExportBtn } from '../items/ExportBtn'
 import { PrintSelector } from '../items/PrintSelector'
 import { StatusChip } from '@/ui/StatusChip'
+import { ImportBtn } from '../items/ImportBtn'
+import Link from 'next/link'
 
 export function Cartels() {
   const router = useRouter()
@@ -78,14 +80,17 @@ export function Cartels() {
             checked={selectedTotal}
           />
           <ExportBtn
-            selectedIds={data.filter((d) => d.selected).map((d) => d.id)}
+            selectedIds={data?.filter((d) => d.selected).map((d) => d.id)}
             selectedTotal={selectedTotal}
           />
           <PrintSelector
-            selectedIds={data.filter((d) => d.selected).map((d) => d.id)}
+            selectedIds={data?.filter((d) => d.selected).map((d) => d.id)}
             selectedTotal={selectedTotal}
           />
-          <div>
+
+          <ImportBtn type="cartel" />
+
+          <div className="flex">
             <ModalCreate />
           </div>
         </div>
@@ -126,6 +131,13 @@ export function Cartels() {
               key: 'name',
               sortable: true,
               searchable: true,
+              component: ({ rowData }) => (
+                <div className="w-full flex h-full items-center">
+                  <Link href={`/admin/cartels/${rowData.id}`}>
+                    {rowData.name}
+                  </Link>
+                </div>
+              ),
             },
             {
               name: 'Status',
