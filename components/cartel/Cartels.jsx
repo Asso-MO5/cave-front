@@ -88,7 +88,7 @@ export function Cartels() {
             selectedTotal={selectedTotal}
           />
 
-          <ImportBtn type="cartel" />
+          <ImportBtn type="cartel" onFinish={handleFetch} />
 
           <div className="flex">
             <ModalCreate />
