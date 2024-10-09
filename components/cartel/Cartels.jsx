@@ -46,11 +46,12 @@ export function Cartels() {
 
     const ctrl = new AbortController()
     const params = new URLSearchParams(window.location.search)
-    const url = `/items?type=cartel&${params.toString()}`
 
+    const url = `/items?itemType=cartel&${params.toString()}`
     const response = await fetcher.get(url, ctrl.signal)
     const { total, items } = await response.json()
 
+    window.localStorage.setItem('cartelSearchParams', params.toString())
     setData(items)
     setTotal(total)
     setLoading(false)
@@ -62,7 +63,10 @@ export function Cartels() {
     searchParams.get('page'),
     searchParams.get('sort'),
     searchParams.get('order'),
-    searchParams.get('search'),
+    searchParams.get('name'),
+    searchParams.get('type'),
+    searchParams.get('status'),
+    searchParams.get('place'),
     searchParams.get('limit'),
   ])
 
@@ -142,7 +146,8 @@ export function Cartels() {
             {
               name: 'Status',
               key: 'status',
-              size: 'x-small',
+              size: 'small',
+              searchable: true,
               sortable: true,
               component: ({ rowData }) => {
                 return <StatusChip status={rowData.status} />
@@ -150,8 +155,9 @@ export function Cartels() {
             },
             {
               name: 'Type',
-              key: 'rType',
-
+              key: 'type',
+              size: 'medium',
+              searchable: true,
               component: ({ rowData }) => (
                 <div>{ITEM_TYPE_TITLE[rowData.rType]}</div>
               ),
