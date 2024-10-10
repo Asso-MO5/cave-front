@@ -18,6 +18,7 @@ export function Item() {
   } = useCrud('item_ref')
 
   const companies = COMPANIES_PER_TYPE?.[item.type] || []
+  console.log('companies', item)
   return (
     <div className="flex flex-col gap-2">
       <TypeSelector
@@ -26,7 +27,10 @@ export function Item() {
       />
 
       {companies.map((companyType) => (
-        <Fieldset key={companyType} title={ACTIVITIES_COMPANY[companyType]}>
+        <Fieldset
+          key={`${companyType}-${item.type}`}
+          title={ACTIVITIES_COMPANY[companyType]}
+        >
           <ItemSelector
             type={companyType}
             defaultValue={item?.relations?.find(
