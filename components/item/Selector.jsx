@@ -16,7 +16,7 @@ async function handleFetch({ type, search, setData, setLoading }) {
   setLoading(true)
   const ctrl = new AbortController()
   const searchParams = new URLSearchParams()
-  searchParams.append('type', type)
+  searchParams.append('itemType', type)
   searchParams.append('name', search)
   const response = await fetcher.get(
     '/items?' + searchParams.toString(),

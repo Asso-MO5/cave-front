@@ -36,8 +36,9 @@ export function Cartel() {
     }
   }, [cartel])
 
-  const isLock = cartel.status === 'published'
+  const isLock = cartel?.status === 'published'
 
+  if (!cartel) return null
   return (
     <div className="p-2">
       <div className="flex flex-col sm:flex-row gap-2 justify-center sm:justify-between items-center sticky top-0 bg-mo-bg p-2 z-[500]">
