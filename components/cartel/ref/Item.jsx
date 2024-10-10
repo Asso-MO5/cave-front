@@ -18,7 +18,6 @@ export function Item() {
   } = useCrud('item_ref')
 
   const companies = COMPANIES_PER_TYPE?.[item.type] || []
-  console.log('companies', item)
   return (
     <div className="flex flex-col gap-2">
       <TypeSelector
