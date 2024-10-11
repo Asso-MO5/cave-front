@@ -2,7 +2,7 @@ import { fetcher } from '@/utils/fetcher'
 import { PRINT_TYPES } from './cartel.utils'
 import { useState } from 'react'
 
-export function PrintSelector({ id, name }) {
+export function PrintSelector({ id, name, types }) {
   const [loading, setLoading] = useState('')
 
   const handlePrint = async (type) => {
@@ -41,7 +41,7 @@ export function PrintSelector({ id, name }) {
 
   return (
     <div className="flex items-center gap-2">
-      {PRINT_TYPES.map((type) => (
+      {types.map((type) => (
         <div
           key={type.name}
           className="uppercase text-xs flex items-center rounded-sm px-1 border border-mo-primary text-mo-primary gap-1 cursor-pointer hover:text-mo-white hover:bg-mo-primary"

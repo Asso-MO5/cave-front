@@ -6,7 +6,7 @@ import { operations } from '@/_api/operations'
 import { useMemo } from 'react'
 import { Editor } from '../Editor'
 import { useCrud } from '../crud/useCrud'
-import { PRINT_TYPES, PRINT_TYPES_GAME } from './cartel.utils'
+import { PRINT_TYPES } from './cartel.utils'
 import { ACTIVITIES_COMPANY } from '@/utils/constants'
 import { Media } from '@/components/media/Media'
 
@@ -48,6 +48,10 @@ export function Company() {
     }
   }, [cartel])
 
+  const printTypes = PRINT_TYPES.filter((type) =>
+    cartel.relations.some((r) => type.types.includes(r.type))
+  )
+
   return (
     <div className="p-2">
       <div className="flex flex-col sm:flex-row gap-2 justify-center sm:justify-between items-center sticky top-0 bg-mo-bg p-2 z-[500]">
@@ -76,11 +80,7 @@ export function Company() {
                 defaultValue={cartel[key]}
                 onChange={(value) => update({ [key]: value })}
                 disabled={cartel.status === 'published'}
-                limits={
-                  cartel?.relations?.[0]?.type === 'game'
-                    ? PRINT_TYPES_GAME
-                    : PRINT_TYPES
-                }
+                limits={printTypes}
               />
             </Fieldset>
           ))}

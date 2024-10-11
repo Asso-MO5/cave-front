@@ -1,38 +1,29 @@
+import { ITEM_TYPE } from '@/utils/constants'
+
 export const PRINT_TYPES = [
   {
     name: 'carte',
     long_short_description: 200,
+    long_description_fr: 150,
+    types: [
+      ITEM_TYPE.accessory,
+      ITEM_TYPE.obj,
+      ITEM_TYPE.machine,
+      ITEM_TYPE.soft,
+      ITEM_TYPE.game,
+    ],
   },
   {
-    name: 'cartel machine',
-    long_short_description: 200,
+    name: 'cartel',
     long_description_fr: 600,
     long_description_en: 600,
+    types: [ITEM_TYPE.machine],
   },
   {
-    name: 'rollup',
-    long_short_description: 200,
-    long_description_fr: 600,
-    long_description_en: 600,
-  },
-]
-
-export const PRINT_TYPES_GAME = [
-  {
-    name: 'carte',
-    long_short_description: 100,
-  },
-  {
-    name: 'cartel machine',
-    short_description: 200,
+    name: 'A3 paysage',
     long_description_fr: 1000,
     long_description_en: 1000,
-  },
-  {
-    name: 'rollup',
-    long_short_description: 200,
-    long_description_fr: 1000,
-    long_description_en: 1000,
+    types: [ITEM_TYPE.game],
   },
 ]
 

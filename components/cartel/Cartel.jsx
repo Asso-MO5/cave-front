@@ -9,12 +9,7 @@ import { Crud } from './ref/Crud'
 import { Editor } from '../Editor'
 import { useCrud } from '../crud/useCrud'
 import { PrintSelector } from './PrintSelector'
-import {
-  PRINT_TYPES,
-  PRINT_TYPES_GAME,
-  TXT_LONGS,
-  TXT_VARS,
-} from './cartel.utils'
+import { PRINT_TYPES, TXT_LONGS, TXT_VARS } from './cartel.utils'
 import { AddBtn } from '../media/AddBtn'
 
 const { putItemIdStatusStatus } = operations
@@ -37,6 +32,10 @@ export function Cartel() {
   }, [cartel])
 
   const isLock = cartel?.status === 'published'
+
+  const printTypes = PRINT_TYPES.filter((type) =>
+    cartel.relations.some((r) => type.types.includes(r.type))
+  )
 
   if (!cartel) return null
   return (
@@ -61,7 +60,11 @@ export function Cartel() {
       <div className="sm:flex-row flex flex-col-reverse gap-6 w-full">
         <div className="flex-1">
           <div className="mb-2">
-            <PrintSelector id={cartel.id} name={cartel.name} />
+            <PrintSelector
+              id={cartel.id}
+              name={cartel.name}
+              types={printTypes}
+            />
           </div>
 
           {TXT_LONGS.filter(({ key }) =>
@@ -81,11 +84,7 @@ export function Cartel() {
                 defaultValue={cartel[key]}
                 onChange={(value) => update({ [key]: value })}
                 disabled={cartel.status === 'published'}
-                limits={
-                  cartel?.relations?.[0]?.type === 'game'
-                    ? PRINT_TYPES_GAME
-                    : PRINT_TYPES
-                }
+                limits={printTypes}
               />
             </Fieldset>
           ))}
