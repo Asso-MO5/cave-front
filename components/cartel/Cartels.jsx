@@ -47,6 +47,8 @@ export function Cartels() {
     const ctrl = new AbortController()
     const params = new URLSearchParams(window.location.search)
 
+    if (!params.get('limit')) params.set('limit', 50)
+
     const url = `/items?itemType=cartel&${params.toString()}`
     const response = await fetcher.get(url, ctrl.signal)
     const { total, items } = await response.json()
