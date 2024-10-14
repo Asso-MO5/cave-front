@@ -45,6 +45,7 @@ export function Companies() {
 
     const ctrl = new AbortController()
     const params = new URLSearchParams(window.location.search)
+    if (!params.get('limit')) params.set('limit', 50)
     const url = `/companies?${params.toString()}`
 
     const response = await fetcher.get(url, ctrl.signal)
@@ -65,7 +66,11 @@ export function Companies() {
     searchParams.get('page'),
     searchParams.get('sort'),
     searchParams.get('order'),
-    searchParams.get('search'),
+    searchParams.get('name'),
+    searchParams.get('type'),
+    searchParams.get('status'),
+    searchParams.get('place'),
+    searchParams.get('limit'),
   ])
 
   return (
