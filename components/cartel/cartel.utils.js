@@ -25,6 +25,12 @@ export const PRINT_TYPES = [
     long_description_en: 1000,
     types: [ITEM_TYPE.game],
   },
+  {
+    name: 'A3 QR',
+    long_description_fr: 1000,
+    long_description_en: 1000,
+    types: [ITEM_TYPE.game],
+  },
 ]
 
 export const COMPANIES_PER_TYPE = {
