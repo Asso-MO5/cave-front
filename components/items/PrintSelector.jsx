@@ -13,8 +13,8 @@ export function PrintSelector({ selectedIds, selectedTotal }) {
     const ctrl = new AbortController()
     try {
       const response = await fetcher.post(`/items/export`, ctrl.signal, {
-        exportType: 'print',
-        format,
+        exportType: format === 'csv' ? 'csv' : 'print',
+        format: format === 'csv' ? undefined : format,
         type: 'cartel',
         ids: selectedIds,
         selectedTotal,
@@ -25,7 +25,7 @@ export function PrintSelector({ selectedIds, selectedTotal }) {
       a.href = url
       a.download = `items-${format}-${
         selectedTotal ? 'all' : selectedIds.length
-      }.zip`
+      }.${format === 'csv' ? 'csv' : 'zip'}`
       a.click()
       URL.revokeObjectURL(url)
     } catch (e) {
@@ -37,11 +37,8 @@ export function PrintSelector({ selectedIds, selectedTotal }) {
 
   return (
     <Menu>
-      <MenuButton
-        className="rounded-md p-1 text-sm text-mo-primary border border-mo-primary flex items-center justify-between gap-2 bg-mo-white"
-        disabled={selectedIds.length === 0}
-      >
-        {loading ? '...' : `Exporter (print)`}
+      <MenuButton className="rounded-md p-1 text-sm text-mo-primary border border-mo-primary flex items-center justify-between gap-2 bg-mo-white">
+        {loading ? '...' : `Exporter`}
         <ChevronDownIcon className="w-4 h-4 ml-1 fill-mo-primary" />
       </MenuButton>
       <MenuItems
@@ -49,11 +46,17 @@ export function PrintSelector({ selectedIds, selectedTotal }) {
         className="mt-1 rounded-sm border border-mo-primary bg-mo-white z-50 absolute"
       >
         <div className="flex flex-col">
-          {PRINT_TYPES.map((c) => (
+          {[
+            {
+              name: 'csv',
+            },
+            ...PRINT_TYPES,
+          ].map((c) => (
             <MenuItem key={c.name}>
               <div
-                className="uppercase block data-[focus]:bg-mo-primary  data-[focus]:text-mo-white cursor-pointer px-2 py-1 hover:bg-mo-primary hover:text-mo-white"
+                className="uppercase block data-[focus]:bg-mo-primary  data-[focus]:text-mo-white cursor-pointer px-2 py-1 hover:bg-mo-primary hover:text-mo-white data-[disabled=true]:opacity-50"
                 onClick={() => handleDl(c.name)}
+                data-disabled={selectedIds.length === 0}
               >
                 {c.name}
               </div>

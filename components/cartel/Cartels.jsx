@@ -10,7 +10,6 @@ import { Checkbox } from '@/ui/Checkbox'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { Modal } from '@/ui/Modal'
-import { ExportBtn } from '../items/ExportBtn'
 import { PrintSelector } from '../items/PrintSelector'
 import { StatusChip } from '@/ui/StatusChip'
 import { ImportBtn } from '../items/ImportBtn'
@@ -76,7 +75,7 @@ export function Cartels() {
     <div className="h-full w-full grid grid-rows-[auto_1fr] gap-2">
       <header className="flex gap-2 items-center justify-between w-full">
         <h1>Cartels</h1>
-        <div className="flex  gap-2 items-center justify-end">
+        <div className="text-sm flex flex-wrap gap-2 items-center justify-end">
           <Checkbox
             label={`Tout selectionner (${total})`}
             onCheck={(checked) => {
@@ -85,10 +84,7 @@ export function Cartels() {
             }}
             checked={selectedTotal}
           />
-          <ExportBtn
-            selectedIds={data?.filter((d) => d.selected).map((d) => d.id)}
-            selectedTotal={selectedTotal}
-          />
+
           <PrintSelector
             selectedIds={data?.filter((d) => d.selected).map((d) => d.id)}
             selectedTotal={selectedTotal}

@@ -67,7 +67,7 @@ export function Modal({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 backdrop-filter backdrop-blur-sm ">
+              <div className="fixed -inset-2 backdrop-filter backdrop-blur-sm">
                 <div className="fixed inset-0 bg-base-primary opacity-10" />
               </div>
             </TransitionChild>
