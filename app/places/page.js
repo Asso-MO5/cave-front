@@ -6,6 +6,9 @@ const Public = dynamic(
     ssr: false,
   }
 )
+
+export const runtime = 'edge'
+
 export default async function Items() {
   return <Public />
 }

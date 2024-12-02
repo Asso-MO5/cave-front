@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation'
 
 const { getItemPublicId } = operations
 
+export const runtime = 'edge'
+
 export default async function Item({ params: { slug } }) {
   const ctrl = new AbortController()
 
