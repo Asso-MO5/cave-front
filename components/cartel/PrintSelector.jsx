@@ -1,5 +1,4 @@
 import { fetcher } from '@/utils/fetcher'
-import { PRINT_TYPES } from './cartel.utils'
 import { useState } from 'react'
 
 export function PrintSelector({ id, name, types }) {

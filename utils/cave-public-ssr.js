@@ -13,13 +13,16 @@ export async function cavePublicSSR(path, config) {
     })
   }
 
-  const finaleUrl = `${
-    process.env.NEXT_PUBLIC_API_URL
-  }${url}?${params.toString()}`
+  const finaleUrl = `${process.env.NEXT_PUBLIC_API_URL}${url}${
+    config?.query ? '?' : ''
+  }${params.toString()}`
 
-  return await fetch(finaleUrl, {
+  const configFetch = {
     method: method.toUpperCase(),
     signal: config?.signal || undefined,
-    body: config.body ? JSON.stringify(config.body) : undefined,
-  })
+  }
+
+  if (config?.body) configFetch.body = JSON.stringify(config.body)
+
+  return await fetch(finaleUrl, configFetch)
 }

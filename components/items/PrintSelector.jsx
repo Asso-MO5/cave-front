@@ -7,14 +7,26 @@ import { PRINT_TYPES } from '../cartel/cartel.utils'
 export function PrintSelector({ selectedIds, selectedTotal }) {
   const [loading, setLoading] = useState(false)
 
+  const getType = (name) => {
+    if (name === 'csv') return 'csv'
+    if (name === 'emplacement') return 'place'
+    return 'print'
+  }
+  const getExtension = (name) => {
+    if (name === 'csv') return 'csv'
+    return 'zip'
+  }
+
   const handleDl = async (format) => {
     if (loading || selectedIds.length === 0) return
     setLoading(true)
     const ctrl = new AbortController()
+
+    const type = getType(format)
     try {
       const response = await fetcher.post(`/items/export`, ctrl.signal, {
-        exportType: format === 'csv' ? 'csv' : 'print',
-        format: format === 'csv' ? undefined : format,
+        exportType: type,
+        format,
         type: 'cartel',
         ids: selectedIds,
         selectedTotal,
@@ -25,7 +37,7 @@ export function PrintSelector({ selectedIds, selectedTotal }) {
       a.href = url
       a.download = `items-${format}-${
         selectedTotal ? 'all' : selectedIds.length
-      }.${format === 'csv' ? 'csv' : 'zip'}`
+      }.${getExtension(format)}`
       a.click()
       URL.revokeObjectURL(url)
     } catch (e) {
@@ -50,15 +62,20 @@ export function PrintSelector({ selectedIds, selectedTotal }) {
             {
               name: 'csv',
             },
+            {
+              name: 'emplacement',
+            },
             ...PRINT_TYPES,
           ].map((c) => (
             <MenuItem key={c.name}>
               <div
                 className="uppercase block data-[focus]:bg-mo-primary  data-[focus]:text-mo-white cursor-pointer px-2 py-1 hover:bg-mo-primary hover:text-mo-white data-[disabled=true]:opacity-50"
                 onClick={() => handleDl(c.name)}
-                data-disabled={selectedIds.length === 0}
+                data-disabled={
+                  selectedIds.length === 0 && c.name !== 'emplacement'
+                }
               >
-                {c.name}
+                {c.name} {c.name === 'emplacement'}
               </div>
             </MenuItem>
           ))}

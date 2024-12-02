@@ -31,6 +31,16 @@ export const PRINT_TYPES = [
     long_description_en: 1000,
     types: [ITEM_TYPE.game],
   },
+  {
+    name: 'emplacements',
+    types: [
+      ITEM_TYPE.accessory,
+      ITEM_TYPE.obj,
+      ITEM_TYPE.machine,
+      ITEM_TYPE.soft,
+      ITEM_TYPE.game,
+    ],
+  },
 ]
 
 export const COMPANIES_PER_TYPE = {

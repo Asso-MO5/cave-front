@@ -5,12 +5,12 @@ import { fjallaOne, openSans } from '@/utils/fonts'
 
 export const metadata = {
   title: 'Cave MO5',
-  description: 'Appi de gestion',
+  description: 'Fiche MO5',
 }
 
 export const runtime = 'edge'
 
-export default async function AdminLayout({ children }) {
+export default async function FicheLayout({ children }) {
   return (
     <html lang="fr">
       <body className={`${openSans.variable} ${fjallaOne.variable}`}>

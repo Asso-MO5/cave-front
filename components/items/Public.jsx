@@ -5,9 +5,6 @@ import { useEffect, useState } from 'react'
 import { Table } from '@/ui/table/Table'
 import { fetcher } from '@/utils/fetcher'
 import { ITEM_TYPE_TITLE } from '@/utils/constants'
-import { TrashIcon } from '@/ui/icon/TrashIcon'
-import { Modal } from '@/ui/Modal'
-import { StatusChip } from '@/ui/StatusChip'
 
 export function Public() {
   const router = useRouter()
@@ -21,7 +18,7 @@ export function Public() {
 
     const ctrl = new AbortController()
     const params = new URLSearchParams(window.location.search)
-    params.set('status', 'published')
+
     const url = `/items/public?${params.toString()}`
 
     const response = await fetcher.get(url, ctrl.signal)
@@ -43,6 +40,7 @@ export function Public() {
     searchParams.get('sort'),
     searchParams.get('order'),
     searchParams.get('search'),
+    searchParams.get('place'),
   ])
 
   return (
