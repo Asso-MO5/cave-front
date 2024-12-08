@@ -186,14 +186,8 @@ export const operations = {
     "path": "/loots/win/{id}",
     "description": "Permet de valider un loot",
     "roles": [
-      "publisher",
-      "Master Control Program"
+      "loot"
     ],
-    "method": "put"
-  },
-  "putLootsWin_publicId": {
-    "path": "/loots/win_public/{id}",
-    "description": "Permet de valider un loot",
     "method": "put"
   },
   "putCompanyIdStatusStatus": {

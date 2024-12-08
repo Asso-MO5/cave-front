@@ -7,6 +7,7 @@ import { Table } from '@/ui/table/Table'
 import { fetcher } from '@/utils/fetcher'
 import { Modal as ModalUi } from '@/ui/Modal'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
+import { Button } from '@/ui/Button'
 
 export function PublicLoots() {
   const searchParams = useSearchParams()
@@ -36,6 +37,23 @@ export function PublicLoots() {
     setData(data.filter((item) => item.id !== id))
     try {
       await fetcher.delete(`/loots/${id}`, ctrl.signal)
+    } catch (e) {
+      setData(oldData)
+    }
+  }
+
+  const handleWin = async ({ id }) => {
+    const ctrl = new AbortController()
+    const oldData = data
+    setData((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, withdrawal_at: !!item.withdrawal_at ? null : new Date() }
+          : item
+      )
+    )
+    try {
+      await fetcher.put(`/loots/win/${id}`, ctrl.signal)
     } catch (e) {
       setData(oldData)
     }
@@ -94,34 +112,23 @@ export function PublicLoots() {
               component: ({ rowData }) => {
                 if (!rowData.withdrawal_at) return <div>Non</div>
                 return (
-                  <div>{new Date(rowData.winned_at).toLocaleDateString()}</div>
+                  <div>
+                    {new Date(rowData.withdrawal_at).toLocaleDateString()}
+                  </div>
                 )
               },
             },
             {
               name: '',
-              key: 'delete',
-              size: 'x-small',
+              key: 'win',
+
               component: ({ rowData }) => (
-                <ModalUi
-                  content={
-                    <div className="text-center">
-                      <div>Êtes-vous sûr de vouloir supprimer ce gagnant ?</div>
-                      <div className="font-bold">{rowData.winnerName}</div>
-                    </div>
-                  }
-                  onConfirm={() =>
-                    handleDelete({
-                      id: rowData.id,
-                      setData,
-                      data,
-                    })
-                  }
+                <Button
+                  onClick={() => handleWin(rowData)}
+                  theme={!!rowData.withdrawal_at ? 'secondary' : 'primary'}
                 >
-                  <button className="fill-mo-error">
-                    <TrashIcon />
-                  </button>
-                </ModalUi>
+                  Marquer comme {!!rowData.withdrawal_at ? 'non' : ''} reçu
+                </Button>
               ),
             },
           ]}
