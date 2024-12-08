@@ -32,6 +32,23 @@ export const operations = {
     ],
     "method": "post"
   },
+  "getLoots": {
+    "path": "/loots",
+    "description": "Récupère la liste des loots",
+    "roles": [
+      "Membres MO5"
+    ],
+    "method": "get"
+  },
+  "postLoots": {
+    "path": "/loots",
+    "description": "Permet de créer un loot",
+    "roles": [
+      "publisher",
+      "Master Control Program"
+    ],
+    "method": "post"
+  },
   "getCompaniesId": {
     "path": "/companies/{id}",
     "description": "Récupère une entreprise",
@@ -69,6 +86,22 @@ export const operations = {
       "Membres MO5"
     ],
     "method": "get"
+  },
+  "getMessagesRoom_id": {
+    "path": "/messages/{room_id}",
+    "description": "Récupère les messages d'une room",
+    "roles": [
+      "Membres MO5"
+    ],
+    "method": "get"
+  },
+  "postMessagesRoom_id": {
+    "path": "/messages/{room_id}",
+    "description": "Permet de créer un message",
+    "roles": [
+      "Membres MO5"
+    ],
+    "method": "post"
   },
   "getItemPublicId": {
     "path": "/item/public/{id}",
@@ -109,6 +142,15 @@ export const operations = {
     ],
     "method": "post"
   },
+  "postItemsImport": {
+    "path": "/items/import",
+    "description": "Permet d importer des items",
+    "roles": [
+      "publisher",
+      "reviewer"
+    ],
+    "method": "post"
+  },
   "putCompanyIdMedia": {
     "path": "/company/{id}/media",
     "description": "Permet de mettre à jour le media d une company",
@@ -125,6 +167,20 @@ export const operations = {
       "reviewer",
       "publisher"
     ],
+    "method": "put"
+  },
+  "putLootsWinId": {
+    "path": "/loots/win/{id}",
+    "description": "Permet de valider un loot",
+    "roles": [
+      "publisher",
+      "Master Control Program"
+    ],
+    "method": "put"
+  },
+  "putLootsWin_publicId": {
+    "path": "/loots/win_public/{id}",
+    "description": "Permet de valider un loot",
     "method": "put"
   },
   "putCompanyIdStatusStatus": {
@@ -150,6 +206,15 @@ export const operations = {
     "description": "Permet de supprimer un item",
     "roles": [
       "reviewer"
+    ],
+    "method": "delete"
+  },
+  "deleteLootsId": {
+    "path": "/loots/{id}",
+    "description": "Supprime un loot",
+    "roles": [
+      "publisher",
+      "Master Control Program"
     ],
     "method": "delete"
   },

@@ -34,6 +34,16 @@ const MENU = [
       },
     ],
   },
+  {
+    name: 'Outils',
+    entries: [
+      {
+        name: 'loots',
+        href: '/admin/loots',
+        regex: /loots/,
+      },
+    ],
+  },
 ]
 
 export function Panel({ session }) {

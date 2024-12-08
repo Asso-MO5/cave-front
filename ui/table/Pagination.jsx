@@ -52,8 +52,8 @@ export function Pagination({ totalItems, defaultLimit = 50 }) {
   }
 
   return (
-    <div className="absolute inset-0">
-      <div className="flex gap-3 justify-center items-center pt-3">
+    <div className="sm:absolute inset-0">
+      <div className="flex gap-3 justify-center items-center pt-3 flex-wrap">
         <Button
           onClick={() => handleChangePage(Number(currentPage - 1))}
           disabled={isOnFirstPage}

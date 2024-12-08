@@ -85,7 +85,7 @@ export function Table(props) {
   return (
     <div className="w-full grid grid-rows-[1fr_auto] h-full overflow-hidden relative">
       <StretchBox>
-        <div className="relative grid grid-rows-[auto_1fr] h-full overflow-x-auto">
+        <div className="relative grid grid-rows-[auto_1fr] h-full overflow-x-auto w-full">
           <nav
             className="grid gap-2 border-b border-mo-primary p-2 bg-mo-bg z-10"
             style={{ gridTemplateColumns: columnTemplate }}
@@ -238,7 +238,7 @@ export function Table(props) {
       </StretchBox>
 
       {pagination && totalCount ? (
-        <footer className="p-2 flex items-center justify-between w-full border-t border-mo-primary relative">
+        <footer className="p-2 flex flex-wrap gap-2 items-center justify-between w-full border-t border-mo-primary relative">
           <div className="flex items-center">
             <div className="text-xs whitespace-nowrap hidden md:block">
               Résultat par page
