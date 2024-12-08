@@ -49,6 +49,14 @@ export const operations = {
     ],
     "method": "post"
   },
+  "getLoots_public": {
+    "path": "/loots_public",
+    "description": "Récupère la liste des loots",
+    "roles": [
+      "loot"
+    ],
+    "method": "get"
+  },
   "getCompaniesId": {
     "path": "/companies/{id}",
     "description": "Récupère une entreprise",
@@ -123,6 +131,11 @@ export const operations = {
       "publisher",
       "reviewer"
     ],
+    "method": "post"
+  },
+  "postAuthRestricted": {
+    "path": "/auth/restricted",
+    "description": "Permet de vérifier si l'utilisateur est authentifié",
     "method": "post"
   },
   "postItemsExist": {

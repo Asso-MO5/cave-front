@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Table } from '@/ui/table/Table'
 import { fetcher } from '@/utils/fetcher'
-import { Modal } from './create/Modal'
 import { Modal as ModalUi } from '@/ui/Modal'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
 
@@ -62,9 +61,6 @@ export function PublicLoots() {
     <div className="h-full w-full grid grid-rows-[auto_1fr] gap-2">
       <header className="flex gap-2 items-center justify-between w-full">
         <h1>Loots</h1>
-        <div className="flex  gap-2 items-center justify-end">
-          <Modal onCreate={handleFetch} />
-        </div>
       </header>
       <StretchBox>
         <Table
