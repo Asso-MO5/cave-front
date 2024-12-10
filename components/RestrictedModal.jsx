@@ -7,7 +7,7 @@ import { getCookie, setCookie } from '@/utils/get-cookie'
 import { useEffect, useState } from 'react'
 
 export function RestrictedModal({ page }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [code, setCode] = useState(getCookie('api_token') || '')
   const [error, setError] = useState('')
 

@@ -34,7 +34,7 @@ const MENU = [
       },
     ],
   },
-  {
+  /* {
     name: 'Outils',
     entries: [
       {
@@ -44,6 +44,7 @@ const MENU = [
       },
     ],
   },
+  */
 ]
 
 export function Panel({ session }) {

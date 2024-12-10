@@ -152,6 +152,19 @@ export function Cartels() {
               },
             },
             {
+              name: 'Jaquette',
+              key: 'has_cover',
+              size: 'x-small',
+              component: ({ rowData }) => {
+                return <div>{rowData.has_cover ? 'OUI' : 'NON'}</div>
+              },
+            },
+            {
+              name: 'Machine associée',
+              key: 'associated_machine',
+              size: 'small',
+            },
+            {
               name: 'Type',
               key: 'type',
               size: 'medium',
