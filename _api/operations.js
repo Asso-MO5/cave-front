@@ -107,6 +107,14 @@ export const operations = {
     "description": "Récupère un item par son id",
     "method": "get"
   },
+  "getGifts_packsIdDistribeType": {
+    "path": "/gifts_packs/{id}/distribe/{type}",
+    "description": "Récupère la liste des packs de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "get"
+  },
   "getItemsIdPrintType": {
     "path": "/items/{id}/print/{type}",
     "description": "la version imprimable d un item",
@@ -155,6 +163,22 @@ export const operations = {
     ],
     "method": "post"
   },
+  "putGifts_packsId": {
+    "path": "/gifts_packs/{id}",
+    "description": "Modifie un pack de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "put"
+  },
+  "deleteGifts_packsId": {
+    "path": "/gifts_packs/{id}",
+    "description": "Supprime un pack de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "delete"
+  },
   "putCompanyIdMedia": {
     "path": "/company/{id}/media",
     "description": "Permet de mettre à jour le media d une company",
@@ -190,14 +214,6 @@ export const operations = {
       "reviewer"
     ],
     "method": "put"
-  },
-  "deleteGifts_packsId": {
-    "path": "/gifts_packs/{id}",
-    "description": "Supprime un pack de gifts",
-    "roles": [
-      "GSM"
-    ],
-    "method": "delete"
   },
   "deleteItemsId": {
     "path": "/items/{id}",

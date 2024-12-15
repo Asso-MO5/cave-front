@@ -10,6 +10,7 @@ import { Modal as ModalUi } from '@/ui/Modal'
 import { Modal as ModalDistribution } from '@/components/giftsPack/distribution/Modal'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { StatusChip } from '@/ui/StatusChip'
+import { GIFTS_PACK_STATUS } from '@/utils/constants'
 
 export function GiftsPack() {
   const searchParams = useSearchParams()
@@ -118,13 +119,33 @@ export function GiftsPack() {
             {
               name: 'Créé le',
               key: 'created_at',
-              size: 'small',
               sortable: true,
               component: ({ rowData }) => (
                 <div className="text-center font-bold">
                   {new Date(rowData.created_at).toLocaleDateString()}
                 </div>
               ),
+            },
+            {
+              name: '',
+              key: 'update',
+              component: ({ rowData }) =>
+                rowData.status === 'distributed' ? (
+                  <div>non modifiable</div>
+                ) : (
+                  <div className="flex justify-center h-full items-center w-full">
+                    <Modal
+                      onCreate={(newData) =>
+                        setData(
+                          data.map((item) =>
+                            item.id === rowData.id ? newData : item
+                          )
+                        )
+                      }
+                      initialData={rowData}
+                    />
+                  </div>
+                ),
             },
             {
               name: '',

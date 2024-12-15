@@ -3,6 +3,10 @@ const STATUS = {
     color: 'bg-mo-primary',
     text: 'Brouillon',
   },
+  distributed: {
+    color: 'bg-mo-valid',
+    text: 'Distribué',
+  },
   notDistributed: {
     color: 'bg-mo-warning',
     text: 'Non distribué',
@@ -25,7 +29,10 @@ export function StatusChip({ status }) {
 
   return (
     <div
-      className={`${st.color} rounded-sm p-1 text-mo-white text-xs text-center`}
+      className={`
+        ${st.color} rounded-sm p-1 text-mo-white
+        text-xs text-center flex items-center justify-center
+      `}
     >
       {st.text}
     </div>

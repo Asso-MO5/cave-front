@@ -37,4 +37,5 @@ export const ROLES = {
 export const GIFTS_PACK_STATUS = {
   draft: 'Brouillon',
   validated: 'Validé',
+  distributed: 'Distribué',
 }

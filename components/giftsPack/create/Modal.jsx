@@ -19,7 +19,7 @@ const initialForm = {
   type: 'gsv',
 }
 
-export function Modal({ onCreate }) {
+export function Modal({ onCreate, initialData }) {
   const inputRef = useRef(null) // Créer une référence pour l'input
   const timeRef = useRef(null) // Créer une référence pour le timeout
   const display = useCheckRoles(roles)
@@ -28,7 +28,7 @@ export function Modal({ onCreate }) {
 
   const [open, setOpen] = useState(false)
 
-  const [form, setForm] = useState(initialForm)
+  const [form, setForm] = useState(initialData || initialForm)
 
   const handleChange = (key, value) => {
     setForm((prev) => ({
@@ -45,11 +45,22 @@ export function Modal({ onCreate }) {
     const ctrl = new AbortController()
 
     try {
-      const res = await fetcher.post(path, ctrl.signal, form)
+      if (initialData) {
+        const res = await fetcher.put(
+          `/gifts_packs/${initialData.id}`,
+          ctrl.signal,
+          form
+        )
 
-      const resJson = await res.json()
-      if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
-      onCreate()
+        if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
+        onCreate(form)
+      } else {
+        const res = await fetcher.post(path, ctrl.signal, form)
+
+        const resJson = await res.json()
+        if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
+        onCreate()
+      }
     } catch (e) {
       toast.error(`${e.message}`)
     } finally {
@@ -66,7 +77,7 @@ export function Modal({ onCreate }) {
       }, animationDuration)
     } else {
       timeRef.current && clearTimeout(timeRef.current)
-      setForm(initialForm)
+      setForm(initialData || initialForm)
     }
     return () => timeRef.current && clearTimeout(timeRef.current)
   }, [open])
@@ -94,6 +105,7 @@ export function Modal({ onCreate }) {
           <Fieldset title="Email du distributeur">
             <input
               ref={inputRef}
+              type="email"
               value={form.email}
               onChange={(e) => handleChange('email', e.target.value)}
               disabled={loading}
@@ -127,7 +139,9 @@ export function Modal({ onCreate }) {
       onConfirm={handleClick}
       isConfirmDisabled={loading}
     >
-      <Button onClick={() => setOpen(!open)}>Ajouter une campagne</Button>
+      <Button onClick={() => setOpen(!open)}>
+        {initialData ? 'modifier' : 'Ajouter une campagne'}
+      </Button>
     </ModalUi>
   )
 }
