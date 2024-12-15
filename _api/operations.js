@@ -56,6 +56,16 @@ export const operations = {
     ],
     "method": "get"
   },
+  "getGiftToken": {
+    "path": "/gift/{token}",
+    "description": "Récupère la liste des packs de gifts",
+    "method": "get"
+  },
+  "putGiftToken": {
+    "path": "/gift/{token}",
+    "description": "Récupère la liste des packs de gifts",
+    "method": "put"
+  },
   "getItemId": {
     "path": "/item/{id}",
     "description": "Récupère un item par son id",
