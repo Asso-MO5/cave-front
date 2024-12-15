@@ -1,7 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css'
 import '@blocknote/mantine/style.css'
 import '../globals.css'
-import { fjallaOne, openSans } from '@/utils/fonts'
 import { PublicLayout } from '@/components/PublicLayout'
 
 export const metadata = {

@@ -23,6 +23,10 @@ const STATUS = {
     color: 'bg-mo-valid',
     text: 'Validé',
   },
+  refused: {
+    color: 'bg-mo-error',
+    text: 'Refusé',
+  },
 }
 export function StatusChip({ status }) {
   const st = STATUS?.[status] || STATUS.draft
