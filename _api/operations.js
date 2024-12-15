@@ -15,6 +15,22 @@ export const operations = {
     ],
     "method": "put"
   },
+  "getGifts_packs": {
+    "path": "/gifts_packs",
+    "description": "Récupère la liste des packs de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "get"
+  },
+  "postGifts_packs": {
+    "path": "/gifts_packs",
+    "description": "Permet de créer un pack de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "post"
+  },
   "getItems": {
     "path": "/items",
     "description": "Récupère la liste des items par type et recherche",
@@ -31,31 +47,6 @@ export const operations = {
       "reviewer"
     ],
     "method": "post"
-  },
-  "getLoots": {
-    "path": "/loots",
-    "description": "Récupère la liste des loots",
-    "roles": [
-      "Membres MO5"
-    ],
-    "method": "get"
-  },
-  "postLoots": {
-    "path": "/loots",
-    "description": "Permet de créer un loot",
-    "roles": [
-      "publisher",
-      "Master Control Program"
-    ],
-    "method": "post"
-  },
-  "getLoots_public": {
-    "path": "/loots_public",
-    "description": "Récupère la liste des loots",
-    "roles": [
-      "loot"
-    ],
-    "method": "get"
   },
   "getCompaniesId": {
     "path": "/companies/{id}",
@@ -182,14 +173,6 @@ export const operations = {
     ],
     "method": "put"
   },
-  "putLootsWinId": {
-    "path": "/loots/win/{id}",
-    "description": "Permet de valider un loot",
-    "roles": [
-      "loot"
-    ],
-    "method": "put"
-  },
   "putCompanyIdStatusStatus": {
     "path": "/company/{id}/status/{status}",
     "description": "Permet de modifier le status d'une entreprise",
@@ -208,20 +191,19 @@ export const operations = {
     ],
     "method": "put"
   },
+  "deleteGifts_packsId": {
+    "path": "/gifts_packs/{id}",
+    "description": "Supprime un pack de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "delete"
+  },
   "deleteItemsId": {
     "path": "/items/{id}",
     "description": "Permet de supprimer un item",
     "roles": [
       "reviewer"
-    ],
-    "method": "delete"
-  },
-  "deleteLootsId": {
-    "path": "/loots/{id}",
-    "description": "Supprime un loot",
-    "roles": [
-      "publisher",
-      "Master Control Program"
     ],
     "method": "delete"
   },

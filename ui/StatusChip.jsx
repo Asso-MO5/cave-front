@@ -3,6 +3,10 @@ const STATUS = {
     color: 'bg-mo-primary',
     text: 'Brouillon',
   },
+  notDistributed: {
+    color: 'bg-mo-warning',
+    text: 'Non distribué',
+  },
   review: {
     color: 'bg-mo-warning',
     text: 'En relecture',
@@ -10,6 +14,10 @@ const STATUS = {
   published: {
     color: 'bg-mo-valid',
     text: 'Publié',
+  },
+  validated: {
+    color: 'bg-mo-valid',
+    text: 'Validé',
   },
 }
 export function StatusChip({ status }) {

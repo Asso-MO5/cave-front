@@ -1,7 +1,8 @@
 import dynamic from 'next/dynamic'
 
 const PublicLoots = dynamic(
-  () => import('@/components/loots/PublicLoots').then((mod) => mod.PublicLoots),
+  () =>
+    import('@/components/giftsPack/PublicLoots').then((mod) => mod.PublicLoots),
   {
     ssr: false,
   }

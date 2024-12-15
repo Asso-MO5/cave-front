@@ -7,9 +7,11 @@ import { Table } from '@/ui/table/Table'
 import { fetcher } from '@/utils/fetcher'
 import { Modal } from './create/Modal'
 import { Modal as ModalUi } from '@/ui/Modal'
+import { Modal as ModalDistribution } from '@/components/giftsPack/distribution/Modal'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
+import { StatusChip } from '@/ui/StatusChip'
 
-export function Loots() {
+export function GiftsPack() {
   const searchParams = useSearchParams()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
@@ -21,7 +23,7 @@ export function Loots() {
     const ctrl = new AbortController()
     const params = new URLSearchParams(window.location.search)
     if (!params.get('limit')) params.set('limit', 50)
-    const url = `/loots?${params.toString()}`
+    const url = `/gifts_packs?${params.toString()}`
 
     const response = await fetcher.get(url, ctrl.signal)
     const { total, items } = await response.json()
@@ -36,7 +38,7 @@ export function Loots() {
     const oldData = data
     setData(data.filter((item) => item.id !== id))
     try {
-      await fetcher.delete(`/loots/${id}`, ctrl.signal)
+      await fetcher.delete(`/gifts_packs/${id}`, ctrl.signal)
     } catch (e) {
       setData(oldData)
     }
@@ -52,16 +54,16 @@ export function Loots() {
     searchParams.get('page'),
     searchParams.get('sort'),
     searchParams.get('order'),
-    searchParams.get('winnerName'),
-    searchParams.get('winned_at'),
-    searchParams.get('withdrawal_at'),
-    searchParams.get('limit'),
+    searchParams.get('retailer'),
+    searchParams.get('campain'),
+    searchParams.get('type'),
+    searchParams.get('status'),
   ])
 
   return (
     <div className="h-full w-full grid grid-rows-[auto_1fr] gap-2">
       <header className="flex gap-2 items-center justify-between w-full">
-        <h1>Loots</h1>
+        <h1>Cadeaux</h1>
         <div className="flex  gap-2 items-center justify-end">
           <Modal onCreate={handleFetch} />
         </div>
@@ -70,37 +72,75 @@ export function Loots() {
         <Table
           cols={[
             {
-              name: 'Nom',
-              key: 'winnerName',
+              name: 'Distributeur',
+              key: 'retailer',
+              sortable: true,
+              searchable: true,
+            },
+
+            {
+              name: 'Campagne',
+              key: 'campain',
               sortable: true,
               searchable: true,
             },
             {
-              name: 'gain',
-              key: 'loot',
+              name: 'status',
+              key: 'status',
               sortable: true,
-              searchable: true,
+              size: 'small',
+              component: ({ rowData }) => (
+                <StatusChip status={rowData.status} />
+              ),
             },
             {
-              name: 'gagné le',
-              key: 'winned_at',
+              name: 'Nb cadeaux',
+              key: 'numOfGifts',
+              //size: 'small',
               sortable: true,
-              component: ({ rowData }) => {
-                return (
-                  <div>{new Date(rowData.winned_at).toLocaleDateString()}</div>
-                )
-              },
+              component: ({ rowData }) => (
+                <div
+                  className="text-center font-bold"
+                  title={`
+                  ${rowData.givenNumOfGifts} distribué${
+                    rowData.givenNumOfGifts > 1 ? 's' : ''
+                  } sur ${rowData.numOfGifts} prévu${
+                    rowData.numOfGifts > 1 ? 's' : ''
+                  }
+                  `}
+                >
+                  <span>{rowData.givenNumOfGifts}</span>
+                  {' / '}
+                  <span>{rowData.numOfGifts}</span>
+                </div>
+              ),
             },
             {
-              name: 'récupéré',
-              key: 'withdrawal_at',
+              name: 'Créé le',
+              key: 'created_at',
+              size: 'small',
               sortable: true,
-              component: ({ rowData }) => {
-                if (!rowData.withdrawal_at) return <div>Non</div>
-                return (
-                  <div>{new Date(rowData.winned_at).toLocaleDateString()}</div>
-                )
-              },
+              component: ({ rowData }) => (
+                <div className="text-center font-bold">
+                  {new Date(rowData.created_at).toLocaleDateString()}
+                </div>
+              ),
+            },
+            {
+              name: '',
+              key: 'distribution',
+              component: ({ rowData }) => (
+                <ModalDistribution
+                  rowData={rowData}
+                  setData={(newData) =>
+                    setData(
+                      data.map((item) =>
+                        item.id === rowData.id ? newData : item
+                      )
+                    )
+                  }
+                />
+              ),
             },
             {
               name: '',
@@ -110,8 +150,8 @@ export function Loots() {
                 <ModalUi
                   content={
                     <div className="text-center">
-                      <div>Êtes-vous sûr de vouloir supprimer ce gagnant ?</div>
-                      <div className="font-bold">{rowData.winnerName}</div>
+                      <div>Êtes-vous sûr de vouloir supprimer ce pack ?</div>
+                      <div className="font-bold">{`${rowData.retailer} - ${rowData.campain}`}</div>
                     </div>
                   }
                   onConfirm={() =>
@@ -121,8 +161,9 @@ export function Loots() {
                       data,
                     })
                   }
+                  disabled={loading || rowData.givenNumOfGifts > 0}
                 >
-                  <button className="fill-mo-error">
+                  <button className="fill-mo-error" disabled={loading}>
                     <TrashIcon />
                   </button>
                 </ModalUi>

@@ -137,7 +137,12 @@ export function Table(props) {
                     return (
                       <div
                         data-odd={index % 2}
-                        className="grid gap-2 p-1 cursor-pointer hover:bg-mo-tertiary data-[odd=1]:bg-white"
+                        className={`
+                          grid gap-2 p-1 cursor-pointer 
+                          hover:bg-mo-tertiary 
+                          data-[odd=1]:bg-white 
+                          data-[odd=1]:hover:bg-mo-tertiary
+                          `}
                         style={{ gridTemplateColumns: columnTemplate }}
                       >
                         {cols?.map((col) => {
@@ -244,7 +249,14 @@ export function Table(props) {
               Résultat par page
             </div>
             <Menu>
-              <MenuButton className="rounded-sm px-2 py-1 text-sm/6 border border-primary font-bold uppercase flex items-center justify-between gap-2 z-[50] ">
+              <MenuButton
+                className={`
+                rounded-sm px-2 py-1 text-sm/6 
+                border border-primary 
+                font-bold uppercase 
+                flex items-center justify-between gap-2 z-[50]
+                `}
+              >
                 {perPage}
                 <ChevronDownIcon className="w-4 h-4 ml-1 fill-mo-primary" />
               </MenuButton>
