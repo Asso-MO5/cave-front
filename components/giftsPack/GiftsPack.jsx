@@ -64,7 +64,7 @@ export function GiftsPack() {
   return (
     <div className="h-full w-full grid grid-rows-[auto_1fr] gap-2">
       <header className="flex gap-2 items-center justify-between w-full">
-        <h1>Cadeaux</h1>
+        <h1>Pass</h1>
         <div className="flex  gap-2 items-center justify-end">
           <Modal onCreate={handleFetch} />
         </div>

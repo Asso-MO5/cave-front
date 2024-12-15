@@ -27,6 +27,10 @@ const STATUS = {
     color: 'bg-mo-error',
     text: 'Refusé',
   },
+  already_distributed: {
+    color: 'bg-mo-error',
+    text: 'Déjà distribué',
+  },
 }
 export function StatusChip({ status }) {
   const st = STATUS?.[status] || STATUS.draft

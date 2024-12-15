@@ -40,7 +40,7 @@ const MENU = [
     roles: [ROLES.gameStoryManager],
     entries: [
       {
-        name: 'Cadeaux',
+        name: 'Pass',
         href: '/admin/gifts',
         regex: /gifts/,
       },

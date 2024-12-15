@@ -116,11 +116,11 @@ export function Modal({ onCreate, initialData }) {
               placeholder="noel 2024 ..."
               ref={inputRef}
               value={form.campain}
-              onChange={(e) => handleChange('retailer', e.target.value)}
+              onChange={(e) => handleChange('campain', e.target.value)}
               disabled={loading}
             />
           </Fieldset>
-          <Fieldset title="Campagne" required>
+          <Fieldset title="Nombre de pass" required>
             <input
               ref={inputRef}
               value={form.numOfGifts}

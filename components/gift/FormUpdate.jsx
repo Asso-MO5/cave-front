@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 export function FormUpdate({ gift, token }) {
   const [form, setForm] = useState(gift)
   const [loading, setLoading] = useState(false)
+  const [isUpdated, setIsUpdated] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -29,6 +30,7 @@ export function FormUpdate({ gift, token }) {
       toast.success(
         'Le cadeau a bien été modifié, vous allez recevoir un email de confirmation'
       )
+      setIsUpdated(true)
     } catch (e) {
       toast.error(`${e.message}`)
     } finally {
@@ -47,22 +49,59 @@ export function FormUpdate({ gift, token }) {
       </div>
     )
 
+  if (isUpdated)
+    return (
+      <div className="h-full w-full flex flex-col gap-3 justify-center items-center">
+        <div className="max-w-80">
+          <p>
+            Avant votre visite, vous devrez reserver votre créneaux sur le{' '}
+            <a
+              href="https://www.billetweb.fr/game-story"
+              target="_blank"
+              rel="noreferrer"
+              className="text-mo-primary underline"
+            >
+              site de Game Story
+            </a>
+            , dans {`l'onglet "Visites libres"`}, choississez, {`"gratuit".`}
+          </p>
+          <div className="flex justify-center m-3 items-center flex-col gap-3">
+            <img
+              src="/gsc_step1.png"
+              alt="Reservez votre place"
+              width={300}
+              className="h-auto"
+            />
+            <img
+              src="/gsv_entree_gratuite.png"
+              alt="Reservez votre place"
+              width={300}
+              className="h-auto"
+            />
+          </div>
+        </div>
+        <div>
+          <Button onClick={() => setIsUpdated(false)}>Retour</Button>
+        </div>
+      </div>
+    )
   return (
     <div className="h-full w-full flex justify-center items-center">
       <form className="p-4 flex flex-col gap-4" onSubmit={handleSubmit}>
         <h2 className="text-center">
-          Pour bénéficier de votre cadeau,
+          Pour bénéficier de votre pass,
           <br /> veuillez remplir ce formulaire
         </h2>
         <p className="text-xs text-center italic">
-          Vous pouvez le modifier tant que le cadeau n'a pas été utilisé
+          Vous pouvez le modifier tant que le pass n'a pas été utilisé
         </p>
-        <Fieldset title={'Email'} required>
+
+        <Fieldset title="Prénom" required>
           <input
-            value={form.email}
-            type="email"
+            value={form.lastname}
+            type="text"
             className="w-full"
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            onChange={(e) => setForm({ ...form, lastname: e.target.value })}
           />
         </Fieldset>
         <Fieldset title="Nom" required>
@@ -73,23 +112,23 @@ export function FormUpdate({ gift, token }) {
             onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
         </Fieldset>
-        <Fieldset title="Prénom" required>
+        <Fieldset title={'Email'} required>
           <input
-            value={form.lastname}
-            type="text"
+            value={form.email}
+            type="email"
             className="w-full"
-            onChange={(e) => setForm({ ...form, lastname: e.target.value })}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
           />
         </Fieldset>
-        <Fieldset title="Date de naissance" required>
+        {/** Juste année de naissance */}
+        <Fieldset title="Année de naissance" required>
           <input
-            value={new Date(form.birthdate).toISOString().split('T')[0]}
-            type="date"
+            value={form.birthdate}
             className="w-full"
             onChange={(e) =>
               setForm({
                 ...form,
-                birthdate: new Date(e.target.value).toISOString().split('T')[0],
+                birthdate: e.target.value,
               })
             }
           />
@@ -102,6 +141,7 @@ export function FormUpdate({ gift, token }) {
             onChange={(e) => setForm({ ...form, zipCode: e.target.value })}
           />
         </Fieldset>
+
         <div className="flex justify-between gap-4">
           <Button type="reset" theme="secondary" onClick={handleReset}>
             annuler

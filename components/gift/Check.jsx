@@ -43,16 +43,22 @@ export function Check() {
   if (result) {
     return (
       <div className="h-full w-full flex justify-center items-center flex-col gap-4">
-        <StatusChip status={result.status} />
-        <h2 className="text-center text-xl">{result.message}</h2>
+        <div className="flex items-center gap-4">
+          <StatusChip status={result.status} />
+          {result.status === 'refused' ? (
+            <div>{result.message}</div>
+          ) : (
+            <div className="italic">
+              Le {new Date(result.updated_at).toLocaleDateString()} à{' '}
+              {new Date(result.updated_at).toLocaleTimeString()}
+            </div>
+          )}
+        </div>
         {result.email && (
           <div className="flex flex-col gap-4">
             <span>Email: {result.email}</span>
             <span>Nom: {result.name}</span>
-            <span>
-              Date de naissance:{' '}
-              {new Date(result.birthdate).toLocaleDateString()}
-            </span>
+            <span>Année de naissance: {result.birthdate}</span>
           </div>
         )}
         <Button onClick={handleReset}>Retour</Button>
@@ -80,15 +86,14 @@ export function Check() {
             onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
         </Fieldset>
-        <Fieldset title="Date de naissance" required>
+        <Fieldset title="Année de naissance" required>
           <input
             value={form.birthdate}
-            type="date"
             className="w-full"
             onChange={(e) =>
               setForm({
                 ...form,
-                birthdate: new Date(e.target.value).toISOString().split('T')[0],
+                birthdate: e.target.value,
               })
             }
           />
