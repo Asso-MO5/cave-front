@@ -1,5 +1,6 @@
 import { ToastProvider } from '@/ui/ToastProvider'
 import { fjallaOne, openSans } from '@/utils/fonts'
+
 export function PublicLayout({ children }) {
   return (
     <html lang="fr">

@@ -10,7 +10,6 @@ import { Modal as ModalUi } from '@/ui/Modal'
 import { Modal as ModalDistribution } from '@/components/giftsPack/distribution/Modal'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { StatusChip } from '@/ui/StatusChip'
-import { GIFTS_PACK_STATUS } from '@/utils/constants'
 
 export function GiftsPack() {
   const searchParams = useSearchParams()
