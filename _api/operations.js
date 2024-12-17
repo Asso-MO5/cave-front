@@ -15,6 +15,22 @@ export const operations = {
     ],
     "method": "put"
   },
+  "getGifts_packs": {
+    "path": "/gifts_packs",
+    "description": "Récupère la liste des packs de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "get"
+  },
+  "postGifts_packs": {
+    "path": "/gifts_packs",
+    "description": "Permet de créer un pack de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "post"
+  },
   "getItems": {
     "path": "/items",
     "description": "Récupère la liste des items par type et recherche",
@@ -32,31 +48,6 @@ export const operations = {
     ],
     "method": "post"
   },
-  "getLoots": {
-    "path": "/loots",
-    "description": "Récupère la liste des loots",
-    "roles": [
-      "Membres MO5"
-    ],
-    "method": "get"
-  },
-  "postLoots": {
-    "path": "/loots",
-    "description": "Permet de créer un loot",
-    "roles": [
-      "publisher",
-      "Master Control Program"
-    ],
-    "method": "post"
-  },
-  "getLoots_public": {
-    "path": "/loots_public",
-    "description": "Récupère la liste des loots",
-    "roles": [
-      "loot"
-    ],
-    "method": "get"
-  },
   "getCompaniesId": {
     "path": "/companies/{id}",
     "description": "Récupère une entreprise",
@@ -64,6 +55,16 @@ export const operations = {
       "Membres MO5"
     ],
     "method": "get"
+  },
+  "getGiftToken": {
+    "path": "/gift/{token}",
+    "description": "Récupère la liste des packs de gifts",
+    "method": "get"
+  },
+  "putGiftToken": {
+    "path": "/gift/{token}",
+    "description": "Récupère la liste des packs de gifts",
+    "method": "put"
   },
   "getItemId": {
     "path": "/item/{id}",
@@ -116,6 +117,14 @@ export const operations = {
     "description": "Récupère un item par son id",
     "method": "get"
   },
+  "getGifts_packsIdDistribeType": {
+    "path": "/gifts_packs/{id}/distribe/{type}",
+    "description": "Récupère la liste des packs de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "get"
+  },
   "getItemsIdPrintType": {
     "path": "/items/{id}/print/{type}",
     "description": "la version imprimable d un item",
@@ -164,6 +173,22 @@ export const operations = {
     ],
     "method": "post"
   },
+  "putGifts_packsId": {
+    "path": "/gifts_packs/{id}",
+    "description": "Modifie un pack de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "put"
+  },
+  "deleteGifts_packsId": {
+    "path": "/gifts_packs/{id}",
+    "description": "Supprime un pack de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "delete"
+  },
   "putCompanyIdMedia": {
     "path": "/company/{id}/media",
     "description": "Permet de mettre à jour le media d une company",
@@ -179,14 +204,6 @@ export const operations = {
     "roles": [
       "reviewer",
       "publisher"
-    ],
-    "method": "put"
-  },
-  "putLootsWinId": {
-    "path": "/loots/win/{id}",
-    "description": "Permet de valider un loot",
-    "roles": [
-      "loot"
     ],
     "method": "put"
   },
@@ -213,15 +230,6 @@ export const operations = {
     "description": "Permet de supprimer un item",
     "roles": [
       "reviewer"
-    ],
-    "method": "delete"
-  },
-  "deleteLootsId": {
-    "path": "/loots/{id}",
-    "description": "Supprime un loot",
-    "roles": [
-      "publisher",
-      "Master Control Program"
     ],
     "method": "delete"
   },

@@ -12,6 +12,7 @@ import {
 import { useLocalState } from '@/hooks/useLocalState'
 import { usePathname } from 'next/navigation'
 import { decimalToHex } from '@/utils/decimalToHex'
+import { ROLES } from '@/utils/constants'
 
 const MENU = [
   {
@@ -34,21 +35,24 @@ const MENU = [
       },
     ],
   },
-  /* {
+  {
     name: 'Outils',
+    roles: [ROLES.gameStoryManager],
     entries: [
       {
-        name: 'loots',
-        href: '/admin/loots',
-        regex: /loots/,
+        name: 'Pass',
+        href: '/admin/gifts',
+        regex: /gifts/,
       },
     ],
   },
-  */
 ]
 
 export function Panel({ session }) {
+  const roles =
+    session?.user?.roles.map((role) => role.name.toLocaleLowerCase()) || []
   const pathname = usePathname()
+
   // ====== STATES ========================================
   const [{ open }, setOpen] = useLocalState('panel', {
     open: false,
@@ -96,7 +100,13 @@ export function Panel({ session }) {
                 Accueil
               </a>
             </div>
-            {MENU.map((section, i) => (
+            {MENU.filter(
+              (section) =>
+                !section.roles ||
+                section.roles.some((role) =>
+                  roles.includes(role.toLocaleLowerCase())
+                )
+            ).map((section, i) => (
               <div key={i} className="flex flex-col gap-1 mb-3">
                 <h3 className="text-mo-text font-bold p-0">{section.name}</h3>
                 <ul className="flex flex-col gap-1 pl-3">

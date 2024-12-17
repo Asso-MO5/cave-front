@@ -31,4 +31,11 @@ export const ROLES = {
   admin: 'Master Control Program',
   reviewer: 'reviewer',
   publisher: 'publisher',
+  gameStoryManager: 'GSM',
+}
+
+export const GIFTS_PACK_STATUS = {
+  draft: 'Brouillon',
+  validated: 'Validé',
+  distributed: 'Distribué',
 }

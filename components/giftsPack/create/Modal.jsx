@@ -8,21 +8,34 @@ import { operations } from '@/_api/operations'
 import { fetcher } from '@/utils/fetcher'
 import { useCheckRoles } from '@/hooks/useCheckRoles'
 
-const { roles, path } = operations.postLoots
+const { roles, path } = operations.postGifts_packs
 
-export function Modal({ onCreate }) {
+const initialForm = {
+  email: '',
+  retailer: '',
+  campain: 'Noël 2024',
+  gift: 'TODO faire un select',
+  numOfGifts: 5,
+  type: 'gsv',
+}
+
+export function Modal({ onCreate, initialData }) {
   const inputRef = useRef(null) // Créer une référence pour l'input
   const timeRef = useRef(null) // Créer une référence pour le timeout
   const display = useCheckRoles(roles)
 
   const [loading, setLoading] = useState(false)
-  const [winnerName, setWinnerName] = useState('')
-
-  const [loot, setLoot] = useState('1 entrée Game Story')
-  const [eventId, setEventId] = useState('GS_VERSAILLES_2024')
-  const [winnerEmail, setWinnerEmail] = useState('')
 
   const [open, setOpen] = useState(false)
+
+  const [form, setForm] = useState(initialData || initialForm)
+
+  const handleChange = (key, value) => {
+    setForm((prev) => ({
+      ...prev,
+      [key]: value,
+    }))
+  }
 
   const handleClick = async (e) => {
     e?.preventDefault()
@@ -32,16 +45,22 @@ export function Modal({ onCreate }) {
     const ctrl = new AbortController()
 
     try {
-      const res = await fetcher.post(path, ctrl.signal, {
-        winnerName,
-        winnerEmail,
-        loot,
-        eventId,
-      })
+      if (initialData) {
+        const res = await fetcher.put(
+          `/gifts_packs/${initialData.id}`,
+          ctrl.signal,
+          form
+        )
 
-      const resJson = await res.json()
-      if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
-      onCreate()
+        if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
+        onCreate(form)
+      } else {
+        const res = await fetcher.post(path, ctrl.signal, form)
+
+        const resJson = await res.json()
+        if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
+        onCreate()
+      }
     } catch (e) {
       toast.error(`${e.message}`)
     } finally {
@@ -58,7 +77,7 @@ export function Modal({ onCreate }) {
       }, animationDuration)
     } else {
       timeRef.current && clearTimeout(timeRef.current)
-      setWinnerName('')
+      setForm(initialData || initialForm)
     }
     return () => timeRef.current && clearTimeout(timeRef.current)
   }, [open])
@@ -75,44 +94,54 @@ export function Modal({ onCreate }) {
           onSubmit={(closeModal) => handleClick(closeModal)}
           className="flex flex-col gap-3"
         >
-          <Fieldset title="Nom du Gagnant" required>
+          <Fieldset title="Nom du distributeur" required>
             <input
               ref={inputRef}
-              value={loading ? 'creation en cours...' : winnerName}
-              onChange={(e) => setWinnerName(e.target.value)}
+              value={form.retailer}
+              onChange={(e) => handleChange('retailer', e.target.value)}
               disabled={loading}
             />
           </Fieldset>
-          <Fieldset title="Email du Gagnant">
+          <Fieldset title="Email du distributeur">
             <input
               ref={inputRef}
-              value={loading ? 'creation en cours...' : winnerEmail}
-              onChange={(e) => setWinnerEmail(e.target.value)}
+              type="email"
+              value={form.email}
+              onChange={(e) => handleChange('email', e.target.value)}
               disabled={loading}
             />
           </Fieldset>
-          <Fieldset title="ID" required>
+          <Fieldset title="Campagne" required>
             <input
+              placeholder="noel 2024 ..."
               ref={inputRef}
-              value={loading ? 'creation en cours...' : eventId}
-              onChange={(e) => setEventId(e.target.value)}
+              value={form.campain}
+              onChange={(e) => handleChange('campain', e.target.value)}
               disabled={loading}
             />
           </Fieldset>
-          <Fieldset title="lot" required>
+          <Fieldset title="Nombre de pass" required>
             <input
               ref={inputRef}
-              value={loading ? 'creation en cours...' : loot}
-              onChange={(e) => setLoot(e.target.value)}
+              value={form.numOfGifts}
+              type="number"
+              onChange={(e) => handleChange('numOfGifts', e.target.value)}
               disabled={loading}
             />
+          </Fieldset>
+          <Fieldset title="Lots" required>
+            <select onChange={(e) => handleChange('gift', e.target.value)}>
+              <option value="gsv">Entrée Game Story Versailles</option>
+            </select>
           </Fieldset>
         </form>
       }
       onConfirm={handleClick}
       isConfirmDisabled={loading}
     >
-      <Button onClick={() => setOpen(!open)}>Ajouter un gagnant</Button>
+      <Button onClick={() => setOpen(!open)}>
+        {initialData ? 'modifier' : 'Ajouter une campagne'}
+      </Button>
     </ModalUi>
   )
 }
