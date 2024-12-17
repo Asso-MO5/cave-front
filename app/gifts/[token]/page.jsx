@@ -12,6 +12,7 @@ const FormUpdate = dynamic(
 export default async function PublicLootsPage({ params: { token } }) {
   const gift = await caveSSR(operations.getGiftToken.path, {
     params: { token },
+    noToken: true,
   }).then((res) => res.json())
 
   return <FormUpdate gift={gift} token={token} />

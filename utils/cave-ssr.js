@@ -20,12 +20,15 @@ export async function caveSSR(path, config) {
     process.env.NEXT_PUBLIC_API_URL
   }${url}?${params.toString()}`
 
+  const headers = {}
+
+  if (!config.noToken) {
+    headers.Authorization = `Bearer ${session.api_token}`
+  }
   return await fetch(finaleUrl, {
     method: method.toUpperCase(),
     signal: config?.signal || undefined,
-    headers: {
-      Authorization: `Bearer ${session.api_token}`,
-    },
+    headers,
     body: config.body ? JSON.stringify(config.body) : undefined,
   })
 }
