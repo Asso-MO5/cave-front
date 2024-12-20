@@ -15,7 +15,7 @@ const initialForm = {
   retailer: '',
   campain: 'Noël 2024',
   gift: 'TODO faire un select',
-  numOfGifts: 5,
+  numOfGifts: 6,
   type: 'gsv',
 }
 
@@ -131,7 +131,7 @@ export function Modal({ onCreate, initialData }) {
           </Fieldset>
           <Fieldset title="Lots" required>
             <select onChange={(e) => handleChange('gift', e.target.value)}>
-              <option value="gsv">Entrée Game Story Versailles</option>
+              <option value="gsv">Game Story Versailles</option>
             </select>
           </Fieldset>
         </form>
