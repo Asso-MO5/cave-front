@@ -72,20 +72,21 @@ export function Check() {
     <div className="h-full w-full flex justify-center items-center">
       <form className="p-4 flex flex-col gap-4" onSubmit={handleSubmit}>
         <h2 className="text-center">Vérification des entrées</h2>
-        <Fieldset title={'Email'} required>
-          <input
-            value={form.email}
-            type="email"
-            className="w-full"
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-          />
-        </Fieldset>
+
         <Fieldset title="Nom" required>
           <input
             value={form.name}
             type="text"
             className="w-full"
             onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+        </Fieldset>
+        <Fieldset title="Prénom" required>
+          <input
+            value={form.lastname}
+            type="text"
+            className="w-full"
+            onChange={(e) => setForm({ ...form, lastname: e.target.value })}
           />
         </Fieldset>
 
