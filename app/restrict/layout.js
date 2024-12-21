@@ -9,7 +9,7 @@ import { RestrictedModal } from '@/components/RestrictedModal'
 
 export const metadata = {
   title: 'Cave MO5',
-  description: 'Appi de gestion',
+  description: 'Contrôle des entrées',
 }
 
 export const runtime = 'edge'
