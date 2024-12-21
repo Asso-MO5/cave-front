@@ -28,7 +28,9 @@ export function FormUpdate({ gift, token }) {
       if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
       console.log(res)
       toast.success(
-        'Le pass a bien été modifié, vous allez recevoir un email de confirmation'
+        `Le pass a bien été ${
+          gift?.id ? 'modifié' : 'créé'
+        }, vous allez recevoir un email de confirmation`
       )
       setIsUpdated(true)
     } catch (e) {
