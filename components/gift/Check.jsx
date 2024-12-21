@@ -94,12 +94,14 @@ export function Check() {
           <input
             value={form.zipCode}
             className="w-full"
-            onChange={(e) =>
+            onChange={(e) => {
+              if (e.target.value.match(/[^0-9]/g)) return
+              if (e.target.value.length > 5) return
               setForm({
                 ...form,
                 zipCode: e.target.value,
               })
-            }
+            }}
           />
         </Fieldset>
 

@@ -47,7 +47,7 @@ export function RestrictedModal({ page }) {
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <Fieldset title="Code" required>
             <input
-              type="text"
+              type="password"
               autoFocus
               value={code}
               onChange={(e) => setCode(e.target.value)}
