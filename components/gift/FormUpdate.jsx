@@ -56,7 +56,7 @@ export function FormUpdate({ gift, token }) {
         <div className="max-w-80">
           <p>
             Réservez votre créneau sur{' : '}
-            <div>
+            <span className="block">
               <a
                 href="https://www.billetweb.fr/game-story"
                 target="_blank"
@@ -65,7 +65,7 @@ export function FormUpdate({ gift, token }) {
               >
                 Billeterie Game Story
               </a>
-            </div>
+            </span>
           </p>
           <div className="flex justify-center m-3 items-center flex-col gap-3">
             <div>Sélectionnez votre date de venue et un créneau horaire.</div>

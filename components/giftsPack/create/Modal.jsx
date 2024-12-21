@@ -94,7 +94,7 @@ export function Modal({ onCreate, initialData }) {
           onSubmit={(closeModal) => handleClick(closeModal)}
           className="flex flex-col gap-3"
         >
-          <Fieldset title="Nom du distributeur" required>
+          <Fieldset title="Nom du distributeur">
             <input
               ref={inputRef}
               value={form.retailer}
