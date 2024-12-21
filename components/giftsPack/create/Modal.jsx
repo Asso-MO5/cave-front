@@ -15,7 +15,7 @@ const initialForm = {
   retailer: '',
   campain: 'MO5 - Game Story',
   gift: 'TODO faire un select',
-  numOfGifts: 2,
+  numOfGifts: 1,
   type: 'gsv',
 }
 
