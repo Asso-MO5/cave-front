@@ -13,9 +13,9 @@ const { roles, path } = operations.postGifts_packs
 const initialForm = {
   email: '',
   retailer: '',
-  campain: 'Noël 2024',
+  campain: 'MO5 - Game Story',
   gift: 'TODO faire un select',
-  numOfGifts: 6,
+  numOfGifts: 2,
   type: 'gsv',
 }
 
@@ -121,19 +121,35 @@ export function Modal({ onCreate, initialData }) {
             />
           </Fieldset>
           <Fieldset title="Nombre de pass" required>
-            <input
+            <select
+              className="w-full"
+              onChange={(e) =>
+                handleChange('numOfGifts', parseInt(e.target.value))
+              }
+            >
+              {[1, 2, 4, 6, 8, 10, 20, 30, 40].map((i) => (
+                <option value={i} key={i}>
+                  {i}
+                </option>
+              ))}
+            </select>
+            {/*  <input
               ref={inputRef}
               value={form.numOfGifts}
               type="number"
               onChange={(e) => handleChange('numOfGifts', e.target.value)}
               disabled={loading}
-            />
+            />*/}
           </Fieldset>
-          <Fieldset title="Lots" required>
-            <select onChange={(e) => handleChange('gift', e.target.value)}>
-              <option value="gsv">Game Story Versailles</option>
+          {/* <Fieldset title="Lots" required>
+            <select
+              onChange={(e) => handleChange('gift', e.target.value)}
+              className="w-full"
+            >
+              <option value={initialForm.campain}>{initialForm.campain}</option>
             </select>
           </Fieldset>
+          */}
         </form>
       }
       onConfirm={handleClick}

@@ -183,7 +183,10 @@ export function GiftsPack() {
                   }
                   disabled={loading || rowData.givenNumOfGifts > 0}
                 >
-                  <button className="fill-mo-error" disabled={loading}>
+                  <button
+                    className="fill-mo-error disabled:opacity-50"
+                    disabled={loading}
+                  >
                     <TrashIcon />
                   </button>
                 </ModalUi>
