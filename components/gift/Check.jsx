@@ -86,7 +86,12 @@ export function Check() {
             <span>Email: {result.email}</span>
             <span>Nom: {result.name}</span>
             <span>Prénom: {result.lastname}</span>
-            <span>Date de naisance: {result.birthdate}</span>
+            {result.birthdate && (
+              <span>
+                Date de naisance:{' '}
+                {new Date(result.birthdate).toLocaleDateString()}
+              </span>
+            )}
             <span>Code postal: {result.zipCode}</span>
             {result.isMember && <span>Membre MO5</span>}
           </div>
