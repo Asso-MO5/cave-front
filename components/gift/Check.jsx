@@ -88,6 +88,7 @@ export function Check() {
             <span>Prénom: {result.lastname}</span>
             <span>Date de naisance: {result.birthdate}</span>
             <span>Code postal: {result.zipCode}</span>
+            {result.isMember && <span>Membre MO5</span>}
           </div>
         )}
         <Button onClick={handleReset}>Retour</Button>
