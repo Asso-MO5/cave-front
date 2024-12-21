@@ -28,7 +28,7 @@ export function FormUpdate({ gift, token }) {
       if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
       console.log(res)
       toast.success(
-        'Le cadeau a bien été modifié, vous allez recevoir un email de confirmation'
+        'Le pass a bien été modifié, vous allez recevoir un email de confirmation'
       )
       setIsUpdated(true)
     } catch (e) {
@@ -45,7 +45,7 @@ export function FormUpdate({ gift, token }) {
   if (gift.status === 'distributed')
     return (
       <div className="h-full w-full flex justify-center items-center">
-        Le cadeau a déjà été utilisé
+        Le pass a déjà été utilisé
       </div>
     )
 
