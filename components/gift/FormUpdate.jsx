@@ -26,7 +26,6 @@ export function FormUpdate({ gift, token }) {
     try {
       const res = await fetcher.put(`/gift/${token}`, ctrl.signal, form)
       if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
-      console.log(res)
       toast.success(
         `Le pass a bien été ${
           gift?.id ? 'modifié' : 'créé'

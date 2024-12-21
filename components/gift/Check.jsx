@@ -58,7 +58,9 @@ export function Check() {
           <div className="flex flex-col gap-4">
             <span>Email: {result.email}</span>
             <span>Nom: {result.name}</span>
-            <span>Année de naissance: {result.birthdate}</span>
+            <span>Prénom: {result.lastname}</span>
+            <span>Date de naisance: {result.birthdate}</span>
+            <span>Code postal: {result.zipCode}</span>
           </div>
         )}
         <Button onClick={handleReset}>Retour</Button>
@@ -86,14 +88,15 @@ export function Check() {
             onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
         </Fieldset>
-        <Fieldset title="Année de naissance" required>
+
+        <Fieldset title="Code Postal" required>
           <input
-            value={form.birthdate}
+            value={form.zipCode}
             className="w-full"
             onChange={(e) =>
               setForm({
                 ...form,
-                birthdate: e.target.value,
+                zipCode: e.target.value,
               })
             }
           />
