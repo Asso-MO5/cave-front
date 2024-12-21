@@ -51,33 +51,45 @@ export function FormUpdate({ gift, token }) {
 
   if (isUpdated)
     return (
-      <div className="h-full w-full flex flex-col gap-3 justify-center items-center">
+      <div className="h-full w-full flex flex-col gap-3 justify-center items-center text-center">
         <div className="max-w-80">
           <p>
-            Avant votre visite, vous devrez reserver votre créneaux sur le{' '}
-            <a
-              href="https://www.billetweb.fr/game-story"
-              target="_blank"
-              rel="noreferrer"
-              className="text-mo-primary underline"
-            >
-              site de Game Story
-            </a>
-            , dans {`l'onglet "Visites libres"`}, choississez, {`"gratuit".`}
+            Réservez votre créneau sur{' : '}
+            <div>
+              <a
+                href="https://www.billetweb.fr/game-story"
+                target="_blank"
+                rel="noreferrer"
+                className="text-mo-primary underline"
+              >
+                Billeterie Game Story
+              </a>
+            </div>
           </p>
           <div className="flex justify-center m-3 items-center flex-col gap-3">
+            <div>Sélectionnez votre date de venue et un créneau horaire.</div>
+            <div className="italic text-mo-valid">Exemple étape 1:</div>
             <img
               src="/gsc_step1.png"
-              alt="Reservez votre place"
+              alt="Réservez votre place"
               width={300}
               className="h-auto"
             />
+            <div>
+              Puis dans {`l'onglet`}{' '}
+              <span className="font-bold">{`"Visites libres"`}</span>,
+              choisissez,<span className="font-bold"> {`"gratuit".`}</span>
+            </div>
+            <div className="italic text-mo-valid">Exemple étape 2:</div>
             <img
               src="/gsv_entree_gratuite.png"
-              alt="Reservez votre place"
+              alt="Réservez votre place"
               width={300}
               className="h-auto"
             />
+          </div>
+          <div>
+            Bonne visite et à bientôt au musée du jeu vidéo Game Story !
           </div>
         </div>
         <div>
@@ -125,12 +137,14 @@ export function FormUpdate({ gift, token }) {
           <input
             value={form.birthdate}
             className="w-full"
-            onChange={(e) =>
+            onChange={(e) => {
+              if (e.target.value.match(/[^0-9]/g)) return
+              if (e.target.value.length > 4) return
               setForm({
                 ...form,
                 birthdate: e.target.value,
               })
-            }
+            }}
           />
         </Fieldset>
         <Fieldset title="Code Postal" required>
@@ -138,7 +152,12 @@ export function FormUpdate({ gift, token }) {
             value={form.zipCode}
             type="text"
             className="w-full"
-            onChange={(e) => setForm({ ...form, zipCode: e.target.value })}
+            onChange={(e) => {
+              //on limite à 5 chiffres
+              if (e.target.value.match(/[^0-9]/g)) return
+              if (e.target.value.length > 5) return
+              setForm({ ...form, zipCode: e.target.value })
+            }}
           />
         </Fieldset>
 
