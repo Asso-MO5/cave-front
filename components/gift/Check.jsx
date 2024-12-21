@@ -11,6 +11,33 @@ const initialData = {
   name: '',
   birthdate: '',
 }
+
+const STATUS = {
+  draft: {
+    color: 'text-mo-primary',
+    text: 'Brouillon',
+  },
+  distributed: {
+    color: 'text-mo-valid',
+    text: 'Distribué',
+  },
+  notDistributed: {
+    color: 'text-mo-warning',
+    text: 'Non distribué',
+  },
+  validated: {
+    color: 'text-mo-valid',
+    text: 'Validé',
+  },
+  refused: {
+    color: 'text-mo-error',
+    text: 'Refusé',
+  },
+  already_distributed: {
+    color: 'text-mo-error',
+    text: 'Déjà distribué',
+  },
+}
 export function Check() {
   const [form, setForm] = useState(initialData)
   const [result, setResult] = useState(null)
@@ -46,9 +73,9 @@ export function Check() {
         <div className="flex items-center gap-4">
           <StatusChip status={result.status} />
           {result.status === 'refused' ? (
-            <div>{result.message}</div>
+            <div className={STATUS[result.status]?.color}>{result.message}</div>
           ) : (
-            <div className="italic">
+            <div className={`${STATUS[result.status]?.color} font-bold`}>
               Le {new Date(result.updated_at).toLocaleDateString()} à{' '}
               {new Date(result.updated_at).toLocaleTimeString()}
             </div>
