@@ -51,7 +51,7 @@ export function FormUpdate({ gift, token }) {
   if (isUpdated)
     return (
       <div className="h-full w-full flex flex-col gap-3 justify-center items-center text-center">
-        <div className="max-w-80">
+        <div className="max-w-80 text-xl">
           <p>
             Réservez votre créneau sur{' : '}
             <span className="block">
