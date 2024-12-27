@@ -39,7 +39,7 @@ export function GiftsPack() {
     const oldData = data
     setData(data.filter((item) => item.id !== id))
     try {
-      await fetcher.delete(`/admin/gifts_pack/${id}`, ctrl.signal)
+      await fetcher.delete(`/gifts_packs/${id}`, ctrl.signal)
     } catch (e) {
       setData(oldData)
     }
@@ -71,7 +71,9 @@ export function GiftsPack() {
       </header>
       <StretchBox>
         <Table
-          onRowClick={(rowData) => router.push(`/gifts_packs/${rowData.id}`)}
+          onRowClick={(rowData) =>
+            router.push(`/admin/gifts_pack/${rowData.id}`)
+          }
           cols={[
             {
               name: 'Distributeur',
