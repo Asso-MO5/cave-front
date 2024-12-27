@@ -1,7 +1,7 @@
 'use client'
 import { StretchBox } from '@/ui/StretchBox'
 
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Table } from '@/ui/table/Table'
 import { fetcher } from '@/utils/fetcher'
@@ -12,6 +12,7 @@ import { TrashIcon } from '@/ui/icon/TrashIcon'
 import { StatusChip } from '@/ui/StatusChip'
 
 export function GiftsPack() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
@@ -38,7 +39,7 @@ export function GiftsPack() {
     const oldData = data
     setData(data.filter((item) => item.id !== id))
     try {
-      await fetcher.delete(`/gifts_packs/${id}`, ctrl.signal)
+      await fetcher.delete(`/admin/gifts_pack/${id}`, ctrl.signal)
     } catch (e) {
       setData(oldData)
     }
@@ -70,6 +71,7 @@ export function GiftsPack() {
       </header>
       <StretchBox>
         <Table
+          onRowClick={(rowData) => router.push(`/gifts_packs/${rowData.id}`)}
           cols={[
             {
               name: 'Distributeur',
