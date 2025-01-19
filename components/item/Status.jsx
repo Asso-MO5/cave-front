@@ -47,7 +47,7 @@ export function Status({ rolesCanEdit, item, update }) {
         className="rounded-e border whitespace-nowrap border-mo-valid p-1 text-mo-valid  cursor-pointer disabled:cursor-not-allowed data-[status=published]:bg-mo-valid data-[status=published]:text-mo-white data-[status=published]:cursor-not-allowed disabled:opacity-100"
         disabled={!canPublish}
       >
-        Publié
+        Validé
       </button>
     </div>
   )
