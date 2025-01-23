@@ -135,9 +135,9 @@ export function Cartels() {
               searchable: true,
               component: ({ rowData }) => (
                 <div className="w-full flex h-full items-center">
-                  <Link href={`/admin/cartels/${rowData.id}`}>
+                  <a href={`/admin/cartels/${rowData.id}`} target="_blank">
                     {rowData.name}
-                  </Link>
+                  </a>
                 </div>
               ),
             },
@@ -185,6 +185,7 @@ export function Cartels() {
               name: '',
               key: 'delete',
               size: 'x-small',
+              notClickable: true,
               component: ({ rowData }) => (
                 <Modal
                   content={
@@ -211,7 +212,7 @@ export function Cartels() {
           data={data}
           loading={loading}
           totalCount={total}
-          onRowClick={({ id }) => router.push(`/admin/cartels/${id}`)}
+          onRowClick={({ id }) => window.open(`/admin/cartels/${id}`, '_blank')}
         />
       </StretchBox>
     </div>
