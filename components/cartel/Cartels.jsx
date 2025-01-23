@@ -68,7 +68,7 @@ export function Cartels() {
     searchParams.get('type'),
     searchParams.get('status'),
     searchParams.get('place'),
-    searchParams.get('limit'),
+    searchParams.get('associated_machine'),
   ])
 
   return (
@@ -163,6 +163,7 @@ export function Cartels() {
               name: 'Machine associée',
               key: 'associated_machine',
               size: 'small',
+              sortable: true,
             },
             {
               name: 'Type',
