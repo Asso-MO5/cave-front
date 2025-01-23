@@ -164,6 +164,7 @@ export function Cartels() {
               key: 'associated_machine',
               size: 'small',
               sortable: true,
+              searchable: true,
             },
             {
               name: 'Type',
