@@ -148,7 +148,11 @@ export function Cartels() {
               searchable: true,
               sortable: true,
               component: ({ rowData }) => {
-                return <StatusChip status={rowData.status} />
+                return (
+                  <a href={`/admin/cartels/${rowData.id}`} target="_blank">
+                    <StatusChip status={rowData.status} />
+                  </a>
+                )
               },
             },
             {
@@ -156,7 +160,11 @@ export function Cartels() {
               key: 'has_cover',
               size: 'x-small',
               component: ({ rowData }) => {
-                return <div>{rowData.has_cover ? 'OUI' : 'NON'}</div>
+                return (
+                  <a href={`/admin/cartels/${rowData.id}`} target="_blank">
+                    {rowData.has_cover ? 'OUI' : 'NON'}
+                  </a>
+                )
               },
             },
             {
@@ -172,7 +180,9 @@ export function Cartels() {
               size: 'medium',
               searchable: true,
               component: ({ rowData }) => (
-                <div>{ITEM_TYPE_TITLE[rowData.rType]}</div>
+                <a href={`/admin/cartels/${rowData.id}`} target="_blank">
+                  {ITEM_TYPE_TITLE[rowData.rType]}
+                </a>
               ),
             },
             {

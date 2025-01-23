@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export function DefaultCell({ value }) {
+export function DefaultCell({ value, onRowClick }) {
   const ref = useRef(null)
 
   const handleResize = () => {
@@ -20,7 +20,7 @@ export function DefaultCell({ value }) {
   }, [ref])
 
   return (
-    <div className="whitespace-nowrap text-sm" ref={ref}>
+    <div className="whitespace-nowrap text-sm" ref={ref} onClick={onRowClick}>
       {value}
     </div>
   )

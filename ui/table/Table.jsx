@@ -205,6 +205,9 @@ export function Table(props) {
                                           </span>
                                         </span>
                                       }
+                                      onClick={() =>
+                                        !comp?.notClickable && onRowClick?.(row)
+                                      }
                                     />
                                   </Modal>
                                 )}

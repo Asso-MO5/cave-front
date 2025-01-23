@@ -44,10 +44,10 @@ export const PRINT_TYPES = [
 ]
 
 export const COMPANIES_PER_TYPE = {
-  obj: ['manufacturer'],
-  accessory: ['manufacturer'],
-  machine: ['manufacturer'],
-  soft: ['publisher', 'developer'],
+  obj: ['machine', 'manufacturer'],
+  accessory: ['machine', 'manufacturer'],
+  machine: ['machine', 'manufacturer'],
+  soft: ['machine', 'publisher', 'developer'],
   game: ['machine', 'publisher', 'developer'],
 }
 
