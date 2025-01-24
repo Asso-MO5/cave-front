@@ -61,7 +61,7 @@ export function FormUpdate({ gift, token }) {
                 rel="noreferrer"
                 className="text-mo-primary underline"
               >
-                Billeterie Game Story
+                billetterie Game Story
               </a>
             </span>
           </p>
