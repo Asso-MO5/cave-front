@@ -5,6 +5,7 @@ import { Routes } from 'discord-api-types/v10'
 import * as jose from 'jose'
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  debug: true,
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
