@@ -11,7 +11,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
 
-      /*
       profile(profile) {
         return {
           id: profile.id,
@@ -20,7 +19,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           image: `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`,
         }
       },
-      */
     }),
   ],
 
