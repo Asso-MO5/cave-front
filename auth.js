@@ -73,6 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         .encrypt(secret)
 
       try {
+        /*
         const caveApi = await fetch(
           process.env.NEXT_PUBLIC_API_URL + '/auth/login',
           {
@@ -84,8 +85,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const caveApiJson = await caveApi.json()
         session.api_token = caveApiJson.auth
 
-        session.routes = caveApiJson.routes
+        // session.routes = caveApiJson.routes
         session.user.id = member.user.id
+
+        */
 
         return session
       } catch (e) {
