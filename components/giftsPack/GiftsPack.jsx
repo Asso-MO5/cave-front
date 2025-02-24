@@ -80,6 +80,7 @@ export function GiftsPack() {
               key: 'retailer',
               sortable: true,
               searchable: true,
+              size: 'large',
               component: ({ rowData }) => (
                 <div>
                   <div>{rowData.retailer || 'mo5'}</div>
