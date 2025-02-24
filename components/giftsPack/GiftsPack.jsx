@@ -81,7 +81,12 @@ export function GiftsPack() {
               sortable: true,
               searchable: true,
               component: ({ rowData }) => (
-                <div>{rowData.retailer || 'mo5'}</div>
+                <div>
+                  <div>{rowData.retailer || 'mo5'}</div>
+                  <div className="opaticy-50 text-xs italic">
+                    {rowData?.email}
+                  </div>
+                </div>
               ),
             },
 
