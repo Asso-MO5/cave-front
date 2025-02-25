@@ -66,6 +66,30 @@ export const operations = {
     "description": "Récupère la liste des packs de gifts",
     "method": "put"
   },
+  "getGifts_packsId": {
+    "path": "/gifts_packs/{id}",
+    "description": "Récupère la liste des packs de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "get"
+  },
+  "putGifts_packsId": {
+    "path": "/gifts_packs/{id}",
+    "description": "Modifie un pack de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "put"
+  },
+  "deleteGifts_packsId": {
+    "path": "/gifts_packs/{id}",
+    "description": "Supprime un pack de gifts",
+    "roles": [
+      "GSM"
+    ],
+    "method": "delete"
+  },
   "getItemId": {
     "path": "/item/{id}",
     "description": "Récupère un item par son id",
@@ -133,6 +157,14 @@ export const operations = {
     ],
     "method": "get"
   },
+  "postGifts_packs_direct": {
+    "path": "/gifts_packs_direct",
+    "description": "Permet de créer un pack de gifts et d`envoyer directement les gifts aux bénéficiaires",
+    "roles": [
+      "GSM"
+    ],
+    "method": "post"
+  },
   "postMedias": {
     "path": "/medias",
     "description": "Permet de créer un media",
@@ -145,6 +177,11 @@ export const operations = {
   "postAuthRestricted": {
     "path": "/auth/restricted",
     "description": "Permet de vérifier si l'utilisateur est authentifié",
+    "method": "post"
+  },
+  "postGiftCheck": {
+    "path": "/gift/check",
+    "description": "Récupère la liste des packs de gifts",
     "method": "post"
   },
   "postItemsExist": {
@@ -172,22 +209,6 @@ export const operations = {
       "reviewer"
     ],
     "method": "post"
-  },
-  "putGifts_packsId": {
-    "path": "/gifts_packs/{id}",
-    "description": "Modifie un pack de gifts",
-    "roles": [
-      "GSM"
-    ],
-    "method": "put"
-  },
-  "deleteGifts_packsId": {
-    "path": "/gifts_packs/{id}",
-    "description": "Supprime un pack de gifts",
-    "roles": [
-      "GSM"
-    ],
-    "method": "delete"
   },
   "putCompanyIdMedia": {
     "path": "/company/{id}/media",

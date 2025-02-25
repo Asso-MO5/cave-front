@@ -8,7 +8,7 @@ import { operations } from '@/_api/operations'
 import { fetcher } from '@/utils/fetcher'
 import { useCheckRoles } from '@/hooks/useCheckRoles'
 
-const { roles, path } = operations.postGifts_packs
+const { roles, path } = operations.postGifts_packs_direct
 
 const initialForm = {
   email: '',
@@ -25,9 +25,7 @@ export function Modal({ onCreate, initialData }) {
   const display = useCheckRoles(roles)
 
   const [loading, setLoading] = useState(false)
-
   const [open, setOpen] = useState(false)
-
   const [form, setForm] = useState(initialData || initialForm)
 
   const handleChange = (key, value) => {
@@ -45,22 +43,11 @@ export function Modal({ onCreate, initialData }) {
     const ctrl = new AbortController()
 
     try {
-      if (initialData) {
-        const res = await fetcher.put(
-          `/gifts_packs/${initialData.id}`,
-          ctrl.signal,
-          form
-        )
+      const res = await fetcher.post(path, ctrl.signal, form)
 
-        if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
-        onCreate(form)
-      } else {
-        const res = await fetcher.post(path, ctrl.signal, form)
-
-        const resJson = await res.json()
-        if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
-        onCreate()
-      }
+      const resJson = await res.json()
+      if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
+      onCreate()
     } catch (e) {
       toast.error(`${e.message}`)
     } finally {
@@ -94,29 +81,12 @@ export function Modal({ onCreate, initialData }) {
           onSubmit={(closeModal) => handleClick(closeModal)}
           className="flex flex-col gap-3"
         >
-          <Fieldset title="Nom du distributeur">
-            <input
-              ref={inputRef}
-              value={form.retailer}
-              onChange={(e) => handleChange('retailer', e.target.value)}
-              disabled={loading}
-            />
-          </Fieldset>
-          <Fieldset title="Email du distributeur">
+          <Fieldset title="Email du gagnant" required>
             <input
               ref={inputRef}
               type="email"
               value={form.email}
               onChange={(e) => handleChange('email', e.target.value)}
-              disabled={loading}
-            />
-          </Fieldset>
-          <Fieldset title="Campagne" required>
-            <input
-              placeholder="noel 2024 ..."
-              ref={inputRef}
-              value={form.campain}
-              onChange={(e) => handleChange('campain', e.target.value)}
               disabled={loading}
             />
           </Fieldset>
@@ -127,39 +97,19 @@ export function Modal({ onCreate, initialData }) {
                 handleChange('numOfGifts', parseInt(e.target.value))
               }
             >
-              {[1, 2, 4, 6, 8, 10, 20, 30, 40].map((i) => (
+              {[1, 2, 3, 4, 5].map((i) => (
                 <option value={i} key={i}>
                   {i}
                 </option>
               ))}
             </select>
-            {/*  <input
-              ref={inputRef}
-              value={form.numOfGifts}
-              type="number"
-              onChange={(e) => handleChange('numOfGifts', e.target.value)}
-              disabled={loading}
-            />*/}
           </Fieldset>
-          {/* <Fieldset title="Lots" required>
-            <select
-              onChange={(e) => handleChange('gift', e.target.value)}
-              className="w-full"
-            >
-              <option value={initialForm.campain}>{initialForm.campain}</option>
-            </select>
-          </Fieldset>
-          */}
         </form>
       }
       onConfirm={handleClick}
       isConfirmDisabled={loading}
     >
-      <Button onClick={() => setOpen(!open)}>
-        <span className="md:whitespace-nowrap">
-          {initialData ? 'modifier' : 'Ajouter une campagne'}
-        </span>
-      </Button>
+      <Button onClick={() => setOpen(!open)}>{'Envoyer un pass'}</Button>
     </ModalUi>
   )
 }

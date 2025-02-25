@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { Table } from '@/ui/table/Table'
 import { fetcher } from '@/utils/fetcher'
 import { Modal } from './create/Modal'
+import { Modal as SendModal } from './send/Modal'
 import { Modal as ModalUi } from '@/ui/Modal'
 import { Modal as ModalDistribution } from '@/components/giftsPack/distribution/Modal'
 import { TrashIcon } from '@/ui/icon/TrashIcon'
@@ -65,7 +66,8 @@ export function GiftsPack() {
     <div className="h-full w-full grid grid-rows-[auto_1fr] gap-2">
       <header className="flex gap-2 items-center justify-between w-full">
         <h1>Pass</h1>
-        <div className="flex  gap-2 items-center justify-end">
+        <div className="flex gap-2 justify-end">
+          <SendModal onCreate={handleFetch} />
           <Modal onCreate={handleFetch} />
         </div>
       </header>
@@ -143,7 +145,11 @@ export function GiftsPack() {
               key: 'update',
               component: ({ rowData }) =>
                 rowData.status === 'distributed' ? (
-                  <div>non modifiable</div>
+                  <div>
+                    {rowData.isSendOnDirect
+                      ? 'envoyé en direct'
+                      : 'non modifiable'}
+                  </div>
                 ) : (
                   <div className="flex justify-center h-full items-center w-full">
                     <Modal
