@@ -25,7 +25,7 @@ export function FormUpdate({ gift, token }) {
 
     try {
       const res = await fetcher.put(`/gift/${token}`, ctrl.signal, form)
-      if (!res.ok) throw new Error(resJson?.error || 'Erreur inconnue')
+      if (!res.ok) throw new Error(res?.error || 'Erreur inconnue')
       toast.success(
         `Vos informations ont été enregistrées, vous allez recevoir un email de confirmation`
       )
