@@ -25,7 +25,7 @@ export function Table(props) {
   const searchParams = useSearchParams()
   const page = Number(searchParams.get('page')) || 1
 
-  const [perPage, setPerPage] = useState(50)
+  const [perPage, setPerPage] = useState(500)
 
   const columnTemplate = useMemo(() => {
     const colSizes = cols.map((col) => col.size || 'normal')
