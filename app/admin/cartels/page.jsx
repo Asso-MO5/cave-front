@@ -11,6 +11,7 @@ const Cartels = dynamic(
 
 export default async function CartelsPage() {
   const session = await auth()
+
   return (
     <PageList session={session}>
       <Cartels />

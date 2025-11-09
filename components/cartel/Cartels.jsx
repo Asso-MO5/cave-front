@@ -2,7 +2,7 @@
 import { StretchBox } from '@/ui/StretchBox'
 
 import { Modal as ModalCreate } from './create/Modal'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Table } from '@/ui/table/Table'
 import { fetcher } from '@/utils/fetcher'
@@ -13,10 +13,8 @@ import { Modal } from '@/ui/Modal'
 import { PrintSelector } from '../items/PrintSelector'
 import { StatusChip } from '@/ui/StatusChip'
 import { ImportBtn } from '../items/ImportBtn'
-import Link from 'next/link'
 
 export function Cartels() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
@@ -46,7 +44,7 @@ export function Cartels() {
     const ctrl = new AbortController()
     const params = new URLSearchParams(window.location.search)
 
-    if (!params.get('limit')) params.set('limit', 50)
+    if (!params.get('limit')) params.set('limit', 500)
 
     const url = `/items?itemType=cartel&${params.toString()}`
     const response = await fetcher.get(url, ctrl.signal)
@@ -84,14 +82,11 @@ export function Cartels() {
             }}
             checked={selectedTotal}
           />
-
           <PrintSelector
             selectedIds={data?.filter((d) => d.selected).map((d) => d.id)}
             selectedTotal={selectedTotal}
           />
-
           <ImportBtn type="cartel" onFinish={handleFetch} />
-
           <div className="flex">
             <ModalCreate />
           </div>
