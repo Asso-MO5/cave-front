@@ -4,6 +4,7 @@ import { VirtuosoGrid } from 'react-virtuoso'
 import { Button } from '@/ui/Button'
 import { operations } from '@/_api/operations'
 import { fetcher } from '@/utils/fetcher'
+import { DeleteMedia } from './DeleteMedia'
 
 const { getMediasLight } = operations
 
@@ -39,7 +40,12 @@ function ImageWrapper({ children, ...props }) {
   )
 }
 
-export function MediaAddGallery({ onSubmit, multiple = false, close }) {
+export function MediaAddGallery({
+  onSubmit,
+  multiple = false,
+  close,
+  deleteMedia,
+}) {
   const [selected, setSelected] = useState([])
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState([])
@@ -55,6 +61,11 @@ export function MediaAddGallery({ onSubmit, multiple = false, close }) {
     const resData = await res.json()
     setData(resData)
     setLoading(false)
+  }
+
+  const handleDeleteMedia = async (id) => {
+    await deleteMedia({ params: { id } })
+    handleFetch()
   }
 
   const handleSelect = (index) => {
@@ -102,14 +113,35 @@ export function MediaAddGallery({ onSubmit, multiple = false, close }) {
         components={gridComponents}
         itemContent={(index) => (
           <ImageWrapper>
-            <img
-              title={data[index].name}
-              onClick={() => handleSelect(index)}
-              src={data[index]?.cover_url || data[index].url}
-              alt={data[index].alt}
+            <div
               data-selected={selected?.includes(index)}
-              className="w-full border-4 h-full object-cover cursor-pointer transition-all border-transparent data-[selected=true]:border-mo-primary"
-            />
+              className="w-full border-4 h-full object-cover cursor-pointer transition-all border-transparent data-[selected=true]:border-mo-primary relative"
+              onClick={() => handleSelect(index)}
+            >
+              {data[index].type.match(/audio/) ? (
+                <div className="w-full h-full flex flex-col items-center gap-2">
+                  <div>{data[index].name}</div>
+                  <audio
+                    src={data[index].url}
+                    controls
+                    className="w-full h-[50%]"
+                  />
+                </div>
+              ) : (
+                <img
+                  title={data[index].name}
+                  src={data[index]?.cover_url || data[index].url}
+                  alt={data[index].alt}
+                />
+              )}
+              <div className="absolute -bottom-6 -right-6 scale-50">
+                <DeleteMedia
+                  onSubmit={() => {
+                    handleDeleteMedia(data[index].id)
+                  }}
+                />
+              </div>
+            </div>
           </ImageWrapper>
         )}
       />

@@ -96,7 +96,8 @@ export function Crud({ cartel: defaultCartel }) {
         create: { data: cartel },
         delete: {
           data: cartel,
-          async action(mediaId) {
+          async action({ params: { id: mediaId } }) {
+            console.log('mediaId :', mediaId)
             const ctrl = new AbortController()
 
             const oldCartel = { ...cartel }

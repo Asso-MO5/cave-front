@@ -93,15 +93,10 @@ export function Cartel() {
             <div className="flex justify-center">
               <div className="w-full">
                 <AddBtn
-                  updateUrl={(url) =>
-                    update({ url, media: 'media', create: true })
-                  }
-                  updateId={(id) =>
-                    update({ id, media: 'media', create: true })
-                  }
-                  updateLocal={(file) =>
-                    update({ file, media: 'media', create: true })
-                  }
+                  updateUrl={(url) => update({ url, media: 'media' })}
+                  updateId={(id) => update({ id, media: 'media' })}
+                  updateLocal={(file) => update({ file, media: 'media' })}
+                  deleteMedia={(id) => del(id)}
                 />
               </div>
             </div>

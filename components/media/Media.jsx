@@ -76,6 +76,7 @@ export function Media({
                 label: 'Galerie',
                 content: (
                   <MediaAddGallery
+                    deleteMedia={deleteMedia}
                     onSubmit={(media) => handleUpdateId(media, close)}
                     close={close}
                   />

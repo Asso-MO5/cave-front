@@ -5,7 +5,7 @@ import { MediaAddLocal } from './MediaAddLocal'
 import { DistantMedia } from './DistantMedia'
 import { useState } from 'react'
 
-export function AddBtn({ updateUrl, updateId, updateLocal }) {
+export function AddBtn({ updateUrl, updateId, updateLocal, deleteMedia }) {
   const [open, setOpen] = useState(false)
 
   const handleClose = () => setOpen(false)
@@ -24,6 +24,10 @@ export function AddBtn({ updateUrl, updateId, updateLocal }) {
     updateLocal?.(file)
     handleClose()
   }
+  const handleDeleteMedia = (id) => {
+    deleteMedia?.(id)
+    handleClose()
+  }
 
   if (!open)
     return <Button onClick={() => setOpen(true)}>Ajouter un media</Button>
@@ -38,6 +42,7 @@ export function AddBtn({ updateUrl, updateId, updateLocal }) {
             <MediaAddGallery
               onSubmit={(media) => handleUpdateId(media, close)}
               close={handleClose}
+              deleteMedia={handleDeleteMedia}
             />
           ),
         },
