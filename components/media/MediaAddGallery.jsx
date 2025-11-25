@@ -4,7 +4,6 @@ import { VirtuosoGrid } from 'react-virtuoso'
 import { Button } from '@/ui/Button'
 import { operations } from '@/_api/operations'
 import { fetcher } from '@/utils/fetcher'
-import { MediaSelector } from './MediaSelector'
 
 const { getMediasLight } = operations
 
@@ -104,6 +103,7 @@ export function MediaAddGallery({ onSubmit, multiple = false, close }) {
         itemContent={(index) => (
           <ImageWrapper>
             <img
+              title={data[index].name}
               onClick={() => handleSelect(index)}
               src={data[index]?.cover_url || data[index].url}
               alt={data[index].alt}
