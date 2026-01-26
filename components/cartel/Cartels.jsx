@@ -66,6 +66,7 @@ export function Cartels() {
     searchParams.get('type'),
     searchParams.get('status'),
     searchParams.get('place'),
+    searchParams.get('release_dates'),
     searchParams.get('associated_machine'),
   ])
 
@@ -181,9 +182,16 @@ export function Cartels() {
               ),
             },
             {
+              name: 'Date',
+              key: 'release_dates',
+              size: 'small',
+              sortable: true,
+              searchable: true,
+            },
+            {
               name: 'Emplacement',
               key: 'place',
-              size: 'medium',
+              size: 'small',
               sortable: true,
               searchable: true,
             },
